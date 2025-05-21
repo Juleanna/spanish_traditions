@@ -43,8 +43,7 @@ INSTALLED_APPS = [
     'core',
     'rosetta',
     'taggit',
-    'ckeditor',
-    'ckeditor_uploader',
+    'django_ckeditor_5',
 ]
 
 MIDDLEWARE = [
@@ -135,39 +134,19 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Настройка статических файлов
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'core/static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 
 # Настройка папки для загружаемых файлов
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-CKEDITOR_UPLOAD_PATH = 'uploads/'
-
-CKEDITOR_CONFIGS = {
+CKEDITOR_5_CONFIGS = {
     'default': {
-        'toolbar': 'Custom',
-        'toolbar_Custom': [
-            ['Format', 'Font', 'FontSize'],  # Добавляем выбор шрифта и размера текста
-            ['Bold', 'Italic', 'Underline'],
-            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
-            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-            ['Link', 'Unlink', 'Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar'],
-            ['RemoveFormat', 'Source', 'Maximize'],
-            ['Styles', 'Format', 'Blockquote'],  # Добавляем стили и оглавление
-        ],
-        'extraPlugins': ','.join([
-            'uploadimage',  # плагин для загрузки изображений
-            'image2',       # улучшенный плагин для работы с изображениями
-            'font',         # плагин для шрифта и размера текста
-            'justify',      # плагин для выравнивания
-            'tabletools',   # улучшенные функции таблиц
-        ]),
-        'filebrowserUploadUrl': '/ckeditor/upload/',  # URL для загрузки файлов
-        'filebrowserBrowseUrl': '/ckeditor/browse/',  # URL для просмотра загруженных файлов
-        'height': 300,
-        'width': '100%',
-        'removeDialogTabs': 'link:advanced;image:advanced',  # убрать лишние вкладки
-        'font_names': 'Arial;Comic Sans MS;Courier New;Georgia;Lucida Sans Unicode;Tahoma;Times New Roman;Verdana',
-        'fontSize_sizes': '10/10px;12/12px;14/14px;16/16px;18/18px;20/20px;24/24px;28/28px;32/32px;',  # размеры текста
-    }
+        'toolbar': 'full',  # Полный набор инструментов
+        'height': 300,  # Высота редактора
+        'width': 'auto',  # Ширина редактора
+        'language': 'ru',  # Язык интерфейса редактора
+    },
 }
 

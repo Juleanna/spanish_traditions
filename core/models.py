@@ -1,8 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from taggit.managers import TaggableManager
-from ckeditor_uploader.fields import RichTextUploadingField
-from ckeditor.fields import RichTextField
+from django_ckeditor_5.fields import CKEditor5Field
 from django.urls import reverse
 
 def page_image_upload_to(instance, filename):
@@ -12,7 +11,7 @@ def page_image_upload_to(instance, filename):
 class Page(models.Model):
     title = models.CharField(_("Заголовок"), max_length=255)
     slug = models.SlugField(_("URL"), unique=True, allow_unicode=True)
-    content = RichTextUploadingField(_("Контент"))
+    content = CKEditor5Field(_("Контент"))
     parent = models.ForeignKey(
         'self', on_delete=models.SET_NULL, null=True, blank=True,
         related_name="children", verbose_name=_("Родительская страница")
@@ -105,7 +104,7 @@ class Card(models.Model):
     section = models.ForeignKey(Section, on_delete=models.CASCADE, related_name="cards", verbose_name=_("Секция"))
     title = models.CharField(_("Заголовок"), max_length=255)
     icon = models.ImageField(_("Иконка"), upload_to=icon_upload_to)
-    description = RichTextUploadingField(_("Описание"))
+    description = CKEditor5Field(_("Описание"))
     link = models.URLField(_("Ссылка"), blank=True, null=True)
     link_text = models.CharField(_("Текст ссылки"), max_length=255, default="Дізнатись більше")
     display_order = models.PositiveIntegerField(_("Порядок отображения"), default=0)
