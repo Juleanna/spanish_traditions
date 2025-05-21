@@ -150,7 +150,7 @@ customColorPalette = [
     {'color': 'hsl(231, 48%, 48%)', 'label': 'Indigo'},
     {'color': 'hsl(207, 90%, 54%)', 'label': 'Blue'},
 ]
-
+CKEDITOR_5_CUSTOM_CSS = '/custom_ckeditor.css'
 CKEDITOR_5_CONFIGS = {
     'default': {
         'toolbar': [
