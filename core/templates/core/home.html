@@ -1,0 +1,22 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Головна{% endblock %}
+
+{% block content %}
+<section class="u-clearfix u-section-1" id="sec-b549">
+    <div class="u-expanded-width u-grey-5 u-shape u-shape-rectangle u-shape-1"></div>
+    <img class="u-align-center u-image u-image-round u-radius u-image-1" src="{% static 'images/image.webp'%}" alt=""
+        data-image-width="1200" data-image-height="675">
+    <h1 class="u-align-center u-text u-text-1">«Іс​панські традиції»</h1>
+    <p class="u-align-center u-text u-text-2"> Ваш провідник у неповторний гастрономічний світ Іспанії.</p>
+    <a href="Про-нас.html" data-page-id="165199922"
+        class="u-active-palette-1-dark-3 u-border-none u-btn u-btn-round u-button-style u-hover-palette-1-dark-3 u-palette-1-base u-radius u-btn-1"
+        data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction=""
+        title="Про нас">Читати Далі</a>
+</section>
+{% include 'core/card_info.html' %}
+{% include 'core/news_small.html' %}
+{% include 'core/gallery_small.html' %}
+{% include 'core/partners_small.html' %}
+{% include 'core/contact_small.html' %}
+{% endblock %}

@@ -1,0 +1,23 @@
+<section class="u-clearfix u-container-align-center u-white u-section-5" id="sec-01a3">
+    <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
+        <h2 class="u-align-center u-text u-text-1">Партнери </h2>
+        <div class="u-expanded-width u-list u-list-1">
+            <div class="u-repeater u-repeater-1">
+                {% for partner in partners %}
+                <div
+                    class="u-align-center u-container-align-center u-container-style u-list-item u-opacity u-opacity-90 u-repeater-item u-shape-rectangle">
+                    <div class="u-container-layout u-similar-container u-valign-top u-container-layout-1">
+                        <div alt="" class="u-border-7 u-border-palette-1-base u-image u-image-circle u-image-1"
+                            data-image-width="598" data-image-height="598"
+                            style="background-image: url('{{ partner.logo.url }}'); background-position: 50% 50%; width: 154px; height: 154px; margin: 0 auto;">
+                        </div>
+                        <h5 class="u-align-center u-text u-text-2">{{ partner.name }}</h5>
+                        <p class="u-align-center u-text u-text-3">{{ partner.description }}</p>
+
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>

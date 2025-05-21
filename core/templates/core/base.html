@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html style="font-size: 16px;" lang="uk">
+
+<head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#478ac9">
+    <meta name="keywords"
+        content="іспанські продукти, іспанське вино, оливкова олія, хамон, іспанські сири, делікатеси з Іспанії, магазин іспанських товарів">
+    <meta name="description"
+        content="Магазин «Іспанські традиції» – оригінальні іспанські продукти: вино, оливкова олія, хамони, сири та делікатеси. Доставка по Україні.">
+    <meta name="author" content="Іспанські традиції">
+
+    <meta property="og:title" content="Магазин «Іспанські традиції» – іспанські продукти в Україні">
+    <meta property="og:description"
+        content="Оригінальні іспанські продукти: вино, оливкова олія, хамони, сири та делікатеси. Доставка по Україні.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ваш-сайт.com">
+    <meta property="og:site_name" content="Іспанські традиції">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Магазин «Іспанські традиції» – іспанські продукти в Україні">
+    <meta name="twitter:description"
+        content="Оригінальні іспанські продукти: вино, оливкова олія, хамони, сири та делікатеси. Доставка по Україні.">
+    <meta name="twitter:image" content="https://ваш-сайт.com/images/logo-twitter.jpg">
+
+    <title>{% block title %}Головна{% endblock %}</title>
+
+    <link rel="icon" href="{% static 'images/favicon.png' %}">
+    <link rel="stylesheet" href="{% static 'css/nicepage.css' %}" media="screen">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" media="screen">
+    <script class="u-script" type="text/javascript" src="{% static 'js/jquery.js' %}" defer></script>
+    <script class="u-script" type="text/javascript" src="{% static 'js/nicepage.js' %}" defer></script>
+
+    <link id="u-theme-google-font" rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Open+Sans:300,400,500,600,700,800">
+    <style class="menu-style">
+        @media (max-width: 1139px) {
+            [data-responsive-from="LG"] .u-nav-container {
+                display: none;
+            }
+
+            [data-responsive-from="LG"] .menu-collapse {
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body data-home-page="https://website6503891-2.nicepage.io/Головна.html?version=eca4730b-d16b-102c-d042-7f1e88d2ff17"
+    data-home-page-title="Головна" data-path-to-root="./" data-include-products="true" class="u-body u-xl-mode"
+    data-lang="uk">
+    <header
+        class="u-align-center-sm u-align-center-xs u-border-no-bottom u-border-no-left u-border-no-right u-border-no-top u-clearfix u-header u-section-row-container"
+        id="sec-ae40" data-animation-name="" data-animation-duration="0" data-animation-delay="0"
+        data-animation-direction="" style="background-image: none">
+        <div class="u-section-rows">
+            {% include 'core/social_links.html' %}
+            {% include 'core/menu.html' %}
+
+        </div>
+    </header>
+    {% block content %}
+    {% endblock %}
+
+    <footer class="u-align-center u-clearfix u-container-align-center u-footer u-grey-80 u-footer" id="sec-8444">
+        <div class="u-clearfix u-sheet u-sheet-1">
+            <p class="u-small-text u-text u-text-variant u-text-1"><span style="font-style: italic;">"Іспанські
+                    традиції" </span>— кращі смаки та аромати Іспанії у вашому домі. © 2024. Усі права захищено
+            </p>
+        </div>
+    </footer><span
+        style="height: 64px; width: 64px; margin-left: 0px; margin-right: auto; margin-top: 0px; background-image: none; right: 20px; bottom: 20px; padding: 15px"
+        class="u-back-to-top u-icon u-icon-circle u-opacity u-opacity-85 u-palette-1-base" data-href="#"><svg
+            class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 551.13 551.13">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-1d98"></use>
+        </svg><svg class="u-svg-content" enable-background="new 0 0 551.13 551.13" viewBox="0 0 551.13 551.13"
+            xmlns="http://www.w3.org/2000/svg" id="svg-1d98">
+            <path d="m275.565 189.451 223.897 223.897h51.668l-275.565-275.565-275.565 275.565h51.668z"></path>
+        </svg></span>
+
+</body>
+
+</html>

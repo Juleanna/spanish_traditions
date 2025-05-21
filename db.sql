@@ -1,0 +1,26 @@
+CREATE DATABASE spanish_traditions;
+CREATE USER traditions_user WITH PASSWORD 'strongpassword';
+ALTER ROLE traditions_user SET client_encoding TO 'utf8';
+GRANT ALL PRIVILEGES ON DATABASE spanish_traditions TO traditions_user;
+
+
+CREATE ROLE traditions_user WITH
+	LOGIN
+	SUPERUSER
+	CREATEDB
+	CREATEROLE
+	INHERIT
+	REPLICATION
+	BYPASSRLS
+	CONNECTION LIMIT -1;
+
+CREATE ROLE traditions_user WITH
+	LOGIN
+	SUPERUSER
+	CREATEDB
+	CREATEROLE
+	INHERIT
+	REPLICATION
+	BYPASSRLS
+	CONNECTION LIMIT -1
+	PASSWORD 'strongpassword';

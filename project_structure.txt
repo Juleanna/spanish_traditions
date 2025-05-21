@@ -1,0 +1,628 @@
+Физическая структура Django проекта
+==================================================
+
+1. Файловая структура:
+spanish_traditions/
+    .env
+    db.sql
+    generate_structure.py
+    makemigrations.bat
+    manage.py
+    migrate.bat
+    project_structure.txt
+    README.md
+    requirements.txt
+    start.bat
+    user.bat
+    .git/
+        COMMIT_EDITMSG
+        config
+        description
+        FETCH_HEAD
+        HEAD
+        index
+        ORIG_HEAD
+        hooks/
+            applypatch-msg.sample
+            commit-msg.sample
+            fsmonitor-watchman.sample
+            post-update.sample
+            pre-applypatch.sample
+            pre-commit.sample
+            pre-merge-commit.sample
+            pre-push.sample
+            pre-rebase.sample
+            pre-receive.sample
+            prepare-commit-msg.sample
+            push-to-checkout.sample
+            sendemail-validate.sample
+            update.sample
+        info/
+            exclude
+        logs/
+            HEAD
+            refs/
+                heads/
+                    main
+                remotes/
+                    origin/
+                        HEAD
+                        main
+        objects/
+            00/
+                6e953102ded2db8e217e4507de3baa8bcc976d
+            06/
+                2aaf7cdd73fda965dde2e9e9a6495288697938
+            07/
+                11d6003624c1d4f16cab4c9b491ba7134a604a
+                cc61307cd021b994f0c61f1085c8137002f61f
+                da50626896db1e886dc07f39a45270aa9eb7a2
+            0a/
+                5c5e8e6f3571f989b5f35e5bcae2264c3749c4
+            0b/
+                262e8865408e542d6c3602596f1db9ddd6a898
+            0c/
+                ea0e5c4b9a0f33378916c1f4e60b82a56a4718
+            0d/
+                74f2a15cb54f1180ee93b39382ad2de83aaf45
+            0e/
+                4cb7c67260cd4b475ca777d10431ee95527001
+            14/
+                420f56b5d625570cec77b20d0a06861f8ff9e1
+            15/
+                a61d35301aa23ba5b38c3d516b51f579a2b152
+            17/
+                6584d06212c475015a8ba366f5945e7bf56d3c
+                7f692099a1073d26c73ac75dcbf38ab96b391e
+                98fb932e71432d86a47ecd8002df68e3d57b8c
+            19/
+                e534b12608d86a71c22897b8ffea1c0c0f35cc
+            1a/
+                ac68b778abfe943f91df99e1f895a5c332baa9
+            1d/
+                756463c8555cb7cbddcd4291d07e308cf4a616
+                9033460c29c6c3ad03e60c04818049fdeafccf
+                d7659e6a8d394ef34f425072cc45903f51ad5d
+            20/
+                3c14a7af852c500fb05e4a2d1f75b7e47adb00
+                476e5016a847318b73660f59f30eb676cdd2d0
+            21/
+                3756efa09feeef397dd48c42f25b41a78ae76a
+            23/
+                3496388bfc259ff70ab239211539dd87c792d1
+                88b9c8c534b49e26077e42acfd4b55e953dd62
+            24/
+                a57b64b3433763281cb83a9a771006e1fa2db1
+            29/
+                4bda2fe470b21c97a03146e5047934b1ec8b1e
+            2c/
+                586c7a8d60070f46ed63fc33da7d2ce6a7c778
+            2d/
+                4838cee722506448e3f51b9069a3c0728fc114
+            33/
+                caf7c0710cc7d40e4f2210b4229ecc6ea86804
+            36/
+                99018aa0dda83a97cccfef45f0f91d6b88399d
+            37/
+                e8e490af4a15a13a6e7ef2db803134fb33d68f
+            3a/
+                8d76f70232fe9dc303ebe35f56400de639a984
+            3b/
+                ec838debbf0a7d050394bfd20dd837bc0d72fc
+            3c/
+                112b022d11b54a4e11fa27224cd7edeb65ca9b
+            3d/
+                be21ba531d45323353e71f0da4129e7c6cff8d
+            41/
+                8e88a64270254ea2e83f8670c0daaf2772a63f
+            45/
+                59173491ece0683110a22ba35beb72df8d529d
+            4a/
+                d15cf881deeeb667b58e913b3d1547994ce7d6
+            4b/
+                105b03eb40758c9db5b469815d9d3c3f630b66
+                11351ffe6fb82e19f5dd3917f6b88d1ca99529
+            4f/
+                49bc8b2b83a4964146cc481bbef11bdb4aa02e
+            54/
+                6dceb5d62079b99fce728c65644de5fa153c23
+            55/
+                39ed337d728cb24757c8c305d532e20347f63a
+                5b102ba392467b9206f228c91d32fa3a834a19
+                a19cd40fd73aa31ff08a3bf39f54d42739bc36
+            59/
+                0dd91c9c56c910e5a9c78456168a4e07addef2
+                e6032d298e08ec3ab09a65a12902923a796c91
+            5b/
+                ac804173e424514d83a9ecafc0bea3b432e19f
+            5f/
+                7c22735ffee8aa2043098c948a3db1821fe4f5
+                d079a43b6960f08fb5c58cf198722502bf9e92
+            61/
+                917b54afe20c19193b214cb01dc745d5e3c899
+            62/
+                8b3030745a217c05c15a3ce080775d65b2a7b4
+            63/
+                b8b8c825232cc0b751fd0fdc032aa9ac600cc1
+            64/
+                7bf22c529824e6450c118025272d9f8473fc21
+            65/
+                018e377792a10d55b4fe1fadb134f5c5961aac
+                4a8519a1321c1afbb16b31f0bd4ad1f343ba27
+            67/
+                fdd1283164e9aecc8b25fcaecf1ce9fd66372f
+            68/
+                24dd1d566226644908d0ca17435d0630f7bcf9
+                2df6203da00c01c37bf80b473d889b37e0b202
+            6a/
+                05a00236e02c8597c0aaa72f40885e3cd9ec96
+            71/
+                1602b904436509f131107e1110fc317fc6823e
+            72/
+                4d3f0569a659a7057e94f1881c05abd40cc89b
+            73/
+                336d13c307c9903376d02a5837be6adda29e68
+            75/
+                0843796b9de459f41011175770f6d9ab8532b6
+            77/
+                5c82fb3e3f2acb0dcea87a18ae3fc4ccc7cd85
+            78/
+                955f3f1562a7d7ff7b54b6bd3e9e8864a71d33
+            79/
+                bf553f599557935aaeb7e80325ba6f7bb2ab03
+            7c/
+                e503c2dd97ba78597f6ff6e4393132753573f6
+            7f/
+                6682508d8337978db3dd56aff8afc320919076
+                8469ddd9dd62e2348a5cf6d255b59ee1b8898a
+            80/
+                c933136650b03fd0c25be3ec61a0051147c1d0
+            81/
+                0188b99f2cf3555f789b8a287d4f9349e53b6c
+                15ae60bc647249211ecbd4bbf6aa65478e9b5c
+                bbf940e99ccd48c7b72043c26aa29df4ab6112
+            84/
+                b72fdd3495870ec3bdf392430dbfd9f4d1fcee
+            85/
+                26abbb30e67c423dbd2c0cc2f281a988d235d6
+            8c/
+                6354bf30c3d81306571f96d5bbdef8ce4d6cc8
+            8d/
+                bcb64d67e7676264032d1d814bf45970eabe90
+            92/
+                239451608aeaff34d313939e3eff73a66a8935
+            93/
+                05c4b7c3d1bba459bd34e1e31fdcf6a6b121ff
+            94/
+                993f86b95063bfd70e3f527e435de537b812b3
+                aebbe80c66f7e4f7578b97b4671eb36855e62c
+            99/
+                bb8babbdb4c7d3627dd4c77f1bf731b2eb9050
+            9d/
+                bfeb07bd2d43c2c53c5f309e0ee2b45178e151
+            9e/
+                3813ce1366cd0665c109f3394cbb4a1ae60412
+                55765bd361da26498c42f30654c4d1e45f3e54
+            a1/
+                eb578160d75dc257c4f4e62d5ee103dbfe9ddc
+            a3/
+                7d2210dbbde7124580b0719ce3f903597a9ab9
+            a4/
+                561addd2cbcd81b280cec766677a81ee0567dc
+                96a26a8167e6a05f019cdf81f5d31617e66978
+            a8/
+                35a187d5e83dab8cbd8261b20913e88412bee2
+                510d74d611ca3afb7327e9cec1af31c7c7a635
+            ab/
+                f0dad3964b83c107841da9f9fe0fc070410cba
+            ad/
+                4959c2f94668a4f81467ea7aa8fb1cb9c79674
+                b072ce5c00afde823e5e9e068cb0fbbb9131d6
+            ae/
+                d9b1e5ff049e7dc3a4287553d53d7d6d0de728
+            af/
+                c607d9ac81def6b357e11a7b2bb39fcaeb9025
+            b1/
+                5a373a1aca099f8a8ff9f887ca9f1b2c153bee
+            b3/
+                0e34549d9dd173330e86033d8dd10aa4f719fc
+            b4/
+                b9653d87bc11b957def7db9b6f9dbc6385cbec
+            b6/
+                b7ac85f5109fbb6c9049d7138d079f23cab732
+            b7/
+                682e2dda5801fa27f24cf9a762f9b830cda3de
+            bb/
+                a4a917e36c2cae70fd73a0bc2444c9f7a645d4
+                a85e27f8060c5b80f8633276926713e57542b8
+                b60fbb56f3c030450a90aca0d4f17a1d1cfeab
+            bc/
+                778100688f6b40ea2247268ceacf2a5eea11f4
+                b93321d714e3b90f71dd7d773de33ca9a12e08
+            bd/
+                39af3afd75743a831a8b0de45334b4ac2b43f6
+            bf/
+                cfc5cadc2f0c15839f179bb414174b4bf98a87
+            c0/
+                f3d8a39968a5e3dff328b8fb2e0fcc7f95c555
+            c2/
+                7fb52c7714d9b8f6add023fa57815de6361c2c
+                ad109de5813191149d6bb3fdb677e9137e71ed
+            c3/
+                22406e2760ea3858c3e308cd18a768ecc542ba
+                51d468a2c6c61f7f46435b44b1c7deedfae992
+            c5/
+                576968b9686c3c410c65e49905d1b64d6212ed
+            c6/
+                08e17eaeec471de19766a1da51c7ed32dfaf82
+            c7/
+                d03a499e2cb4cfbefe9030d5528aa3783554e6
+            cb/
+                21208c478acc6873360e9977767b25c434b7c2
+                4644520758144e7a8bd9f47b791bb072f17647
+            cd/
+                cc8736a207485df2e556d294b12e75798c7c15
+            cf/
+                b4926951e003bd32e2c3510f21d1a11cc930a4
+            d0/
+                4011ca4a4c248a1394e712942f947e00f35df5
+            d3/
+                13709d6aa483ab84819f6b7a9c29b4cbf184c3
+                28a634a82dfccd37b3da122cb1c541e74effc8
+                62f37357cb8f8355c2000f145eef2e118221b3
+            d4/
+                ef45e9b39827cbee0de80eaf1937a3d8559935
+            d5/
+                9fa3cbfdc48f0985c68b5a0347f10cca11caaf
+            d6/
+                81bca9c475b09b35b35098104d0923169bb375
+                cf1b089517a773382c7793f57e8da1910970c9
+            d7/
+                0fba969a121b5d9f4a28f1e2f67e492891d3f6
+            d8/
+                00886d9c86731ae5c4a62b0b77c437015e00d2
+                0a3d1ff0dbc1c0783e9819e4c4393ff82951df
+            da/
+                29fef6d8adbd4de874c4cbb3674a5287dae14e
+            dc/
+                2f34e5ba69663b8c34cf8e395b68c1cfb66367
+            df/
+                30b17040d052841a9fb0e842b625f82f1efaef
+                cf5cbec30c20f1898e4c778ba4856f7c838718
+            e0/
+                9deee9c803401325a154997899eaba8910e638
+            e1/
+                0865dae4b7344a45117069fdd7af7f8080b1c5
+                c181908487aeddba23732df6d76478088215e5
+            e3/
+                bf6e29fc8c71d210e86cf344508c95831afbec
+            e4/
+                a0536a592ce4de2b28256c381a05f014f1a748
+            e6/
+                9de29bb2d1d6434b8b29ae775ad8c2e48c5391
+            e7/
+                e05d7216405edf2ea1ef3fb028118afda10e10
+            e8/
+                1175afca88c579464211da247d0c285abbb57a
+            e9/
+                bae3f7d1d8a59f6ff26f857f98a968eb8afef9
+            eb/
+                3491a26af19c6b1a156911d874fefc43d7802e
+            ec/
+                2cced05699e62c0c47ce47c055fe30d908ca42
+            ee/
+                8d2b16fa21608879ded32a37777c9030caa2a0
+                ada1c8aad4b8398327058d92aecdcad0a7650c
+                b04ce70c5a5401f0aad7bf03e5c812d6bc5dcd
+                c5f782f3c9eeae3e3c31d912b05b5e0c49d0fc
+            f0/
+                76d94fa79d5ac77b252963eea1a78b8fed4eef
+            f4/
+                3dcfed36eb8a5107a625b4d0fe053fe6a0461a
+                868f1d96ac9ee295f8c9ce79dc32e8211c8ab4
+            fc/
+                1a4687ec232f799637b135f32bb58d1525d6da
+            info/
+            pack/
+        refs/
+            heads/
+                main
+            remotes/
+                origin/
+                    HEAD
+                    main
+            tags/
+    core/
+        admin.py
+        apps.py
+        context_processors.py
+        models.py
+        tests.py
+        views.py
+        __init__.py
+        migrations/
+            0001_initial.py
+            0002_remove_page_meta_keywords_news_slug_and_more.py
+            0003_alter_page_content.py
+            0004_section_card.py
+            0005_section_display_order_section_is_active_and_more.py
+            0006_alter_card_description.py
+            0007_partner.py
+            0008_contactinfo.py
+            0009_partner_display_order.py
+            0010_contactinfo_is_active.py
+            0011_menuitem.py
+            0012_alter_page_content.py
+            0013_alter_page_content.py
+            0014_page_image.py
+            __init__.py
+            __pycache__/
+                0001_initial.cpython-313.pyc
+                0002_alter_page_options.cpython-313.pyc
+                0002_remove_page_meta_keywords_news_slug_and_more.cpython-313.pyc
+                0003_alter_galleryitem_options_alter_news_options_and_more.cpython-313.pyc
+                0003_alter_page_content.cpython-313.pyc
+                0004_section_card.cpython-313.pyc
+                0005_section_display_order_section_is_active_and_more.cpython-313.pyc
+                0006_alter_card_description.cpython-313.pyc
+                0007_partner.cpython-313.pyc
+                0008_contactinfo.cpython-313.pyc
+                0009_partner_display_order.cpython-313.pyc
+                0010_contactinfo_is_active.cpython-313.pyc
+                0011_menuitem.cpython-313.pyc
+                0012_alter_page_content.cpython-313.pyc
+                0013_alter_page_content.cpython-313.pyc
+                0014_page_image.cpython-313.pyc
+                __init__.cpython-313.pyc
+        static/
+            css/
+                news.css
+                nicepage.css
+                styles.css
+            images/
+                about.jpeg
+                about_us.png
+                Casa_Espanola.jpg
+                fashion.png
+                Flamenco_Vivo.jpg
+                gallery.png
+                Iberian_treasures.jpg
+                image.webp
+                kitchen.png
+                Logo.png
+                Tourism.png
+                Traditions.png
+                Travel_Spain.jpg
+            js/
+                jquery.js
+                nicepage.js
+        templates/
+            core/
+                base.html
+                card_info.html
+                contact_small.html
+                gallery_small.html
+                home.html
+                menu.html
+                page_detail.html
+                partners_small.html
+                social_links.html
+                news/
+                    news.html
+                    news_small.html
+        __pycache__/
+            admin.cpython-313.pyc
+            apps.cpython-313.pyc
+            context_processors.cpython-313.pyc
+            models.cpython-313.pyc
+            views.cpython-313.pyc
+            __init__.cpython-313.pyc
+    media/
+        gallery/
+            Тестовое_изображение_2_image.webp
+            Тестовое_изображение_depositphotos_77124281-stock-photo-business-global-world-pl_qU10gQv.jpg
+        icons/
+            Галерея_gallery.png
+            Кухня_kitchen.png
+            Мода_fashion.png
+            Про_нас_about_us.png
+            Традиції_Traditions.png
+            Туризм_Tourism.png
+        news/
+            Новина_друга_depositphotos_77124281-stock-photo-business-global-world-plans-organization.jpg
+            Новина_перша_image.webp
+        pages/
+            про-нас/
+                about.jpeg
+        partners/
+            Casa_Española_Casa_Espanola.jpg
+            Casa_Española_Casa_Espanola_R310pNq.jpg
+            Flamenco_Vivo_Flamenco_Vivo.jpg
+            Iberian_treasures_Iberian_treasures.jpg
+            Travel_to_Spain_Travel_Spain.jpg
+    spanish_traditions/
+        asgi.py
+        settings.py
+        urls.py
+        wsgi.py
+        __init__.py
+        __pycache__/
+            settings.cpython-313.pyc
+            urls.cpython-313.pyc
+            wsgi.cpython-313.pyc
+            __init__.cpython-313.pyc
+
+2. Структура моделей:
+
+Приложение: django.contrib.admin
+--------------------------------------------------
+Модель: LogEntry
+    id (AutoField)
+    action_time (DateTimeField)
+    user (ForeignKey)
+    content_type (ForeignKey)
+    object_id (TextField)
+    object_repr (CharField)
+    action_flag (PositiveSmallIntegerField)
+    change_message (TextField)
+
+
+Приложение: django.contrib.auth
+--------------------------------------------------
+Модель: Permission
+    id (AutoField)
+    name (CharField)
+    content_type (ForeignKey)
+    codename (CharField)
+
+Модель: Group
+    id (AutoField)
+    name (CharField)
+
+Модель: User
+    id (AutoField)
+    password (CharField)
+    last_login (DateTimeField)
+    is_superuser (BooleanField)
+    username (CharField)
+    first_name (CharField)
+    last_name (CharField)
+    email (CharField)
+    is_staff (BooleanField)
+    is_active (BooleanField)
+    date_joined (DateTimeField)
+
+
+Приложение: django.contrib.contenttypes
+--------------------------------------------------
+Модель: ContentType
+    id (AutoField)
+    app_label (CharField)
+    model (CharField)
+
+
+Приложение: django.contrib.sessions
+--------------------------------------------------
+Модель: Session
+    session_key (CharField)
+    session_data (TextField)
+    expire_date (DateTimeField)
+
+
+Приложение: django.contrib.messages
+--------------------------------------------------
+
+Приложение: django.contrib.staticfiles
+--------------------------------------------------
+
+Приложение: core
+--------------------------------------------------
+Модель: Page
+    id (BigAutoField)
+    title (CharField)
+    slug (SlugField)
+    content (TextField)
+    parent (ForeignKey)
+    menu_order (PositiveIntegerField)
+    is_active (BooleanField)
+    meta_description (TextField)
+    created_at (DateTimeField)
+    updated_at (DateTimeField)
+    image (FileField)
+
+Модель: GalleryItem
+    id (BigAutoField)
+    title (CharField)
+    image (FileField)
+    description (TextField)
+    category (CharField)
+    display_order (PositiveIntegerField)
+    is_active (BooleanField)
+    created_at (DateTimeField)
+    updated_at (DateTimeField)
+
+Модель: News
+    id (BigAutoField)
+    title (CharField)
+    slug (SlugField)
+    content (TextField)
+    image (FileField)
+    published_date (DateTimeField)
+    is_active (BooleanField)
+    created_at (DateTimeField)
+    updated_at (DateTimeField)
+
+Модель: Section
+    id (BigAutoField)
+    title (CharField)
+    display_order (PositiveIntegerField)
+    is_active (BooleanField)
+
+Модель: Card
+    id (BigAutoField)
+    section (ForeignKey)
+    title (CharField)
+    icon (FileField)
+    description (TextField)
+    link (CharField)
+    link_text (CharField)
+    display_order (PositiveIntegerField)
+    is_active (BooleanField)
+
+Модель: Partner
+    id (BigAutoField)
+    name (CharField)
+    website (CharField)
+    logo (FileField)
+    description (TextField)
+    is_active (BooleanField)
+    created_at (DateTimeField)
+    updated_at (DateTimeField)
+    display_order (PositiveIntegerField)
+
+Модель: ContactInfo
+    id (BigAutoField)
+    store_name (CharField)
+    address (TextField)
+    phone (CharField)
+    email (CharField)
+    working_hours (CharField)
+    facebook (CharField)
+    instagram (CharField)
+    twitter (CharField)
+    created_at (DateTimeField)
+    updated_at (DateTimeField)
+    is_active (BooleanField)
+
+Модель: MenuItem
+    id (BigAutoField)
+    title (CharField)
+    page (ForeignKey)
+    url (CharField)
+    parent (ForeignKey)
+    menu_order (PositiveIntegerField)
+    is_active (BooleanField)
+
+
+Приложение: rosetta
+--------------------------------------------------
+
+Приложение: taggit
+--------------------------------------------------
+Модель: Tag
+    id (AutoField)
+    name (CharField)
+    slug (SlugField)
+
+Модель: TaggedItem
+    id (AutoField)
+    tag (ForeignKey)
+    content_type (ForeignKey)
+    object_id (IntegerField)
+
+
+Приложение: ckeditor
+--------------------------------------------------
+
+Приложение: ckeditor_uploader
+--------------------------------------------------

@@ -1,0 +1,30 @@
+{% for section in sections %}
+<section class="skrollable u-clearfix u-grey-5 u-parallax u-section-2" id="sec-{{ section.id }}" data-animation-name=""
+    data-animation-duration="0" data-animation-delay="0" data-animation-direction="">
+    <div
+        class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-md u-valign-middle-sm u-valign-middle-xs u-valign-top-xl u-sheet-1">
+        <div class="u-align-center u-expanded-width u-list u-list-1">
+            <div class="u-repeater u-repeater-1">
+                {% for card in section.cards.all|dictsort:"display_order" %}
+                <div class="u-align-left u-container-align-left u-container-style u-list-item u-radius u-repeater-item u-shape-round u-video-cover u-white u-list-item-1"
+                    data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="500">
+                    <div
+                        class="u-container-layout u-similar-container u-valign-top-lg u-valign-top-md u-valign-top-sm u-valign-top-xs u-container-layout-1">
+                        <span class="u-align-center u-file-icon u-icon u-text-custom-color-1 u-icon-1"><img
+                                src="{{ card.icon.url }}" alt="{{ card.title }}"></span>
+                        <h5 class="u-align-center u-text u-text-1">{{ card.title }}</h5>
+                        <p class="u-align-center u-text u-text-2">{{ card.description|safe }}
+                        </p>
+                        {% if card.link %}
+                        <a href="{{ card.link }}"
+                            class="u-active-none u-align-center u-border-2 u-border-active-palette-1-light-1 u-border-hover-palette-1-light-1 u-border-no-left u-border-no-right u-border-no-top u-border-palette-1-base u-btn u-button-style u-hover-none u-none u-text-active-grey-50 u-text-body-color u-text-hover-grey-50 u-btn-1">
+                            {{card.link_text }}</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endfor %}
