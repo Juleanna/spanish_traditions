@@ -11,7 +11,7 @@ def page_image_upload_to(instance, filename):
 class Page(models.Model):
     title = models.CharField(_("Заголовок"), max_length=255)
     slug = models.SlugField(_("URL"), unique=True, allow_unicode=True)
-    content = CKEditor5Field(_("Контент"))
+    content = CKEditor5Field('Content', config_name='default')
     parent = models.ForeignKey(
         'self', on_delete=models.SET_NULL, null=True, blank=True,
         related_name="children", verbose_name=_("Родительская страница")

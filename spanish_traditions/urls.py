@@ -8,7 +8,7 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('gallery/', views.gallery, name='gallery'),
     path('news/', views.news, name='news'),
-    path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('ckeditor5/', include('django_ckeditor_5.urls')),
     re_path(r'^news/(?P<slug>[\w\-]+)/$', views.news_detail, name='news_detail'),
     re_path(r'^(?P<slug>[\w\-]+)/$', views.page_detail, name='page_detail'),
 ]

@@ -141,12 +141,98 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+CKEDITOR_5_UPLOAD_URL = "/upload/"
+customColorPalette = [
+    {'color': 'hsl(4, 90%, 58%)', 'label': 'Red'},
+    {'color': 'hsl(340, 82%, 52%)', 'label': 'Pink'},
+    {'color': 'hsl(291, 64%, 42%)', 'label': 'Purple'},
+    {'color': 'hsl(262, 52%, 47%)', 'label': 'Deep Purple'},
+    {'color': 'hsl(231, 48%, 48%)', 'label': 'Indigo'},
+    {'color': 'hsl(207, 90%, 54%)', 'label': 'Blue'},
+]
+
 CKEDITOR_5_CONFIGS = {
     'default': {
-        'toolbar': 'full',  # Полный набор инструментов
-        'height': 300,  # Высота редактора
-        'width': 'auto',  # Ширина редактора
-        'language': 'ru',  # Язык интерфейса редактора
-    },
-}
+        'toolbar': [
+                    'heading', '|',
+                    'bold', 'italic', 'underline', '|',
+                    'fontSize', 'fontFamily', '|',
+                    'fontColor', 'fontBackgroundColor', '|',
+                    'alignment', '|',
+                    'bulletedList', 'numberedList', '|',
+                    'insertTable', 'imageUpload', '|',
+                    'mediaEmbed', '|',
+                    'sourceEditing'
+                ],
 
+        'height': 300,
+        'width': '600px',
+        'language': 'ru',
+        'fontSize': {
+            'options': ['tiny', 'small', 'default', 'big', 'huge'],
+            'supportAllValues': False,
+        },
+        'fontFamily': {
+            'options': [
+                'default',
+                'Arial, Helvetica, sans-serif',
+                'Courier New, Courier, monospace',
+                'Georgia, serif',
+                'Lucida Sans Unicode, Lucida Grande, sans-serif',
+                'Tahoma, Geneva, sans-serif',
+                'Times New Roman, Times, serif',
+                'Trebuchet MS, Helvetica, sans-serif',
+                'Verdana, Geneva, sans-serif',
+            ],
+            'supportAllValues': True,
+        },
+        'alignment': {
+            'options': ['left', 'center', 'right', 'justify']
+        },
+        'table': {
+            'contentToolbar': [
+                'tableColumn', 'tableRow', 'mergeTableCells',
+                'tableProperties', 'tableCellProperties'
+            ],
+            'tableProperties': {
+                'borderColors': customColorPalette,
+                'backgroundColors': customColorPalette,
+            },
+            'tableCellProperties': {
+                'borderColors': customColorPalette,
+                'backgroundColors': customColorPalette,
+            }
+        },
+        'image': {
+            'toolbar': [
+                'imageTextAlternative', '|',
+                'imageStyle:alignLeft',
+                'imageStyle:alignCenter',
+                'imageStyle:alignRight',
+                'imageStyle:roundedCorners',  # наш кастомный стиль
+                '|',
+                'resizeImage',
+                'toggleImageCaption',
+                'imageResize',
+                'imageBorder',
+                'imageShadow',
+            ],
+            'styles': [
+                'full',
+                'side',
+                'alignLeft',
+                'alignCenter',
+                'alignRight',
+                'roundedCorners',  # объявляем стиль для закругления углов
+            ],
+        },
+        'heading': {
+            'options': [
+                {'model': 'paragraph', 'title': 'Абзац', 'class': 'ck-heading_paragraph'},
+                {'model': 'heading1', 'view': 'h1', 'title': 'Заголовок 1', 'class': 'ck-heading_heading1'},
+                {'model': 'heading2', 'view': 'h2', 'title': 'Заголовок 2', 'class': 'ck-heading_heading2'},
+                {'model': 'heading3', 'view': 'h3', 'title': 'Заголовок 3', 'class': 'ck-heading_heading3'},
+            ]
+        },
+    }
+}
