@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Page, GalleryItem, News, Section, Card, Partner, ContactInfo, MenuItem
+from modeltranslation.admin import TranslationAdmin
 
 @admin.register(Page)
 class PageAdmin(admin.ModelAdmin):
@@ -19,7 +20,7 @@ class GalleryItemAdmin(admin.ModelAdmin):
     list_editable = ('is_active', 'display_order')
 
 @admin.register(News)
-class NewsAdmin(admin.ModelAdmin):
+class NewsAdmin(TranslationAdmin):
     list_display = ('title', 'slug', 'is_active', 'published_date', 'created_at', 'updated_at')
     list_filter = ('is_active', 'published_date', 'created_at', 'updated_at')
     search_fields = ('title', 'content', 'slug')

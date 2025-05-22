@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rosetta',
     'taggit',
     'django_ckeditor_5',
+    'modeltranslation',
 ]
 
 MIDDLEWARE = [
@@ -132,10 +133,14 @@ LANGUAGES = [
     ('en', 'English'),
 ]
 USE_I18N = True
-
+USE_L10N = True
 TIME_ZONE = 'UTC'
 
 USE_TZ = True
+
+LOCALE_PATHS = [
+    BASE_DIR / 'locale',  # Укажите путь для хранения файлов перевода
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

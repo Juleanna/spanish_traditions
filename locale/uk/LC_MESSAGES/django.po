@@ -1,0 +1,235 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-05-22 22:49+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != "
+"11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % "
+"100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
+"(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
+#: .\core\models.py:12 .\core\models.py:67 .\core\models.py:105
+#: .\core\models.py:164
+msgid "Заголовок"
+msgstr ""
+
+#: .\core\models.py:13 .\core\models.py:68
+msgid "URL"
+msgstr ""
+
+#: .\core\models.py:14
+msgid "Зміст"
+msgstr ""
+
+#: .\core\models.py:17
+msgid "Батьківська сторінка"
+msgstr ""
+
+#: .\core\models.py:19
+msgid "Порядок у меню"
+msgstr ""
+
+#: .\core\models.py:20 .\core\models.py:49 .\core\models.py:73
+#: .\core\models.py:93 .\core\models.py:111 .\core\models.py:154
+#: .\core\models.py:169
+msgid "Активна"
+msgstr ""
+
+#: .\core\models.py:21
+msgid "Метаопис"
+msgstr ""
+
+#: .\core\models.py:22 .\core\models.py:50 .\core\models.py:74
+#: .\core\models.py:130 .\core\models.py:152
+msgid "Створено"
+msgstr ""
+
+#: .\core\models.py:23 .\core\models.py:51 .\core\models.py:75
+#: .\core\models.py:131 .\core\models.py:153
+msgid "Оновлено"
+msgstr ""
+
+#: .\core\models.py:24
+msgid "Зображення сторінки"
+msgstr ""
+
+#: .\core\models.py:28 .\core\models.py:165
+msgid "Сторінка"
+msgstr ""
+
+#: .\core\models.py:29
+msgid "Сторінки"
+msgstr ""
+
+#: .\core\models.py:43 .\core\models.py:91
+msgid "Назва"
+msgstr ""
+
+#: .\core\models.py:44 .\core\models.py:70
+msgid "Зображення"
+msgstr ""
+
+#: .\core\models.py:45 .\core\models.py:107 .\core\models.py:128
+msgid "Опис"
+msgstr ""
+
+#: .\core\models.py:46
+msgid "Категорія"
+msgstr ""
+
+#: .\core\models.py:47 .\core\models.py:71
+msgid "Теги"
+msgstr ""
+
+#: .\core\models.py:48 .\core\models.py:92 .\core\models.py:110
+#: .\core\models.py:132
+msgid "Порядок відображення"
+msgstr ""
+
+#: .\core\models.py:55
+msgid "Елемент галереї"
+msgstr ""
+
+#: .\core\models.py:56
+msgid "Елементи галереї"
+msgstr ""
+
+#: .\core\models.py:69
+msgid "Контент"
+msgstr ""
+
+#: .\core\models.py:72
+msgid "Дата публікації"
+msgstr ""
+
+#: .\core\models.py:79
+msgid "Новина"
+msgstr ""
+
+#: .\core\models.py:80
+msgid "Новини"
+msgstr ""
+
+#: .\core\models.py:96 .\core\models.py:104
+msgid "Секція"
+msgstr ""
+
+#: .\core\models.py:97
+msgid "Секції"
+msgstr ""
+
+#: .\core\models.py:100
+msgid "Секція без назви"
+msgstr ""
+
+#: .\core\models.py:106
+msgid "Значок"
+msgstr ""
+
+#: .\core\models.py:108 .\core\models.py:166
+msgid "Посилання"
+msgstr ""
+
+#: .\core\models.py:109
+msgid "Текст посилання"
+msgstr ""
+
+#: .\core\models.py:115
+msgid "Карточка"
+msgstr ""
+
+#: .\core\models.py:116
+msgid "Карточки"
+msgstr ""
+
+#: .\core\models.py:125
+msgid "Назва партнера"
+msgstr ""
+
+#: .\core\models.py:126
+msgid "Сайт партнера"
+msgstr ""
+
+#: .\core\models.py:127
+msgid "Логотип"
+msgstr ""
+
+#: .\core\models.py:129
+msgid "Активний"
+msgstr ""
+
+#: .\core\models.py:135
+msgid "Партнер"
+msgstr ""
+
+#: .\core\models.py:136
+msgid "Партнеры"
+msgstr ""
+
+#: .\core\models.py:144
+msgid "Назва магазину"
+msgstr ""
+
+#: .\core\models.py:145
+msgid "Адреса"
+msgstr ""
+
+#: .\core\models.py:146
+msgid "Телефон"
+msgstr ""
+
+#: .\core\models.py:147
+msgid "Електронна пошта"
+msgstr ""
+
+#: .\core\models.py:148
+msgid "Робочий годинник"
+msgstr ""
+
+#: .\core\models.py:149
+msgid "Facebook"
+msgstr ""
+
+#: .\core\models.py:150
+msgid "Instagram"
+msgstr ""
+
+#: .\core\models.py:151
+msgid "Twitter"
+msgstr ""
+
+#: .\core\models.py:157 .\core\models.py:158
+msgid "Контактна інформація"
+msgstr ""
+
+#: .\core\models.py:166
+msgid "Якщо вказано, використовуватиметься це посилання замість сторінки"
+msgstr ""
+
+#: .\core\models.py:167
+msgid "Батько"
+msgstr ""
+
+#: .\core\models.py:168
+msgid "Порядок"
+msgstr ""
+
+#: .\core\models.py:173
+msgid "Пункт меню"
+msgstr ""
+
+#: .\core\models.py:174
+msgid "Пункты меню"
+msgstr ""
