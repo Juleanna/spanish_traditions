@@ -247,4 +247,5 @@ CKEDITOR_5_CONFIGS = {
         },
     }
 }
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'spanishtraditions-production.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['http://spanishtraditions-production.up.railway.app']
