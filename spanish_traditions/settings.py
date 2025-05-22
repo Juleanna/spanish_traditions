@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+import dj_database_url
 
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -80,23 +81,28 @@ WSGI_APPLICATION = 'spanish_traditions.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-os.environ.setdefault("PGDATABASE", "liftoff_dev")
-os.environ.setdefault("PGUSER", "username")
-os.environ.setdefault("PGPASSWORD", "")
-os.environ.setdefault("PGHOST", "localhost")
-os.environ.setdefault("PGPORT", "5432")
+# Флаг переключения между Railway и локальной базой
+USE_RAILWAY_DB = os.getenv("USE_RAILWAY_DB", "False").lower() == "true"
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ["PGDATABASE"],
-        'USER': os.environ["PGUSER"],
-        'PASSWORD': os.environ["PGPASSWORD"],
-        'HOST': os.environ["PGHOST"],
-        'PORT': os.environ["PGPORT"],
+if USE_RAILWAY_DB:
+    # Конфигурация для Railway
+    DATABASES = {
+        'default': dj_database_url.parse(
+            os.getenv('DATABASE_URL', 'postgresql://postgres:WytBQNLfkLeaDGDJwwyixVapgcHpCjzQ@postgres.railway.internal:5432/railway')
+        )
     }
-}
-
+else:
+    # Конфигурация для локальной базы
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv("PGDATABASE", "liftoff_dev"),
+            'USER': os.getenv("PGUSER", "username"),
+            'PASSWORD': os.getenv("PGPASSWORD", ""),
+            'HOST': os.getenv("PGHOST", "localhost"),
+            'PORT': os.getenv("PGPORT", "5432"),
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
