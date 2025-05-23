@@ -56,7 +56,8 @@
         data-animation-direction="" style="background-image: none">
         <div class="u-section-rows">
             {% include 'core/social_links.html' %}
-            {% include 'core/menu.html' %}
+            {% include "core/menu.html" with menu_tree=menu_tree %}
+
 
         </div>
     </header>

@@ -5,105 +5,29 @@
             data-responsive-from="LG" role="navigation">
             <div class="u-custom-menu u-nav-container">
                 <ul class="u-nav u-spacing-30 u-unstyled u-nav-1" role="menubar">
-                {% for item in menu_items %}
+               {% for node in menu_tree %}
                     <li role="none" class="u-nav-item"><a role="menuitem"
                             class="u-active-white u-border-2 u-border-active-white u-border-hover-white u-border-white u-button-style u-hover-white u-nav-link u-radius u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-1-base u-white"
-                            href="{{ item.get_url }}" style="--radius: 10px; padding: 10px 0px;">{{ item.title }}</a>
-                    </li>
-                {% endfor %}
-                    <li role="none" class="u-nav-item"><a role="menuitem"
-                            class="u-active-white u-border-2 u-border-active-white u-border-hover-white u-border-white u-button-style u-hover-white u-nav-link u-radius u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-1-base u-white"
-                            style="--radius: 10px; padding: 10px 0px;">Традиції Іспанії</a>
+                            href="{{ node.item.get_url }}" style="--radius: 10px; padding: 10px 0px;">{{ node.item.title }}</a>
+                        {% if node.children %} 
                         <div class="u-nav-popup">
                             <ul role="menu"
                                 class="u-border-2 u-border-white u-custom-font u-font-roboto u-h-spacing-10 u-nav u-unstyled u-v-spacing-10 u-nav-2"
                                 aria-label="Традиції Іспанії menu">
+                                {% for child in node.children %}
                                 <li role="none" class="u-nav-item"><a role="menuitem"
-                                        class="u-button-style u-nav-link u-white" href="Традиції.html">Свята</a>
+                                        class="u-button-style u-nav-link u-white" href="{{ child.item.get_url }}">{{ child.item.title }}</a>
+                                        {% if child.children %}
+                                                    {% include "core/menu.html" with menu_tree=child.children %}
+                                        {% endif %}
                                 </li>
-                                <li role="none" class="u-nav-item"><a role="menuitem"
-                                        class="u-button-style u-nav-link u-white" href="Народні-танці.html">Народні
-                                        танці</a>
-                                </li>
+                                {% endfor %}
                             </ul>
                         </div>
+                        {% endif %}
                     </li>
-                    <li role="none" class="u-nav-item"><a role="menuitem"
-                            class="u-active-white u-border-2 u-border-active-white u-border-hover-white u-border-white u-button-style u-hover-white u-nav-link u-radius u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-1-base u-white"
-                            style="--radius: 10px; padding: 10px 0px;">Іспанська кухня</a>
-                        <div class="u-nav-popup">
-                            <ul role="menu"
-                                class="u-border-2 u-border-white u-custom-font u-font-roboto u-h-spacing-10 u-nav u-unstyled u-v-spacing-10 u-nav-3"
-                                aria-label="Іспанська кухня menu">
-                                <li role="none" class="u-nav-item"><a role="menuitem"
-                                        class="u-button-style u-nav-link u-white">Страви</a>
-                                </li>
-                                <li role="none" class="u-nav-item"><a role="menuitem"
-                                        class="u-button-style u-nav-link u-white">Напої</a>
-                                </li>
-                                <li role="none" class="u-nav-item"><a role="menuitem"
-                                        class="u-button-style u-nav-link u-white">Десерти</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li role="none" class="u-nav-item"><a role="menuitem"
-                            class="u-active-white u-border-2 u-border-active-white u-border-hover-white u-border-white u-button-style u-hover-white u-nav-link u-radius u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-1-base u-white"
-                            style="--radius: 10px; padding: 10px 0px;">Галерея</a>
-                        <div class="u-nav-popup">
-                            <ul role="menu"
-                                class="u-border-2 u-border-white u-custom-font u-font-roboto u-h-spacing-10 u-nav u-unstyled u-v-spacing-10 u-nav-4"
-                                aria-label="Галерея menu">
-                                <li role="none" class="u-nav-item"><a role="menuitem"
-                                        class="u-button-style u-nav-link u-white">Фото Іспанії</a>
-                                </li>
-                                <li role="none" class="u-nav-item"><a role="menuitem"
-                                        class="u-button-style u-nav-link u-white">Відео подій та
-                                        традицій</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li role="none" class="u-nav-item"><a role="menuitem"
-                            class="u-active-white u-border-2 u-border-active-white u-border-hover-white u-border-white u-button-style u-hover-white u-nav-link u-radius u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-1-base u-white"
-                            style="--radius: 10px; padding: 10px 0px;">Туризм</a>
-                        <div class="u-nav-popup">
-                            <ul role="menu"
-                                class="u-border-2 u-border-white u-custom-font u-font-roboto u-h-spacing-10 u-nav u-unstyled u-v-spacing-10 u-nav-5"
-                                aria-label="Туризм menu">
-                                <li role="none" class="u-nav-item"><a role="menuitem"
-                                        class="u-button-style u-nav-link u-white">Міста Іспанії</a>
-                                </li>
-                                <li role="none" class="u-nav-item"><a role="menuitem"
-                                        class="u-button-style u-nav-link u-white">Визначні пам'ятки</a>
-                                </li>
-                                <li role="none" class="u-nav-item"><a role="menuitem"
-                                        class="u-button-style u-nav-link u-white">Пляжі та курорти</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li role="none" class="u-nav-item"><a role="menuitem"
-                            class="u-active-white u-border-2 u-border-active-white u-border-hover-white u-border-white u-button-style u-hover-white u-nav-link u-radius u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-1-base u-white"
-                            style="--radius: 10px; padding: 10px 0px;">Іспанська мода</a>
-                    </li>
-                    <li role="none" class="u-nav-item"><a role="menuitem"
-                            class="u-active-white u-border-2 u-border-active-white u-border-hover-white u-border-white u-button-style u-hover-white u-nav-link u-radius u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-1-base u-white"
-                            style="--radius: 10px; padding: 10px 0px;">Футбол</a>
-                    </li>
-                    <li role="none" class="u-nav-item"><a role="menuitem"
-                            class="u-active-white u-border-2 u-border-active-white u-border-hover-white u-border-white u-button-style u-hover-white u-nav-link u-radius u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-1-base u-white"
-                            href="Новини.html" style="--radius: 10px; padding: 10px 0px;">Новини</a>
-                    </li>
-                    <li role="none" class="u-nav-item"><a role="menuitem"
-                            class="u-active-white u-border-2 u-border-active-white u-border-hover-white u-border-white u-button-style u-hover-white u-nav-link u-radius u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-1-base u-white"
-                            href="#" style="--radius: 10px; padding: 10px 0px;">Контакти</a>
-                    </li>
-                    <li role="none" class="u-nav-item"><a role="menuitem"
-                            class="u-active-white u-border-2 u-border-active-white u-border-hover-white u-border-white u-button-style u-hover-white u-nav-link u-radius u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-1-base u-white"
-                            href="./#sec-01a3" data-page-id="95916876"
-                            style="--radius: 10px; padding: 10px 0px;">Партнери</a>
-                    </li>
+                {% endfor %}
+                    
                 </ul>
             </div>
         </nav>
