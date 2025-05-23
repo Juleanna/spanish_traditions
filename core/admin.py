@@ -3,7 +3,7 @@ from .models import Page, GalleryItem, News, Section, Card, Partner, ContactInfo
 from modeltranslation.admin import TabbedTranslationAdmin
 
 @admin.register(Page)
-class PageAdmin(admin.ModelAdmin):
+class PageAdmin(TabbedTranslationAdmin):
     list_display = ('title', 'slug', 'is_active', 'menu_order', 'parent', 'created_at', 'updated_at')
     list_filter = ('is_active', 'created_at', 'updated_at', 'parent')
     search_fields = ('title', 'content', 'slug')
@@ -11,8 +11,9 @@ class PageAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
     list_editable = ('is_active', 'menu_order')
 
+
 @admin.register(GalleryItem)
-class GalleryItemAdmin(admin.ModelAdmin):
+class GalleryItemAdmin(TabbedTranslationAdmin):
     list_display = ('title', 'category', 'is_active', 'display_order', 'created_at', 'updated_at')
     list_filter = ('is_active', 'category', 'created_at', 'updated_at')
     search_fields = ('title', 'description', 'category')
@@ -21,9 +22,12 @@ class GalleryItemAdmin(admin.ModelAdmin):
 
 @admin.register(News)
 class NewsAdmin(TabbedTranslationAdmin):
-    list_display = ('title', 'content_short')  # пример полей для отображения
-    search_fields = ('title', 'content')       # поля для поиска
-
+    list_display = ('title', 'slug', 'is_active', 'published_date', 'created_at', 'updated_at')
+    list_filter = ('is_active', 'published_date', 'created_at', 'updated_at')
+    search_fields = ('title', 'content', 'slug')
+    ordering = ('-published_date',)
+    prepopulated_fields = {"slug": ("title",)}
+    list_editable = ('is_active',)
     def content_short(self, obj):
         return obj.content[:50] + '...' if len(obj.content) > 50 else obj.content
     content_short.short_description = 'Content (short)'
@@ -34,25 +38,25 @@ class SectionAdmin(admin.ModelAdmin):
     list_display = ('title', 'display_order', 'is_active')  # добавь нужные поля
 
 @admin.register(Card)
-class CardAdmin(admin.ModelAdmin):
+class CardAdmin(TabbedTranslationAdmin):
     list_display = ('title', 'section', 'icon', 'display_order', 'is_active')
     list_filter = ('section', 'is_active')
     search_fields = ('title', 'description')
 
 @admin.register(Partner)
-class PartnerAdmin(admin.ModelAdmin):
+class PartnerAdmin(TabbedTranslationAdmin):
     list_display = ('name', 'website', 'is_active', 'created_at')
     list_filter = ('is_active',)
     search_fields = ('name', 'description')
 
 @admin.register(ContactInfo)
-class ContactInfoAdmin(admin.ModelAdmin):
+class ContactInfoAdmin(TabbedTranslationAdmin):
     list_display = ('store_name', 'phone', 'email', 'updated_at')
     search_fields = ('store_name', 'address', 'phone', 'email')
 
 
 @admin.register(MenuItem)
-class MenuItemAdmin(admin.ModelAdmin):
+class MenuItemAdmin(TabbedTranslationAdmin):
     list_display = ('title', 'page', 'url', 'parent', 'menu_order', 'is_active')
     list_filter = ('is_active',)
     ordering = ('menu_order',)

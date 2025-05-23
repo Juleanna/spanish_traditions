@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'core',
     'rosetta',
     'taggit',
-    'django_ckeditor_5',
+    'ckeditor',
+    'ckeditor_uploader',  # для загрузки изображений (опционально) 
     
 ]
 
@@ -158,101 +159,81 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-CKEDITOR_5_UPLOAD_URL = "/upload/"
-customColorPalette = [
-    {'color': 'hsl(4, 90%, 58%)', 'label': 'Red'},
-    {'color': 'hsl(340, 82%, 52%)', 'label': 'Pink'},
-    {'color': 'hsl(291, 64%, 42%)', 'label': 'Purple'},
-    {'color': 'hsl(262, 52%, 47%)', 'label': 'Deep Purple'},
-    {'color': 'hsl(231, 48%, 48%)', 'label': 'Indigo'},
-    {'color': 'hsl(207, 90%, 54%)', 'label': 'Blue'},
-]
-CKEDITOR_5_CUSTOM_CSS = '/static/css/custom_ckeditor.css'
-CKEDITOR_5_CONFIGS = {
-    'default': {
-        'toolbar': [
-                    'heading', '|',
-                    'bold', 'italic', 'underline', '|',
-                    'fontSize', 'fontFamily', '|',
-                    'fontColor', 'fontBackgroundColor', '|',
-                    'alignment', '|',
-                    'bulletedList', 'numberedList', '|',
-                    'insertTable', 'imageUpload', '|',
-                    'mediaEmbed', '|',
-                    'sourceEditing'
-                ],
+CKEDITOR_UPLOAD_PATH = "uploads/"
+# Максимальный размер загружаемых файлов
+CKEDITOR_IMAGE_BACKEND = "pillow"
+CKEDITOR_RESTRICT_BY_USER = True  # Ограничить доступ к файлам текущего пользователя (опционально)
+CKEDITOR_ALLOW_NONIMAGE_FILES = False  # Разрешить только изображения
 
-        'height': 300,
-        'width': '600px',
-        'language': 'ru',
-        'fontSize': {
-            'options': ['tiny', 'small', 'default', 'big', 'huge'],
-            'supportAllValues': False,
-        },
-        'fontFamily': {
-            'options': [
-                'default',
-                'Arial, Helvetica, sans-serif',
-                'Courier New, Courier, monospace',
-                'Georgia, serif',
-                'Lucida Sans Unicode, Lucida Grande, sans-serif',
-                'Tahoma, Geneva, sans-serif',
-                'Times New Roman, Times, serif',
-                'Trebuchet MS, Helvetica, sans-serif',
-                'Verdana, Geneva, sans-serif',
-            ],
-            'supportAllValues': True,
-        },
-        'alignment': {
-            'options': ['left', 'center', 'right', 'justify']
-        },
-        'table': {
-            'contentToolbar': [
-                'tableColumn', 'tableRow', 'mergeTableCells',
-                'tableProperties', 'tableCellProperties'
-            ],
-            'tableProperties': {
-                'borderColors': customColorPalette,
-                'backgroundColors': customColorPalette,
-            },
-            'tableCellProperties': {
-                'borderColors': customColorPalette,
-                'backgroundColors': customColorPalette,
-            }
-        },
-        'image': {
-            'toolbar': [
-                'imageTextAlternative', '|',
-                'imageStyle:alignLeft',
-                'imageStyle:alignCenter',
-                'imageStyle:alignRight',
-                'imageStyle:roundedCorners',  # наш кастомный стиль
-                '|',
-                'resizeImage',
-                'toggleImageCaption',
-                'imageResize',
-                'imageBorder',
-                'imageShadow',
-            ],
-            'styles': [
-                'full',
-                'side',
-                'alignLeft',
-                'alignCenter',
-                'alignRight',
-                'roundedCorners',  # объявляем стиль для закругления углов
-            ],
-        },
-        'heading': {
-            'options': [
-                {'model': 'paragraph', 'title': 'Абзац', 'class': 'ck-heading_paragraph'},
-                {'model': 'heading1', 'view': 'h1', 'title': 'Заголовок 1', 'class': 'ck-heading_heading1'},
-                {'model': 'heading2', 'view': 'h2', 'title': 'Заголовок 2', 'class': 'ck-heading_heading2'},
-                {'model': 'heading3', 'view': 'h3', 'title': 'Заголовок 3', 'class': 'ck-heading_heading3'},
-            ]
-        },
+CKEDITOR_CONFIGS = {
+    'default': {
+        'skin': 'moono',
+        # 'skin': 'office2013',
+        'toolbar_Basic': [
+            ['Source', '-', 'Bold', 'Italic']
+        ],
+        'toolbar_YourCustomToolbarConfig': [
+            {'name': 'document', 'items': ['Source', '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates']},
+            {'name': 'clipboard', 'items': ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
+            {'name': 'editing', 'items': ['Find', 'Replace', '-', 'SelectAll']},
+            {'name': 'forms',
+             'items': ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton',
+                       'HiddenField']},
+            '/',
+            {'name': 'basicstyles',
+             'items': ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
+            {'name': 'paragraph',
+             'items': ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-',
+                       'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl',
+                       'Language']},
+            {'name': 'links', 'items': ['Link', 'Unlink', 'Anchor']},
+            {'name': 'insert',
+             'items': ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe']},
+            '/',
+            {'name': 'styles', 'items': ['Styles', 'Format', 'Font', 'FontSize']},
+            {'name': 'colors', 'items': ['TextColor', 'BGColor']},
+            {'name': 'tools', 'items': ['Maximize', 'ShowBlocks']},
+            {'name': 'about', 'items': ['About']},
+            '/',  # put this to force next toolbar on new line
+            {'name': 'yourcustomtools', 'items': [
+                # put the name of your editor.ui.addButton here
+                'Preview',
+                'Maximize',
+                
+
+            ]},
+        ],
+        'image2_alignClasses': ['align-left', 'align-center', 'align-right'],
+        'toolbar': 'YourCustomToolbarConfig',  # put selected toolbar config here
+        # 'toolbarGroups': [{ 'name': 'document', 'groups': [ 'mode', 'document', 'doctools' ] }],
+        # 'height': 291,
+        # 'width': '100%',
+        # 'filebrowserWindowHeight': 725,
+        # 'filebrowserWindowWidth': 940,
+        # 'toolbarCanCollapse': True,
+        # 'mathJaxLib': '//cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML',
+        'tabSpaces': 4,
+        'extraPlugins': ','.join([
+            'uploadimage', # the upload image feature
+            # your extra plugins here
+            'div',
+            'justify',
+            'autolink',
+            'autoembed',
+            'embedsemantic',
+            'autogrow',
+            # 'devtools',
+            'widget',
+            'lineutils',
+            'clipboard',
+            'dialog',
+            'dialogui',
+            'elementspath'
+        ]),
     }
 }
+
+
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'spanishtraditions-production.up.railway.app']
 CSRF_TRUSTED_ORIGINS = ['https://spanishtraditions-production.up.railway.app']
 

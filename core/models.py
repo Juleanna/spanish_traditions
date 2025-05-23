@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from taggit.managers import TaggableManager
-from django_ckeditor_5.fields import CKEditor5Field
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.urls import reverse
 
 def page_image_upload_to(instance, filename):
@@ -11,7 +11,7 @@ def page_image_upload_to(instance, filename):
 class Page(models.Model):
     title = models.CharField(_("Заголовок"), max_length=255)
     slug = models.SlugField(_("URL"), unique=True, allow_unicode=True)
-    content = CKEditor5Field(_("Зміст"), config_name='default')
+    content = RichTextUploadingField(_("Зміст"), config_name='default')
     parent = models.ForeignKey(
         'self', on_delete=models.SET_NULL, null=True, blank=True,
         related_name="children", verbose_name=_("Батьківська сторінка")
@@ -42,7 +42,7 @@ def gallery_upload_to(instance, filename):
 class GalleryItem(models.Model):
     title = models.CharField(_("Назва"), max_length=255)
     image = models.ImageField(_("Зображення"), upload_to=gallery_upload_to)
-    description = models.TextField(_("Опис"), blank=True, null=True)
+    description = RichTextUploadingField(_("Опис"), blank=True, null=True)
     category = models.CharField(_("Категорія"), max_length=255, blank=True, null=True)
     tags = TaggableManager(_("Теги"), blank=True)
     display_order = models.PositiveIntegerField(_("Порядок відображення"), default=0)
@@ -66,7 +66,7 @@ def news_upload_to(instance, filename):
 class News(models.Model):
     title = models.CharField(_("Заголовок"), max_length=255)
     slug = models.SlugField(_("URL"), unique=True, allow_unicode=True)
-    content = models.TextField(_("Контент"))
+    content = RichTextUploadingField(_("Контент"), config_name='default')
     image = models.ImageField(_("Зображення"), upload_to=news_upload_to, blank=True, null=True)
     tags = TaggableManager(_("Теги"), blank=True)
     published_date = models.DateTimeField(_("Дата публікації"), auto_now_add=True)
@@ -104,7 +104,7 @@ class Card(models.Model):
     section = models.ForeignKey(Section, on_delete=models.CASCADE, related_name="cards", verbose_name=_("Секція"))
     title = models.CharField(_("Заголовок"), max_length=255)
     icon = models.ImageField(_("Значок"), upload_to=icon_upload_to)
-    description = CKEditor5Field(_("Опис"))
+    description = RichTextUploadingField(_("Опис"))
     link = models.URLField(_("Посилання"), blank=True, null=True)
     link_text = models.CharField(_("Текст посилання"), max_length=255, default="Дізнатись більше")
     display_order = models.PositiveIntegerField(_("Порядок відображення"), default=0)
@@ -125,7 +125,7 @@ class Partner(models.Model):
     name = models.CharField(_("Назва партнера"), max_length=255)
     website = models.URLField(_("Сайт партнера"), blank=True, null=True)
     logo = models.ImageField(_("Логотип"), upload_to=logo_upload_to, blank=True, null=True)
-    description = models.TextField(_("Опис"), blank=True, null=True)
+    description = RichTextUploadingField(_("Опис"), blank=True, null=True)
     is_active = models.BooleanField(_("Активний"), default=True)
     created_at = models.DateTimeField(_("Створено"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Оновлено"), auto_now=True)

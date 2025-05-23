@@ -1,5 +1,0 @@
-/* Стиль для изображений с закругленными углами в CKEditor */
-.ck-content .ck-image-rounded {
-    border-radius: 15px; /* Радиус скругления углов */
-    overflow: hidden;    /* Чтобы края не выходили за границы */
-}

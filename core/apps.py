@@ -6,4 +6,5 @@ class CoreConfig(AppConfig):
     name = 'core'
 
     def ready(self):
-        import core.translation  # Убедитесь, что файл translation загружается
+        
+        import core.translation  # Регистрация моделей
