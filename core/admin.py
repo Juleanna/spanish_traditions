@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Page, GalleryItem, News, Section, Card, Partner, ContactInfo, MenuItem
-from modeltranslation.admin import TranslationAdmin
+from modeltranslation.admin import TabbedTranslationAdmin
 
 @admin.register(Page)
 class PageAdmin(admin.ModelAdmin):
@@ -20,13 +20,13 @@ class GalleryItemAdmin(admin.ModelAdmin):
     list_editable = ('is_active', 'display_order')
 
 @admin.register(News)
-class NewsAdmin(TranslationAdmin):
-    list_display = ('title', 'slug', 'is_active', 'published_date', 'created_at', 'updated_at')
-    list_filter = ('is_active', 'published_date', 'created_at', 'updated_at')
-    search_fields = ('title', 'content', 'slug')
-    ordering = ('-published_date',)
-    prepopulated_fields = {"slug": ("title",)}
-    list_editable = ('is_active',)
+class NewsAdmin(TabbedTranslationAdmin):
+    list_display = ('title', 'content_short')  # пример полей для отображения
+    search_fields = ('title', 'content')       # поля для поиска
+
+    def content_short(self, obj):
+        return obj.content[:50] + '...' if len(obj.content) > 50 else obj.content
+    content_short.short_description = 'Content (short)'
 
 
 @admin.register(Section)

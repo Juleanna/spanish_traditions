@@ -33,6 +33,7 @@ DEBUG = os.getenv("DEBUG", "False") == "True"
 # Application definition
 
 INSTALLED_APPS = [
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,7 +44,7 @@ INSTALLED_APPS = [
     'rosetta',
     'taggit',
     'django_ckeditor_5',
-    'modeltranslation',
+    
 ]
 
 MIDDLEWARE = [
@@ -254,3 +255,7 @@ CKEDITOR_5_CONFIGS = {
 }
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'spanishtraditions-production.up.railway.app']
 CSRF_TRUSTED_ORIGINS = ['https://spanishtraditions-production.up.railway.app']
+
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'uk'
+MODELTRANSLATION_LANGUAGES = ('uk', 'en')
+MODELTRANSLATION_FALLBACK_LANGUAGES = ('uk',)
