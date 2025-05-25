@@ -15,7 +15,7 @@ urlpatterns += i18n_patterns(
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
     path('gallery/', views.gallery, name='gallery'),
-    path('news/', views.news, name='news'),
+    path('news/', views.news_list, name='news'),
     re_path(r'^news/(?P<slug>[\w\-]+)/$', views.news_detail, name='news_detail'),
     re_path(r'^(?P<slug>[\w\-]+)/$', views.page_detail, name='page_detail'),
     path("ckeditor/", include("ckeditor_uploader.urls")),  # Подключаем CKEditor маршруты

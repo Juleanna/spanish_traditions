@@ -23,7 +23,8 @@
     <title>{% block title %}{% trans "Головна" %}{% endblock %}</title>
     <link rel="icon" href="{% static 'images/favicon.png' %}">
     <link rel="stylesheet" href="{% static 'css/nicepage.css' %}" media="screen">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}" media="screen">
+    {% block extra_css %}{% endblock %}
+    
     <script class="u-script" type="text/javascript" src="{% static 'js/jquery.js' %}" defer></script>
     <script class="u-script" type="text/javascript" src="{% static 'js/nicepage.js' %}" defer></script>
     <link id="u-theme-google-font" rel="stylesheet"

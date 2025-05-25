@@ -23,13 +23,15 @@ def home(request):
 def gallery(request):
     return render(request, 'core/gallery.html', {})
 
-def news(request):
-    return render(request, 'core/news.html', {})
+
+def news_list(request):
+    news = News.objects.filter(is_active=True).order_by('-published_date') 
+    return render(request, 'core/news/news.html', {'news': news})
 
 
 def news_detail(request, slug):
-    news_item = get_object_or_404(News, slug=slug, is_active=True)
-    return render(request, 'core/news_detail.html', {'news': news_item})
+    news_item = get_object_or_404(News, slug=slug, is_active=True)  
+    return render(request, 'core/news/news_detail.html', {'news_item': news_item})
 
 def page_detail(request, slug):
     """
