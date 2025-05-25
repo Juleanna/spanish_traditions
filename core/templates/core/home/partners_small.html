@@ -1,3 +1,4 @@
+{% load custom_filters %}
 <section class="u-clearfix u-container-align-center u-white u-section-5" id="sec-01a3">
     <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
         <h2 class="u-align-center u-text u-text-1">Партнери </h2>
@@ -12,7 +13,7 @@
                             style="background-image: url('{{ partner.logo.url }}'); background-position: 50% 50%; width: 154px; height: 154px; margin: 0 auto;">
                         </div>
                         <h5 class="u-align-center u-text u-text-2">{{ partner.name }}</h5>
-                        <p class="u-align-center u-text u-text-3">{{ partner.description }}</p>
+                        <p class="u-align-center u-text u-text-3">{{ partner.description|truncatehtml:50 }}</p>
 
                     </div>
                 </div>
