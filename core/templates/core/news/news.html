@@ -1,36 +1,50 @@
 {% extends 'core/base.html' %}
 {% load static %}
 {% load i18n %}
-{% block title %}Новости{% endblock %}
+{% load custom_filters %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/news.css' %}" media="screen">
+{% endblock %}
+{% block title %}{% trans "Новини" %}{% endblock %}
 {% block content %}
-    <section class="u-align-center u-clearfix u-container-align-center u-section-1" src="" id="carousel_3dba" data-image-width="1980" data-image-height="878">
-      <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
-        <h1 class="u-align-center u-text u-text-default u-text-1" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="0">Новини</h1>
-      </div>
-    </section>
-    <section class="u-clearfix u-section-2">
-      <div class="u-clearfix u-sheet u-sheet-1">
+<section class="u-align-center u-clearfix u-container-align-center u-section-1" src="" id="carousel_3dba"
+    data-image-width="1980" data-image-height="878">
+    <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
+        <h1 class="u-align-center u-text u-text-default u-text-1" data-animation-name="customAnimationIn"
+            data-animation-duration="1500" data-animation-delay="0">{% trans "Новини" %}</h1>
+    </div>
+</section>
+<section class="u-clearfix u-section-2">
+    <div class="u-clearfix u-sheet u-sheet-1">
         <div class="data-layout-selected u-clearfix u-expanded-width u-gutter-30 u-layout-wrap u-layout-wrap-1">
-           {% for item in news %}
+            {% for item in news %}
             <div class="u-layout">
-            <div class="u-layout-row">
-              <div class="u-align-center u-container-align-center u-container-style u-image u-image-round u-layout-cell u-left-cell u-radius u-size-23-lg u-size-23-xl u-size-29-md u-size-29-sm u-size-29-xs u-image-1" data-image-width="283" data-image-height="425">
-                <div class="u-container-layout u-valign-middle u-container-layout-1"></div>
-              </div>
-              <div class="u-align-center-sm u-align-center-xs u-align-left-lg u-align-left-md u-align-left-xl u-container-style u-layout-cell u-right-cell u-size-31-md u-size-31-sm u-size-31-xs u-size-37-lg u-size-37-xl u-layout-cell-2">
-                <div class="u-container-layout u-valign-middle u-container-layout-2">
-                  <h2 class="u-text u-text-1">{{ item.title }}</h2>
-                   {% if item.image %}
-                    <img src="{{ item.image.url }}" alt="{{ item.title }}" style="max-width: 200px;">
-                {% endif %}
-                  <p class="u-text u-text-2">{{ item.content|truncatewords:30 }}p>
-                  <a href="#" class="u-active-palette-1-dark-3 u-border-none u-btn u-btn-round u-button-style u-hover-palette-1-dark-3 u-palette-1-base u-radius u-btn-1" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction="">читать далее</a>
+                <div class="u-layout-row">
+                    {% if item.image %}
+                    <div class="u-align-center u-container-align-center u-container-style u-image u-image-round u-layout-cell u-left-cell u-radius u-size-23-lg u-size-23-xl u-size-29-md u-size-29-sm u-size-29-xs u-image-1"
+                        data-image-width="283" data-image-height="425"
+                        style="background-image: url({{ item.image.url }}); background-size: cover;">
+                        <div class="u-container-layout u-valign-middle u-container-layout-1"></div>
+                    </div>
+                    {% endif %}
+                    <div
+                        class="u-align-center-sm u-align-center-xs u-align-left-lg u-align-left-md u-align-left-xl u-container-style u-layout-cell u-right-cell u-size-31-md u-size-31-sm u-size-31-xs u-size-37-lg u-size-37-xl u-layout-cell-2">
+                        <div class="u-container-layout u-valign-middle u-container-layout-2">
+                            <h2 class="u-text u-text-1">{{ item.title }}</h2>
+
+                            <p class="u-text u-text-2">{{ item.content|truncatehtml:20 }}</p>
+                            {% if item.slug %}
+                            <a href="{% url 'news_detail' slug=item.slug %}"
+                                class="u-active-palette-1-dark-3 u-border-none u-btn u-btn-round u-button-style u-hover-palette-1-dark-3 u-palette-1-base u-radius u-btn-1"
+                                data-animation-name="" data-animation-duration="0" data-animation-delay="0"
+                                data-animation-direction="">{% trans "читать далее" %}</a>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
-           {% endfor %}
+            {% endfor %}
         </div>
-      </div>
-    </section>
+    </div>
+</section>
 {% endblock %}

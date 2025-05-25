@@ -1,0 +1,21 @@
+{% extends 'core/base.html' %}
+{% load i18n %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}" media="screen">
+{% endblock %}
+
+{% block title %}{{ news_item.title }}{% endblock %}
+
+{% block content %}
+
+    
+ {% if news_item.image %}
+        <img src="{{ news_item.image.url }}" alt="{{ news_item.title }}" style="max-width: 100%; display: block; margin-left: auto;  margin-right: auto;border-radius: 20px;">
+{% endif %}
+
+<div class="page-content u-clearfix u-sheet u-sheet-1 u-valign-middle-lg u-valign-middle-md u-valign-middle-sm u-valign-middle-xs">
+    {{ news_item.content|safe }}
+</div>
+
+{% endblock %}
