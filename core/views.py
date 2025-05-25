@@ -2,7 +2,7 @@ from django.shortcuts import render
 from datetime import datetime
 from .models import Section, News, GalleryItem, Partner,ContactInfo, Page
 from django.shortcuts import get_object_or_404
-
+from django.core.mail import send_mail
 
 def home(request):
     sections = Section.objects.filter(is_active=True).prefetch_related('cards').order_by('display_order')
@@ -21,7 +21,8 @@ def home(request):
 
 
 def gallery(request):
-    return render(request, 'core/gallery.html', {})
+    images = GalleryItem.objects.all()
+    return render(request, 'core/gallery.html', {'images': images})
 
 
 def news_list(request):
@@ -39,3 +40,30 @@ def page_detail(request, slug):
     """
     page = get_object_or_404(Page, slug=slug, is_active=True)
     return render(request, 'core/page_detail.html', {'page': page})
+
+
+def contact_page_view(request):
+    success_message = None  # Сообщение об успехе или ошибке
+
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        message = request.POST.get('message')
+        
+        if name and email and message:
+            try:
+                send_mail(
+                    subject=f"Новое сообщение от {name}",
+                    message=f"Имя: {name}\nEmail: {email}\nТелефон: {phone}\nСообщение:\n{message}",
+                    from_email=email,
+                    recipient_list=['your_email@gmail.com'],  # Ваш email
+                )
+                success_message = "Ваше сообщение успешно отправлено!"
+            except Exception as e:
+                success_message = f"Ошибка при отправке сообщения: {str(e)}"
+        else:
+            success_message = "Все поля должны быть заполнены!"
+    
+    return render(request, "core/contact_page.html", {'success_message': success_message})
+

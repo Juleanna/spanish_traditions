@@ -2,18 +2,14 @@
 {% load i18n %}
 {% load static %}
 {% block extra_css %}
-{% if page.slug == "контакти" %}
-    <link rel="stylesheet" href="{% static 'css/Contact.css' %}" media="screen">
-{% else %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}" media="screen">
-{% endif %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}" media="screen">
 {% endblock %}
 
 {% block title %}{{ page.title }}{% endblock %}
 
 {% block content %}
 <div class="page-content">
-    {{ page.slug }}
+    
     {{ page.content|safe }}
 </div>
 {% endblock %}

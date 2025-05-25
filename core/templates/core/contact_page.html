@@ -1,0 +1,107 @@
+{% extends 'core/base.html' %}
+{% load i18n %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/Contact.css' %}" media="screen">
+{% endblock %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+<section class="u-clearfix u-container-align-center u-grey-5 u-valign-middle u-section-1" id="carousel_ddcd"
+    data-image-width="1500" data-image-height="1071">
+    <div class="custom-expanded data-layout-selected u-clearfix u-gutter-30 u-layout-wrap u-layout-wrap-1">
+        <div class="u-layout">
+            <div class="u-layout-row">
+                <div class="u-align-left u-container-align-left u-container-style u-layout-cell u-radius u-shape-round u-size-30 u-white u-layout-cell-1 animated customAnimationIn-played"
+                    data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="200"
+                    style="will-change: transform, opacity; animation-duration: 1500ms;">
+                    <div class="u-container-layout u-valign-top u-container-layout-1">
+                        <h3 class="u-align-left u-text u-text-default u-text-1">{% trans "Наш головний офіс" %}</h3>
+                        <div class="custom-expanded u-layout-grid u-list u-list-1">
+                            <div class="u-repeater u-repeater-1">
+                                <div class="u-container-align-left u-container-style u-list-item u-repeater-item">
+                                    <div
+                                        class="u-container-layout u-similar-container u-valign-top u-container-layout-2">
+                                        <h6 class="u-align-left u-text u-text-default u-text-2">{% trans "Київ" %}</h6>
+                                        <p class="u-align-left u-text u-text-default u-text-3">
+                                            {% trans "вул. Іспанська, 12, 01001" %}</p>
+                                    </div>
+                                </div>
+                                <div class="u-container-align-left u-container-style u-list-item u-repeater-item">
+                                    <div
+                                        class="u-container-layout u-similar-container u-valign-top u-container-layout-3">
+                                        <h6 class="u-align-left u-text u-text-default u-text-4">
+                                            {% trans "Номер телефона" %}</h6>
+                                                <p class="u-align-left u-text u-text-default u-text-5"> 
+                                                    +38 (044) s123-45-67
+                                                    {% trans "(безкоштовно)" %}</p>
+                                    </div>
+                                </div>
+                                <div class="u-container-align-left u-container-style u-list-item u-repeater-item">
+                                    <div
+                                        class="u-container-layout u-similar-container u-valign-top u-container-layout-4">
+                                        <h6 class="u-align-left u-text u-text-default u-text-6">
+                                            {% trans "Електронна пошта" %}</h6>
+                                        <p class="u-align-left u-text u-text-default u-text-7">
+                                            info@espana-tradiciones.com.ua</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="u-align-center u-container-align-center u-container-style u-layout-cell u-radius u-shape-round u-size-30 u-white u-layout-cell-2 animated customAnimationIn-played"
+                    data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="200"
+                    data-animation-direction="" style="will-change: transform, opacity; animation-duration: 1500ms;">
+                    <div class="u-container-layout u-valign-top u-container-layout-5">
+                        <div class="u-align-left u-form u-form-1">
+   <form action="" class="u-clearfix u-form-spacing-28 u-form-vertical u-inner-form" style="padding: 0px;" source="email" name="form" data-np-intersection-state="visible" data-np-autofill-form-type="identity" data-np-checked="1" data-np-watching="1">
+                    <input type="hidden" id="siteId" name="siteId" value="6505258">
+                    <input type="hidden" id="pageId" name="pageId" value="115402302">
+                    <h3 class="u-form-group u-form-text u-text u-text-8">Contact Us</h3>
+                    <div class="u-form-group u-form-name u-form-partition-factor-2">
+                      <label class="u-form-control-hidden u-label">Name</label>
+                      <input type="text" placeholder="Enter your Name" id="name-5a14" name="name" class="u-border-2 u-border-grey-75 u-border-no-left u-border-no-right u-border-no-top u-input u-input-rectangle" required="" data-np-intersection-state="observed" data-np-autofill-field-type="fullName" data-np-uid="ebdda66c-3f86-4767-aeb8-adac0fe651ec">
+                      <nordpass-icon style="all: initial !important;"></nordpass-icon>
+                    </div>
+                    <div class="u-form-email u-form-group u-form-partition-factor-2">
+                      <label class="u-form-control-hidden u-label">Email</label>
+                      <input type="email" placeholder="Enter a valid email address" id="email-5a14" name="email" class="u-border-2 u-border-grey-75 u-border-no-left u-border-no-right u-border-no-top u-input u-input-rectangle" required="" data-np-intersection-state="observed" data-np-autofill-field-type="email" data-np-uid="bbc4af7c-6fe0-48c2-b2be-a827e68410ec">
+                      <nordpass-icon style="all: initial !important;"></nordpass-icon>
+                    </div>
+                    <div class="u-form-group u-form-phone u-form-group-4">
+                      <label class="u-label">Phone</label>
+                      <input type="tel" placeholder="Enter your phone (e.g. +14155552675)" id="phone-838e" name="phone" class="u-border-2 u-border-grey-75 u-border-no-left u-border-no-right u-border-no-top u-input u-input-rectangle" required="" data-np-intersection-state="observed" data-np-autofill-field-type="phone" data-np-uid="f770ad93-bf81-4c08-9e62-5c6f2d14dffe">
+                      <nordpass-icon style="all: initial !important;"></nordpass-icon>
+                    </div>
+                    <div class="u-form-group u-form-message">
+                      <label class="u-form-control-hidden u-label">Message</label>
+                      <textarea placeholder="" id="message-5a14" name="message" class="u-border-2 u-border-grey-75 u-border-no-left u-border-no-right u-border-no-top u-input u-input-rectangle" required="" data-np-intersection-state="observed"></textarea>
+                    </div>
+                    <div class="u-form-agree u-form-group">
+                      <label class="u-field-label" style=""></label>
+                      <input type="checkbox" id="agree-5f06" name="agree" class="u-agree-checkbox u-field-input" required="">
+                      <label class="u-agree-label u-field-label">I accept the <a class="u-active-none u-border-none u-btn u-button-link u-button-style u-hover-none u-none u-text-palette-1-base u-btn-1" href="#">Terms of Service</a>
+                      </label>
+                    </div>
+                    <div class="u-align-left u-form-group u-form-submit">
+                      <a href="#" class="u-active-black u-border-none u-btn u-btn-round u-btn-submit u-button-style u-hover-black u-palette-1-base u-radius-50 u-btn-2"> Send Message</a>
+                      <input type="submit" value="submit" class="u-form-control-hidden">
+                    </div>
+                    <div class="u-form-send-message u-form-send-success">Дякую! Ваше повідомлення відправлене.</div>
+                    <div class="u-form-send-error u-form-send-message">Відправлення не вдалося. Будь-ласка, виправте помилки і спробуйте ще раз.</div>
+                    <input type="hidden" value="" name="recaptchaResponse">
+                    <input type="hidden" name="formServices" value="d368c794-a4cc-4bf9-21d3-8b97e02a5c52">
+                    <input type="hidden" name="siteKey" value="6LetPRgiAAAAAGX121nVdkYGTN-RfCXh4wAlbDFh">
+                  </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

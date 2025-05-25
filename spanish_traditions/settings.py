@@ -204,25 +204,18 @@ CKEDITOR_CONFIGS = {
             ]},
         ],
         'image2_alignClasses': ['align-left', 'align-center', 'align-right'],
-        'toolbar': 'YourCustomToolbarConfig',  # put selected toolbar config here
-        # 'toolbarGroups': [{ 'name': 'document', 'groups': [ 'mode', 'document', 'doctools' ] }],
-        # 'height': 291,
-        # 'width': '100%',
-        # 'filebrowserWindowHeight': 725,
-        # 'filebrowserWindowWidth': 940,
-        # 'toolbarCanCollapse': True,
-        # 'mathJaxLib': '//cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML',
+        'toolbar': 'YourCustomToolbarConfig',  
+       
         'tabSpaces': 4,
         'extraPlugins': ','.join([
-            'uploadimage', # the upload image feature
-            # your extra plugins here
+            'uploadimage', 
             'div',
             'justify',
             'autolink',
             'autoembed',
             'embedsemantic',
             'autogrow',
-            # 'devtools',
+           
             'widget',
             'lineutils',
             'clipboard',
@@ -235,8 +228,15 @@ CKEDITOR_CONFIGS = {
 
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'spanishtraditions-production.up.railway.app']
-CSRF_TRUSTED_ORIGINS = ['https://spanishtraditions-production.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://spanishtraditions-production.up.railway.app','http://127.0.0.1']
 
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'uk'
 MODELTRANSLATION_LANGUAGES = ('uk', 'en')
 MODELTRANSLATION_FALLBACK_LANGUAGES = ('uk',)
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Используйте ваш SMTP-сервер
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'juleannadafna@gmail.com'  # Ваш адрес электронной почты
+EMAIL_HOST_PASSWORD = '202020ck.cfhrf'  # Пароль от почты
