@@ -20,8 +20,7 @@ class Page(models.Model):
     meta_description = models.TextField(_("Метаопис"), blank=True, null=True)
     created_at = models.DateTimeField(_("Створено"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Оновлено"), auto_now=True)
-    image = models.ImageField(_("Зображення сторінки"), upload_to=page_image_upload_to, blank=True, null=True)
-
+    
     class Meta:
         ordering = ['menu_order']
         verbose_name = _("Сторінка")
