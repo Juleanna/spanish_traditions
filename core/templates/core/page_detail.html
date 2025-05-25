@@ -1,8 +1,15 @@
 {% extends 'core/base.html' %}
+{% load i18n %}
 {% load static %}
-{% block title %}Головна{% endblock %}
+
+{% block title %}{{ page.title }}{% endblock %}
 
 {% block content %}
-
-
+   
+    <div class="page-content">
+        {{ page.content|safe }}
+    </div>
+    {% if page.image %}
+        <img src="{{ page.image.url }}" alt="{{ page.title }}">
+    {% endif %}
 {% endblock %}

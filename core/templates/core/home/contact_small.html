@@ -1,3 +1,4 @@
+{% load i18n %}
 <section
     class="u-align-center u-clearfix u-container-align-center u-grey-80 u-valign-top-lg u-valign-top-md u-valign-top-sm u-valign-top-xs u-section-6"
     id="sec-b381">
@@ -17,7 +18,7 @@
 	C6.751,11.72,6.031,23.763,11.459,31L26,52l14.541-21C45.969,23.763,45.249,11.72,38.853,5.324z M26.177,24c-3.314,0-6-2.686-6-6
 	s2.686-6,6-6s6,2.686,6,6S29.491,24,26.177,24z"></path>
                         </svg></span>
-                    <h5 class="u-text u-text-1"> наш головний офіс</h5>
+                    <h5 class="u-text u-text-1"> {% trans "наш головний офіс" %}</h5>
                     <p class="u-text u-text-2">{{ contact_info.address }}</p>
                 </div>
             </div>
@@ -37,8 +38,8 @@
                                 </g>
                             </g>
                         </svg></span>
-                    <h5 class="u-text u-text-3">номер телефона</h5>
-                    <p class="u-text u-text-4">{{ contact_info.phone }} (бесплатный)
+                    <h5 class="u-text u-text-3">{% trans "номер телефона" %}</h5>
+                    <p class="u-text u-text-4">{{ contact_info.phone }} {% trans "(бесплатный)" %}
                     </p>
                 </div>
             </div>
@@ -59,7 +60,7 @@
                                 d="m87 227h-47c-22.091 0-40 17.909-40 40v205c0 22.091 17.909 40 40 40h47c22.091 0 40-17.909 40-40v-205c0-22.091-17.909-40-40-40z">
                             </path>
                         </svg></span>
-                    <h5 class="u-text u-text-5">Факс</h5>
+                    <h5 class="u-text u-text-5">{% trans "Факс" %}</h5>
                     <p class="u-text u-text-6">{{ contact_info.phone }}</p>
                 </div>
             </div>
@@ -100,14 +101,15 @@
                                 </g>
                             </g>
                         </svg></span>
-                    <h5 class="u-text u-text-7"> Електронна пошта</h5>
+                    <h5 class="u-text u-text-7">{% trans "Електронна пошта" %}</h5>
                     <p class="u-text u-text-8">
                         <a href="mailto:{{ contact_info.email }}"
-                            class="u-active-none u-border-1 u-border-no-left u-border-no-right u-border-no-top u-border-palette-1-base u-btn u-button-link u-button-style u-hover-none u-none u-text-palette-1-base u-btn-1">{{ contact_info.email }}</a>
+                            class="u-active-none u-border-1 u-border-no-left u-border-no-right u-border-no-top u-border-palette-1-base u-btn u-button-link u-button-style u-hover-none u-none u-text-palette-1-base u-btn-1">
+                            {{contact_info.email }}</a>
                     </p>
                 </div>
             </div>
-        {% endif %}
+            {% endif %}
         </div>
     </div>
 </section>
