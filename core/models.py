@@ -15,7 +15,6 @@ class Page(models.Model):
         'self', on_delete=models.SET_NULL, null=True, blank=True,
         related_name="children", verbose_name=_("Батьківська сторінка")
     )
-    menu_order = models.PositiveIntegerField(_("Порядок у меню"), default=0)
     is_active = models.BooleanField(_("Активна"), default=True)
     meta_description = models.TextField(_("Метаопис"), blank=True, null=True)
     created_at = models.DateTimeField(_("Створено"), auto_now_add=True)

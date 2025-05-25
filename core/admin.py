@@ -4,12 +4,11 @@ from modeltranslation.admin import TabbedTranslationAdmin
 
 @admin.register(Page)
 class PageAdmin(TabbedTranslationAdmin):
-    list_display = ('title', 'slug', 'is_active', 'menu_order', 'parent', 'created_at', 'updated_at')
+    list_display = ('title', 'slug', 'is_active',  'parent', 'created_at', 'updated_at')
     list_filter = ('is_active', 'created_at', 'updated_at', 'parent')
     search_fields = ('title', 'content', 'slug')
-    ordering = ('menu_order',)
     prepopulated_fields = {"slug": ("title",)}
-    list_editable = ('is_active', 'menu_order')
+    list_editable = ('is_active', )
 
 
 @admin.register(GalleryItem)
