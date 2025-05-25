@@ -5,29 +5,29 @@
             data-responsive-from="LG" role="navigation">
             <div class="u-custom-menu u-nav-container">
                 <ul class="u-nav u-spacing-30 u-unstyled u-nav-1" role="menubar">
-               {% for node in menu_tree %}
+                    {% for node in menu_tree %}
                     <li role="none" class="u-nav-item"><a role="menuitem"
                             class="u-active-white u-border-2 u-border-active-white u-border-hover-white u-border-white u-button-style u-hover-white u-nav-link u-radius u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-1-base u-white"
                             href="{{ node.item.get_url }}" style="--radius: 10px; padding: 10px 0px;">{{ node.item.title }}</a>
-                        {% if node.children %} 
+                        {% if node.children %}
                         <div class="u-nav-popup">
                             <ul role="menu"
                                 class="u-border-2 u-border-white u-custom-font u-font-roboto u-h-spacing-10 u-nav u-unstyled u-v-spacing-10 u-nav-2"
                                 aria-label="Традиції Іспанії menu">
                                 {% for child in node.children %}
                                 <li role="none" class="u-nav-item"><a role="menuitem"
-                                        class="u-button-style u-nav-link u-white" href="{{ child.item.get_url }}">{{ child.item.title }}</a>
-                                        {% if child.children %}
-                                                    {% include "core/menu.html" with menu_tree=child.children %}
-                                        {% endif %}
+                                        class="u-button-style u-nav-link u-white" href="{{ child.item.get_url }}">
+                                        {{child.item.title }}</a>
+                                    {% if child.children %}
+                                    {% include "core/menu.html" with menu_tree=child.children %}
+                                    {% endif %}
                                 </li>
                                 {% endfor %}
-                            </ul>
-                        </div>
+                            </ul>                        </div>
                         {% endif %}
                     </li>
-                {% endfor %}
-                    
+                    {% endfor %}
+
                 </ul>
             </div>
         </nav>

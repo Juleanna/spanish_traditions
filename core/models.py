@@ -7,7 +7,6 @@ from django.urls import reverse
 def page_image_upload_to(instance, filename):
     return f'pages/{instance.slug}/{filename}'
 
-
 class Page(models.Model):
     title = models.CharField(_("Заголовок"), max_length=255)
     slug = models.SlugField(_("URL"), unique=True, allow_unicode=True)
@@ -109,14 +108,22 @@ class Card(models.Model):
     link_text = models.CharField(_("Текст посилання"), max_length=255, default="Дізнатись більше")
     display_order = models.PositiveIntegerField(_("Порядок відображення"), default=0)
     is_active = models.BooleanField(_("Активна"), default=True)
+    page = models.ForeignKey(Page, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_("Сторінка"))
 
     class Meta:
         ordering = ['display_order']
         verbose_name = _("Карточка")
         verbose_name_plural = _("Карточки")
 
+    def save(self, *args, **kwargs):
+        # Если указана страница и поле `link` пустое, задаем ссылку на страницу
+        if self.page and not self.link:
+            self.link = self.page.get_absolute_url()
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.title
+
 
 def logo_upload_to(instance, filename):
     return f'partners/{instance.name}_{filename}'

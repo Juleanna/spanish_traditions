@@ -16,7 +16,7 @@ class GalleryItemTranslationOptions(TranslationOptions):
     fields = ('title', 'description') 
 
 class CardTranslationOptions(TranslationOptions):
-    fields = ('title', 'description') 
+    fields = ('title', 'description','link_text') 
 
 class PartnerTranslationOptions(TranslationOptions):
     fields = ('name', 'description') 

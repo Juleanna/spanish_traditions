@@ -39,8 +39,9 @@ class SectionAdmin(admin.ModelAdmin):
 
 @admin.register(Card)
 class CardAdmin(TabbedTranslationAdmin):
-    list_display = ('title', 'section', 'icon', 'display_order', 'is_active')
+    list_display = ('title', 'section', 'is_active', 'display_order', 'page', 'link')
     list_filter = ('section', 'is_active')
+    fields = ('section', 'title', 'icon', 'description', 'page', 'link', 'link_text', 'display_order', 'is_active')
     search_fields = ('title', 'description')
 
 @admin.register(Partner)

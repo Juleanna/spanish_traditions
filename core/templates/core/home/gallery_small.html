@@ -1,6 +1,7 @@
+{% load i18n %}
 <section class="u-align-center u-clearfix u-container-align-center u-grey-5 u-valign-bottom u-section-4"
     id="carousel_4fcd">
-    <h2 class="u-align-center u-text u-text-default u-text-1">Галерея</h2>
+    <h2 class="u-align-center u-text u-text-default u-text-1">{% trans "Галерея" %}</h2>
     <div class="u-expanded-width u-gallery u-layout-grid u-lightbox u-no-transition u-show-text-none u-gallery-1">
         <div class="u-gallery-inner u-gallery-inner-1">
             {% for photo in latest_photos %}
