@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-25 17:26+0300\n"
+"POT-Creation-Date: 2025-05-25 20:45+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,12 +21,12 @@ msgstr ""
 "100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
 "(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 
-#: .\core\models.py:11 .\core\models.py:66 .\core\models.py:104
-#: .\core\models.py:171
+#: .\core\models.py:11 .\core\models.py:64 .\core\models.py:102
+#: .\core\models.py:169
 msgid "Заголовок"
 msgstr ""
 
-#: .\core\models.py:12 .\core\models.py:67
+#: .\core\models.py:12 .\core\models.py:65
 msgid "URL"
 msgstr ""
 
@@ -38,212 +38,206 @@ msgstr ""
 msgid "Батьківська сторінка"
 msgstr ""
 
-#: .\core\models.py:18
-msgid "Порядок у меню"
-msgstr ""
-
-#: .\core\models.py:19 .\core\models.py:48 .\core\models.py:72
-#: .\core\models.py:92 .\core\models.py:110 .\core\models.py:161
-#: .\core\models.py:176
+#: .\core\models.py:18 .\core\models.py:46 .\core\models.py:70
+#: .\core\models.py:90 .\core\models.py:108 .\core\models.py:159
+#: .\core\models.py:174
 msgid "Активна"
 msgstr ""
 
-#: .\core\models.py:20
+#: .\core\models.py:19
 msgid "Метаопис"
 msgstr ""
 
-#: .\core\models.py:21 .\core\models.py:49 .\core\models.py:73
-#: .\core\models.py:137 .\core\models.py:159
+#: .\core\models.py:20 .\core\models.py:47 .\core\models.py:71
+#: .\core\models.py:135 .\core\models.py:157
 msgid "Створено"
 msgstr ""
 
-#: .\core\models.py:22 .\core\models.py:50 .\core\models.py:74
-#: .\core\models.py:138 .\core\models.py:160
+#: .\core\models.py:21 .\core\models.py:48 .\core\models.py:72
+#: .\core\models.py:136 .\core\models.py:158
 msgid "Оновлено"
 msgstr ""
 
-#: .\core\models.py:23
-msgid "Зображення сторінки"
-msgstr ""
-
-#: .\core\models.py:27 .\core\models.py:111 .\core\models.py:172
+#: .\core\models.py:25 .\core\models.py:109 .\core\models.py:170
 msgid "Сторінка"
 msgstr ""
 
-#: .\core\models.py:28
+#: .\core\models.py:26
 msgid "Сторінки"
 msgstr ""
 
-#: .\core\models.py:42 .\core\models.py:90
+#: .\core\models.py:40 .\core\models.py:88
 msgid "Назва"
 msgstr ""
 
-#: .\core\models.py:43 .\core\models.py:69
+#: .\core\models.py:41 .\core\models.py:67
 msgid "Зображення"
 msgstr ""
 
-#: .\core\models.py:44 .\core\models.py:106 .\core\models.py:135
+#: .\core\models.py:42 .\core\models.py:104 .\core\models.py:133
 msgid "Опис"
 msgstr ""
 
-#: .\core\models.py:45
+#: .\core\models.py:43
 msgid "Категорія"
 msgstr ""
 
-#: .\core\models.py:46 .\core\models.py:70
+#: .\core\models.py:44 .\core\models.py:68
 msgid "Теги"
 msgstr ""
 
-#: .\core\models.py:47 .\core\models.py:91 .\core\models.py:109
-#: .\core\models.py:139
+#: .\core\models.py:45 .\core\models.py:89 .\core\models.py:107
+#: .\core\models.py:137
 msgid "Порядок відображення"
 msgstr ""
 
-#: .\core\models.py:54
+#: .\core\models.py:52
 msgid "Елемент галереї"
 msgstr ""
 
-#: .\core\models.py:55
+#: .\core\models.py:53
 msgid "Елементи галереї"
 msgstr ""
 
-#: .\core\models.py:68
+#: .\core\models.py:66
 msgid "Контент"
 msgstr ""
 
-#: .\core\models.py:71
+#: .\core\models.py:69
 msgid "Дата публікації"
 msgstr ""
 
-#: .\core\models.py:78
+#: .\core\models.py:76
 msgid "Новина"
 msgstr ""
 
-#: .\core\models.py:79 .\core\templates\core\home\news_small.html:6
+#: .\core\models.py:77 .\core\templates\core\home\news_small.html:6
+#: .\core\templates\core\news\news.html:8
+#: .\core\templates\core\news\news.html:14
 msgid "Новини"
 msgstr ""
 
-#: .\core\models.py:95 .\core\models.py:103
+#: .\core\models.py:93 .\core\models.py:101
 msgid "Секція"
 msgstr ""
 
-#: .\core\models.py:96
+#: .\core\models.py:94
 msgid "Секції"
 msgstr ""
 
-#: .\core\models.py:99
+#: .\core\models.py:97
 msgid "Секція без назви"
 msgstr ""
 
-#: .\core\models.py:105
+#: .\core\models.py:103
 msgid "Значок"
 msgstr ""
 
-#: .\core\models.py:107 .\core\models.py:173
+#: .\core\models.py:105 .\core\models.py:171
 msgid "Посилання"
 msgstr ""
 
-#: .\core\models.py:108
+#: .\core\models.py:106
 msgid "Текст посилання"
 msgstr ""
 
-#: .\core\models.py:115
+#: .\core\models.py:113
 msgid "Карточка"
 msgstr ""
 
-#: .\core\models.py:116
+#: .\core\models.py:114
 msgid "Карточки"
 msgstr ""
 
-#: .\core\models.py:132
+#: .\core\models.py:130
 msgid "Назва партнера"
 msgstr ""
 
-#: .\core\models.py:133
+#: .\core\models.py:131
 msgid "Сайт партнера"
 msgstr ""
 
-#: .\core\models.py:134
+#: .\core\models.py:132
 msgid "Логотип"
 msgstr ""
 
-#: .\core\models.py:136
+#: .\core\models.py:134
 msgid "Активний"
 msgstr ""
 
-#: .\core\models.py:142
+#: .\core\models.py:140
 msgid "Партнер"
 msgstr ""
 
-#: .\core\models.py:143
+#: .\core\models.py:141
 msgid "Партнеры"
 msgstr ""
 
-#: .\core\models.py:151
+#: .\core\models.py:149
 msgid "Назва магазину"
 msgstr ""
 
-#: .\core\models.py:152
+#: .\core\models.py:150
 msgid "Адреса"
 msgstr ""
 
-#: .\core\models.py:153
+#: .\core\models.py:151
 msgid "Телефон"
 msgstr ""
 
-#: .\core\models.py:154 .\core\templates\core\home\contact_small.html:104
+#: .\core\models.py:152 .\core\templates\core\home\contact_small.html:103
 msgid "Електронна пошта"
 msgstr ""
 
-#: .\core\models.py:155
+#: .\core\models.py:153
 msgid "Робочий годинник"
 msgstr ""
 
-#: .\core\models.py:156
+#: .\core\models.py:154
 msgid "Facebook"
 msgstr ""
 
-#: .\core\models.py:157
+#: .\core\models.py:155
 msgid "Instagram"
 msgstr ""
 
-#: .\core\models.py:158
+#: .\core\models.py:156
 msgid "Twitter"
 msgstr ""
 
-#: .\core\models.py:164 .\core\models.py:165
+#: .\core\models.py:162 .\core\models.py:163
 msgid "Контактна інформація"
 msgstr ""
 
-#: .\core\models.py:173
+#: .\core\models.py:171
 msgid "Якщо вказано, використовуватиметься це посилання замість сторінки"
 msgstr ""
 
-#: .\core\models.py:174
+#: .\core\models.py:172
 msgid "Батько"
 msgstr ""
 
-#: .\core\models.py:175
+#: .\core\models.py:173
 msgid "Порядок"
 msgstr ""
 
-#: .\core\models.py:180
+#: .\core\models.py:178
 msgid "Пункт меню"
 msgstr ""
 
-#: .\core\models.py:181
+#: .\core\models.py:179
 msgid "Пункти меню"
 msgstr ""
 
-#: .\core\templates\core\base.html:23 .\core\templates\core\home.html:4
+#: .\core\templates\core\base.html:23 .\core\templates\core\home.html:7
 msgid "Головна"
 msgstr ""
 
-#: .\core\templates\core\base.html:60
+#: .\core\templates\core\base.html:61
 msgid "Іспанські традиції"
 msgstr ""
 
-#: .\core\templates\core\base.html:61
+#: .\core\templates\core\base.html:62
 msgid ""
 "кращі смаки та аромати Іспанії у вашому домі. © 2025. Усі права захищено"
 msgstr ""
@@ -257,31 +251,31 @@ msgstr ""
 msgid " Англійська"
 msgstr ""
 
-#: .\core\templates\core\home.html:10
+#: .\core\templates\core\home.html:13
 msgid "«Іс​панські традиції»"
 msgstr ""
 
-#: .\core\templates\core\home.html:11
+#: .\core\templates\core\home.html:14
 msgid "Ваш провідник у неповторний гастрономічний світ Іспанії."
 msgstr ""
 
-#: .\core\templates\core\home.html:14
+#: .\core\templates\core\home.html:17
 msgid "Читати Далі"
 msgstr ""
 
-#: .\core\templates\core\home\contact_small.html:21
+#: .\core\templates\core\home\contact_small.html:20
 msgid "наш головний офіс"
 msgstr ""
 
-#: .\core\templates\core\home\contact_small.html:41
+#: .\core\templates\core\home\contact_small.html:40
 msgid "номер телефона"
 msgstr ""
 
-#: .\core\templates\core\home\contact_small.html:42
+#: .\core\templates\core\home\contact_small.html:41
 msgid "(бесплатный)"
 msgstr ""
 
-#: .\core\templates\core\home\contact_small.html:63
+#: .\core\templates\core\home\contact_small.html:62
 msgid "Факс"
 msgstr ""
 
@@ -291,4 +285,8 @@ msgstr ""
 
 #: .\core\templates\core\home\news_small.html:21
 msgid "Дізнатись більше"
+msgstr ""
+
+#: .\core\templates\core\news\news.html:40
+msgid "читать далее"
 msgstr ""
