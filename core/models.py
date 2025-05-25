@@ -21,7 +21,7 @@ class Page(models.Model):
     updated_at = models.DateTimeField(_("Оновлено"), auto_now=True)
     
     class Meta:
-        ordering = ['menu_order']
+        
         verbose_name = _("Сторінка")
         verbose_name_plural = _("Сторінки")
 
