@@ -31,7 +31,6 @@
                         class="u-align-center-sm u-align-center-xs u-align-left-lg u-align-left-md u-align-left-xl u-container-style u-layout-cell u-right-cell u-size-31-md u-size-31-sm u-size-31-xs u-size-37-lg u-size-37-xl u-layout-cell-2">
                         <div class="u-container-layout u-valign-middle u-container-layout-2">
                             <h2 class="u-text u-text-1">{{ item.title }}</h2>
-
                             <p class="u-text u-text-2">{{ item.content|truncatehtml:20 }}</p>
                             {% if item.slug %}
                             <a href="{% url 'news_detail' slug=item.slug %}"
