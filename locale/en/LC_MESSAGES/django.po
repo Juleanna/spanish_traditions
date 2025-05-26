@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-25 20:45+0300\n"
+"POT-Creation-Date: 2025-05-26 10:33+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -182,7 +182,8 @@ msgstr ""
 msgid "Телефон"
 msgstr ""
 
-#: .\core\models.py:152 .\core\templates\core\home\contact_small.html:103
+#: .\core\models.py:152 .\core\templates\core\contact_page.html:46
+#: .\core\templates\core\home\contact_small.html:103
 msgid "Електронна пошта"
 msgstr ""
 
@@ -239,6 +240,26 @@ msgid ""
 "кращі смаки та аромати Іспанії у вашому домі. © 2025. Усі права захищено"
 msgstr ""
 
+#: .\core\templates\core\contact_page.html:21
+msgid "Наш головний офіс"
+msgstr ""
+
+#: .\core\templates\core\contact_page.html:27
+msgid "Київ"
+msgstr ""
+
+#: .\core\templates\core\contact_page.html:29
+msgid "вул. Іспанська, 12, 01001"
+msgstr ""
+
+#: .\core\templates\core\contact_page.html:36
+msgid "Номер телефона"
+msgstr ""
+
+#: .\core\templates\core\contact_page.html:39
+msgid "(безкоштовно)"
+msgstr ""
+
 #: .\core\templates\core\header\social_links.html:48
 #: .\core\templates\core\header\social_links.html:65
 msgid " Українська"
@@ -269,7 +290,7 @@ msgid "номер телефона"
 msgstr ""
 
 #: .\core\templates\core\home\contact_small.html:41
-msgid "(бесплатный)"
+msgid "(безкоштовний)"
 msgstr ""
 
 #: .\core\templates\core\home\contact_small.html:62
@@ -285,5 +306,5 @@ msgid "Дізнатись більше"
 msgstr ""
 
 #: .\core\templates\core\news\news.html:40
-msgid "читать далее"
+msgid "читати далі"
 msgstr ""
