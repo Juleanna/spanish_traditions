@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-26 10:33+0300\n"
+"POT-Creation-Date: 2025-05-28 16:00+0300\n"
 "PO-Revision-Date: 2025-05-26 10:54+0000\n"
 "Last-Translator:   <jueannadafna@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -240,8 +240,7 @@ msgstr "Spanish traditions"
 msgid ""
 "кращі смаки та аромати Іспанії у вашому домі. © 2025. Усі права захищено"
 msgstr ""
-"the best tastes and aromas of Spain in your home. © 2025. All rights "
-"reserved"
+"the best tastes and aromas of Spain in your home. © 2025. All rights reserved"
 
 #: .\core\templates\core\contact_page.html:21
 msgid "Наш головний офіс"
@@ -308,6 +307,12 @@ msgstr "Gallery"
 msgid "Дізнатись більше"
 msgstr "Learn more"
 
-#: .\core\templates\core\news\news.html:40
+#: .\core\templates\core\home\partners_small.html:5
+#, fuzzy
+#| msgid "Партнер"
+msgid "Партнери"
+msgstr "Partner"
+
+#: .\core\templates\core\news\news.html:39
 msgid "читати далі"
 msgstr "read more"

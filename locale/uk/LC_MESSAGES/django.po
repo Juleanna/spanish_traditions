@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-26 10:33+0300\n"
+"POT-Creation-Date: 2025-05-28 16:00+0300\n"
 "PO-Revision-Date: 2025-05-26 10:40+0000\n"
 "Last-Translator:   <jueannadafna@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,7 +16,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != "
+"11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % "
+"100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
+"(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 "X-Translated-Using: django-rosetta 0.10.2\n"
 
 #: .\core\models.py:11 .\core\models.py:64 .\core\models.py:102
@@ -307,6 +310,12 @@ msgstr "Галерея"
 msgid "Дізнатись більше"
 msgstr "Дізнатись більше"
 
-#: .\core\templates\core\news\news.html:40
+#: .\core\templates\core\home\partners_small.html:5
+#, fuzzy
+#| msgid "Партнер"
+msgid "Партнери"
+msgstr "Партнер"
+
+#: .\core\templates\core\news\news.html:39
 msgid "читати далі"
 msgstr "читати далі"
