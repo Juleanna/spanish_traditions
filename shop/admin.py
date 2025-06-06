@@ -22,7 +22,7 @@ class ProductImageInline(admin.TabularInline):
 
 
 @admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(TabbedTranslationAdmin):
     list_display = ('name', 'parent', 'is_active', 'display_order', 'products_count', 'created_at')
     list_filter = ('is_active', 'parent', 'created_at')
     search_fields = ('name', 'description')
@@ -36,7 +36,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 @admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
+class ProductAdmin(TabbedTranslationAdmin):
     list_display = ('name', 'category', 'price', 'discount_price', 'stock', 'is_available', 
                    'is_featured', 'rating', 'reviews_count', 'created_at')
     list_filter = ('category', 'is_available', 'is_featured', 'track_stock', 'country_origin', 'brand')

@@ -4,7 +4,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
 from decimal import Decimal
 from django.urls import reverse
-
+from ckeditor_uploader.fields import RichTextUploadingField
 
 def product_image_upload_to(instance, filename):
     product_slug = instance.product.slug if instance.product and instance.product.slug else 'no-slug'
@@ -14,7 +14,7 @@ def product_image_upload_to(instance, filename):
 class Category(models.Model):
     name = models.CharField(_("Назва категорії"), max_length=255)
     slug = models.SlugField(_("URL"), unique=True, allow_unicode=True)
-    description = models.TextField(_("Опис"), blank=True, null=True)
+    description = RichTextUploadingField(_("Опис"), blank=True, null=True)
     image = models.ImageField(_("Зображення"), upload_to='categories/', blank=True, null=True)
     parent = models.ForeignKey(
         'self', on_delete=models.CASCADE, null=True, blank=True,
@@ -40,7 +40,7 @@ class Category(models.Model):
 class Product(models.Model):
     name = models.CharField(_("Назва товару"), max_length=255)
     slug = models.SlugField(_("URL"), unique=True, allow_unicode=True)
-    description = models.TextField(_("Опис"))
+    description = RichTextUploadingField(_("Опис"))
     short_description = models.CharField(_("Короткий опис"), max_length=500, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products', verbose_name=_("Категорія"))
     price = models.DecimalField(_("Ціна"), max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal('0.01'))])
