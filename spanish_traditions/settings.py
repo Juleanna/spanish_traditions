@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'rosetta',
     'taggit',
     'ckeditor',
-    'ckeditor_uploader',  # для загрузки изображений (опционально) 
+    'ckeditor_uploader', 
+    'shop', 
     
 ]
 

@@ -1,0 +1,219 @@
+{% extends 'core/base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/shop.css' %}" media="screen">
+{% endblock %}
+
+{% block title %}{% trans "Кошик" %}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>{% trans "Ваш кошик" %}</h2>
+    
+    {% if cart_items %}
+    <div class="row">
+        <div class="col-md-8">
+            <!-- Товари в кошику -->
+            {% for item in cart_items %}
+            <div class="cart-item" data-item-id="{{ item.id }}">
+                <div class="row align-items-center">
+                    <div class="col-md-2">
+                        {% if item.product.images.all %}
+                        <img src="{{ item.product.images.first.image.url }}" class="img-fluid" alt="{{ item.product.name }}">
+                        {% else %}
+                        <img src="{% static 'images/no-image.jpg' %}" class="img-fluid" alt="{{ item.product.name }}">
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4">
+                        <h6><a href="{{ item.product.get_absolute_url }}">{{ item.product.name }}</a></h6>
+                        <p class="text-muted mb-1">{{ item.product.category.name }}</p>
+                        {% if item.product.brand %}
+                        <p class="text-muted mb-0"><small>{{ item.product.brand }}</small></p>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-2">
+                        <strong>{{ item.price }} ₴</strong>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="input-group">
+                            <button class="btn btn-outline-secondary btn-sm quantity-btn" type="button" 
+                                    data-action="decrease" data-item-id="{{ item.id }}">-</button>
+                            <input type="number" class="form-control quantity-input" value="{{ item.quantity }}" 
+                                   min="1" data-item-id="{{ item.id }}">
+                            <button class="btn btn-outline-secondary btn-sm quantity-btn" type="button" 
+                                    data-action="increase" data-item-id="{{ item.id }}">+</button>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <strong class="item-total">{{ item.total_price }} ₴</strong>
+                    </div>
+                    <div class="col-md-1">
+                        <button class="btn btn-outline-danger btn-sm remove-item" 
+                                data-item-id="{{ item.id }}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Підсумок кошика -->
+        <div class="col-md-4">
+            <div class="cart-summary">
+                <h5>{% trans "Підсумок замовлення" %}</h5>
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <span>{% trans "Товари" %} ({{ cart.total_items }} {% trans "шт." %}):</span>
+                    <strong id="cart-subtotal">{{ cart.total_price }} ₴</strong>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span>{% trans "Доставка:" %}</span>
+                    <span>50 ₴</span>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <strong>{% trans "Загалом:" %}</strong>
+                    <strong id="cart-total">{{ cart.total_price|add:50 }} ₴</strong>
+                </div>
+                <hr>
+                <a href="{% url 'shop:checkout' %}" class="btn btn-success btn-lg w-100">
+                    {% trans "Оформити замовлення" %}
+                </a>
+                <a href="{% url 'shop:product_list' %}" class="btn btn-outline-primary w-100 mt-2">
+                    {% trans "Продовжити покупки" %}
+                </a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <!-- Порожній кошик -->
+    <div class="text-center">
+        <div class="empty-cart">
+            <i class="fas fa-shopping-cart fa-5x text-muted mb-4"></i>
+            <h4>{% trans "Ваш кошик порожній" %}</h4>
+            <p class="text-muted">{% trans "Додайте товари до кошика, щоб продовжити покупки" %}</p>
+            <a href="{% url 'shop:product_list' %}" class="btn btn-primary">
+                {% trans "Перейти до каталогу" %}
+            </a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Оновлення кількості товару
+    document.querySelectorAll('.quantity-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const action = this.dataset.action;
+            const itemId = this.dataset.itemId;
+            const input = document.querySelector(`input[data-item-id="${itemId}"]`);
+            let quantity = parseInt(input.value);
+            
+            if (action === 'increase') {
+                quantity++;
+            } else if (action === 'decrease' && quantity > 1) {
+                quantity--;
+            }
+            
+            input.value = quantity;
+            updateCartItem(itemId, quantity);
+        });
+    });
+
+    // Оновлення при зміні в input
+    document.querySelectorAll('.quantity-input').forEach(input => {
+        input.addEventListener('change', function() {
+            const itemId = this.dataset.itemId;
+            const quantity = parseInt(this.value);
+            if (quantity > 0) {
+                updateCartItem(itemId, quantity);
+            }
+        });
+    });
+
+    // Видалення товару
+    document.querySelectorAll('.remove-item').forEach(button => {
+        button.addEventListener('click', function() {
+            const itemId = this.dataset.itemId;
+            removeCartItem(itemId);
+        });
+    });
+});
+
+function updateCartItem(itemId, quantity) {
+    fetch('{% url "shop:update_cart_item" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({
+            item_id: itemId,
+            quantity: quantity
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Оновлюємо суму за товар
+            const itemElement = document.querySelector(`[data-item-id="${itemId}"]`);
+            if (quantity === 0) {
+                itemElement.remove();
+            } else {
+                itemElement.querySelector('.item-total').textContent = data.item_total_price + ' ₴';
+            }
+            
+            // Оновлюємо загальну суму
+            document.getElementById('cart-subtotal').textContent = data.cart_total_price + ' ₴';
+            document.getElementById('cart-total').textContent = (parseFloat(data.cart_total_price) + 50) + ' ₴';
+            
+            // Перевіряємо, чи кошик не порожній
+            if (data.cart_total_items === 0) {
+                location.reload();
+            }
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('{% trans "Помилка при оновленні кошика" %}');
+    });
+}
+
+function removeCartItem(itemId) {
+    if (confirm('{% trans "Ви впевнені, що хочете видалити цей товар?" %}')) {
+        fetch('{% url "shop:remove_from_cart" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({
+                item_id: itemId
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.querySelector(`[data-item-id="${itemId}"]`).remove();
+                
+                // Оновлюємо суми
+                document.getElementById('cart-subtotal').textContent = data.cart_total_price + ' ₴';
+                document.getElementById('cart-total').textContent = (parseFloat(data.cart_total_price) + 50) + ' ₴';
+                
+                if (data.cart_total_items === 0) {
+                    location.reload();
+                }
+            } else {
+                alert(data.message);
+            }
+        });
+    }
+}
+</script>
+{% endblock %}

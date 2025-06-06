@@ -1,0 +1,254 @@
+{% extends 'core/base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/shop.css' %}" media="screen">
+{% endblock %}
+
+{% block title %}{% trans "Результати пошуку" %}{% if query %} - {{ query }}{% endif %}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="search-header mb-4">
+        <h2>{% trans "Результати пошуку" %}</h2>
+        {% if query %}
+        <p class="lead">{% trans "Ви шукали:" %} <strong>"{{ query }}"</strong></p>
+        <p class="text-muted">{% trans "Знайдено результатів:" %} {{ total_results }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Форма пошуку -->
+    <div class="search-form-section mb-4">
+        <form method="get" action="{% url 'shop:search' %}" class="row">
+            <div class="col-md-8">
+                <input type="text" name="q" value="{{ query }}" class="form-control" 
+                       placeholder="{% trans 'Введіть назву товару, бренд або категорію...' %}">
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-search"></i> {% trans "Шукати" %}
+                </button>
+            </div>
+        </form>
+    </div>
+
+    {% if products %}
+    <!-- Сортування -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <strong>{{ total_results }}</strong> {% trans "товарів знайдено" %}
+        </div>
+        <div class="sort-options">
+            <form method="get" action="" class="d-flex align-items-center">
+                <input type="hidden" name="q" value="{{ query }}">
+                <label for="sort" class="me-2">{% trans "Сортувати:" %}</label>
+                <select name="sort" id="sort" class="form-select" onchange="this.form.submit()">
+                    <option value="created_at">{% trans "За релевантністю" %}</option>
+                    <option value="name">{% trans "За назвою" %}</option>
+                    <option value="price_low">{% trans "За ціною (зростання)" %}</option>
+                    <option value="price_high">{% trans "За ціною (спадання)" %}</option>
+                    <option value="rating">{% trans "За рейтингом" %}</option>
+                </select>
+            </form>
+        </div>
+    </div>
+
+    <!-- Результати пошуку -->
+    <div class="row">
+        {% for product in products %}
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+            <div class="card product-card h-100">
+                {% if product.images.all %}
+                <img src="{{ product.images.first.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                {% else %}
+                <img src="{% static 'images/no-image.jpg' %}" class="card-img-top" alt="{{ product.name }}">
+                {% endif %}
+
+                {% if product.has_discount %}
+                <div class="discount-badge">-{{ product.discount_percentage }}%</div>
+                {% endif %}
+
+                {% if product.is_featured %}
+                <div class="featured-badge">
+                    <i class="fas fa-star"></i> {% trans "Рекомендовано" %}
+                </div>
+                {% endif %}
+
+                <div class="card-body d-flex flex-column">
+                    <h6 class="card-title">
+                        <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
+                    </h6>
+                    
+                    <p class="card-text text-muted">{{ product.short_description|truncatewords:8 }}</p>
+                    
+                    <div class="mb-2">
+                        <small class="text-muted">
+                            <i class="fas fa-tag"></i> {{ product.category.name }}
+                        </small>
+                    </div>
+                    
+                    {% if product.rating %}
+                    <div class="rating mb-2">
+                        {% for i in "12345" %}
+                            {% if product.rating >= i|add:0 %}
+                                <i class="fas fa-star text-warning"></i>
+                            {% elif product.rating >= i|add:0|add:-0.5 %}
+                                <i class="fas fa-star-half-alt text-warning"></i>
+                            {% else %}
+                                <i class="far fa-star text-warning"></i>
+                            {% endif %}
+                        {% endfor %}
+                        <small class="text-muted">({{ product.reviews_count }})</small>
+                    </div>
+                    {% endif %}
+
+                    <div class="price-section mt-auto">
+                        {% if product.has_discount %}
+                        <span class="current-price">{{ product.discount_price }} ₴</span>
+                        <span class="old-price text-muted">{{ product.price }} ₴</span>
+                        {% else %}
+                        <span class="current-price">{{ product.price }} ₴</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="product-actions mt-3">
+                        {% if product.is_in_stock %}
+                        <button class="btn btn-primary add-to-cart" data-product-id="{{ product.id }}">
+                            <i class="fas fa-shopping-cart"></i> {% trans "До кошика" %}
+                        </button>
+                        {% else %}
+                        <button class="btn btn-secondary" disabled>
+                            {% trans "Немає в наявності" %}
+                        </button>
+                        {% endif %}
+                        
+                        {% if user.is_authenticated %}
+                        <button class="btn btn-outline-danger wishlist-btn" data-product-id="{{ product.id }}">
+                            <i class="far fa-heart"></i>
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Пагінація -->
+    {% if products.has_other_pages %}
+    <nav aria-label="{% trans 'Навігація по сторінках' %}">
+        <ul class="pagination justify-content-center">
+            {% if products.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?q={{ query }}&page=1">{% trans "Перша" %}</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?q={{ query }}&page={{ products.previous_page_number }}">{% trans "Попередня" %}</a>
+            </li>
+            {% endif %}
+
+            <li class="page-item active">
+                <span class="page-link">{{ products.number }} {% trans "з" %} {{ products.paginator.num_pages }}</span>
+            </li>
+
+            {% if products.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?q={{ query }}&page={{ products.next_page_number }}">{% trans "Наступна" %}</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?q={{ query }}&page={{ products.paginator.num_pages }}">{% trans "Остання" %}</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+    
+    {% else %}
+    <!-- Немає результатів -->
+    <div class="no-results text-center">
+        <i class="fas fa-search fa-5x text-muted mb-4"></i>
+        <h4>{% trans "Нічого не знайдено" %}</h4>
+        {% if query %}
+        <p class="text-muted">{% trans "На жаль, по запиту" %} <strong>"{{ query }}"</strong> {% trans "нічого не знайдено" %}</p>
+        {% else %}
+        <p class="text-muted">{% trans "Введіть пошуковий запит" %}</p>
+        {% endif %}
+        
+        <div class="suggestions mt-4">
+            <h5>{% trans "Спробуйте:" %}</h5>
+            <ul class="list-unstyled">
+                <li>{% trans "Перевірити правильність написання" %}</li>
+                <li>{% trans "Використати менше слів" %}</li>
+                <li>{% trans "Використати більш загальні терміни" %}</li>
+            </ul>
+        </div>
+        
+        <a href="{% url 'shop:product_list' %}" class="btn btn-primary mt-4">
+            {% trans "Переглянути всі товари" %}
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Додавання до кошика
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = this.dataset.productId;
+            
+            fetch('{% url "shop:add_to_cart" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({
+                    product_id: productId,
+                    quantity: 1
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                } else {
+                    alert(data.message);
+                }
+            });
+        });
+    });
+
+    // Список бажань
+    document.querySelectorAll('.wishlist-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = this.dataset.productId;
+            
+            fetch('{% url "shop:add_to_wishlist" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({
+                    product_id: productId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    const icon = this.querySelector('i');
+                    if (data.action === 'added') {
+                        icon.className = 'fas fa-heart';
+                    } else {
+                        icon.className = 'far fa-heart';
+                    }
+                }
+            });
+        });
+    });
+});
+</script>
+{% endblock %}

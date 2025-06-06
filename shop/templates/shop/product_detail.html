@@ -1,0 +1,300 @@
+{% extends 'core/base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/shop.css' %}" media="screen">
+{% endblock %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Головна" %}</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'shop:product_list' %}">{% trans "Каталог" %}</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'shop:category_detail' slug=product.category.slug %}">{{ product.category.name }}</a></li>
+            <li class="breadcrumb-item active">{{ product.name }}</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <!-- Зображення товару -->
+        <div class="col-md-6">
+            <div class="product-images">
+                {% if main_image %}
+                <img src="{{ main_image.image.url }}" class="img-fluid main-product-image" alt="{{ product.name }}" id="mainImage">
+                {% else %}
+                <img src="{% static 'images/no-image.jpg' %}" class="img-fluid main-product-image" alt="{{ product.name }}" id="mainImage">
+                {% endif %}
+                
+                {% if images.count > 1 %}
+                <div class="product-thumbnails mt-3">
+                    {% for image in images %}
+                    <img src="{{ image.image.url }}" class="img-thumbnail me-2 product-thumb" 
+                         alt="{{ product.name }}" onclick="changeMainImage('{{ image.image.url }}')">
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Інформація про товар -->
+        <div class="col-md-6">
+            <h1>{{ product.name }}</h1>
+            
+            {% if product.brand %}
+            <p class="text-muted">{% trans "Бренд:" %} <strong>{{ product.brand }}</strong></p>
+            {% endif %}
+
+            {% if product.rating %}
+            <div class="rating mb-3">
+                {% for i in "12345" %}
+                    {% if product.rating >= i|add:0 %}
+                        <i class="fas fa-star text-warning"></i>
+                    {% elif product.rating >= i|add:0|add:-0.5 %}
+                        <i class="fas fa-star-half-alt text-warning"></i>
+                    {% else %}
+                        <i class="far fa-star text-warning"></i>
+                    {% endif %}
+                {% endfor %}
+                <span class="ms-2">{{ product.rating }}/5 ({{ product.reviews_count }} {% trans "відгуків" %})</span>
+            </div>
+            {% endif %}
+
+            <!-- Ціна -->
+            <div class="price-section mb-4">
+                {% if product.has_discount %}
+                <h3 class="current-price text-success mb-0">{{ product.discount_price }} ₴</h3>
+                <p class="old-price text-muted"><del>{{ product.price }} ₴</del> 
+                   <span class="badge bg-danger">-{{ product.discount_percentage }}%</span></p>
+                {% else %}
+                <h3 class="current-price text-success">{{ product.price }} ₴</h3>
+                {% endif %}
+            </div>
+
+            <!-- Короткий опис -->
+            {% if product.short_description %}
+            <div class="short-description mb-4">
+                <p>{{ product.short_description }}</p>
+            </div>
+            {% endif %}
+
+            <!-- Характеристики -->
+            <div class="product-specs mb-4">
+                <h5>{% trans "Характеристики:" %}</h5>
+                <ul class="list-unstyled">
+                    {% if product.weight %}
+                    <li><strong>{% trans "Вага:" %}</strong> {{ product.weight }} {% trans "кг" %}</li>
+                    {% endif %}
+                    {% if product.volume %}
+                    <li><strong>{% trans "Об'єм:" %}</strong> {{ product.volume }} {% trans "л" %}</li>
+                    {% endif %}
+                    {% if product.country_origin %}
+                    <li><strong>{% trans "Країна походження:" %}</strong> {{ product.country_origin }}</li>
+                    {% endif %}
+                </ul>
+            </div>
+
+            <!-- Наявність -->
+            <div class="stock-info mb-4">
+                {% if product.is_in_stock %}
+                <p class="text-success"><i class="fas fa-check"></i> {% trans "В наявності" %}
+                {% if product.track_stock %} ({{ product.stock }} {% trans "шт." %}){% endif %}</p>
+                {% else %}
+                <p class="text-danger"><i class="fas fa-times"></i> {% trans "Немає в наявності" %}</p>
+                {% endif %}
+            </div>
+
+            <!-- Кількість та кнопки -->
+            <div class="product-actions">
+                {% if product.is_in_stock %}
+                <div class="d-flex align-items-center mb-3">
+                    <label for="quantity" class="me-3">{% trans "Кількість:" %}</label>
+                    <input type="number" id="quantity" class="form-control me-3" value="1" min="1" 
+                           max="{% if product.track_stock %}{{ product.stock }}{% else %}99{% endif %}" style="width: 100px;">
+                    <button class="btn btn-primary btn-lg add-to-cart" data-product-id="{{ product.id }}">
+                        <i class="fas fa-shopping-cart"></i> {% trans "Додати до кошика" %}
+                    </button>
+                </div>
+                {% endif %}
+
+                {% if user.is_authenticated %}
+                <button class="btn btn-outline-danger wishlist-btn" data-product-id="{{ product.id }}">
+                    <i class="{% if is_in_wishlist %}fas{% else %}far{% endif %} fa-heart"></i>
+                    {% if is_in_wishlist %}{% trans "Видалити з бажань" %}{% else %}{% trans "Додати до бажань" %}{% endif %}
+                </button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Детальний опис -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <ul class="nav nav-tabs" id="productTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button">
+                        {% trans "Опис" %}
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button">
+                        {% trans "Відгуки" %} ({{ product.reviews_count }})
+                    </button>
+                </li>
+            </ul>
+            
+            <div class="tab-content" id="productTabsContent">
+                <!-- Опис -->
+                <div class="tab-pane fade show active" id="description" role="tabpanel">
+                    <div class="p-4">
+                        {{ product.description|safe }}
+                    </div>
+                </div>
+                
+                <!-- Відгуки -->
+                <div class="tab-pane fade" id="reviews" role="tabpanel">
+                    <div class="p-4">
+                        <!-- Форма додавання відгуку -->
+                        {% if user.is_authenticated and not user_review %}
+                        <div class="add-review-form mb-4">
+                            <h5>{% trans "Залишити відгук" %}</h5>
+                            <form method="post" action="{% url 'shop:add_review' product_slug=product.slug %}">
+                                {% csrf_token %}
+                                {% if review_form %}
+                                {{ review_form.as_p }}
+                                {% endif %}
+                                <button type="submit" class="btn btn-primary">{% trans "Додати відгук" %}</button>
+                            </form>
+                        </div>
+                        {% endif %}
+
+                        <!-- Список відгуків -->
+                        {% for review in reviews %}
+                        <div class="review-item border-bottom pb-3 mb-3">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <strong>{{ review.user.first_name|default:review.user.username }}</strong>
+                                    {% if review.is_verified_purchase %}
+                                    <span class="badge bg-success ms-2">{% trans "Підтверджена покупка" %}</span>
+                                    {% endif %}
+                                </div>
+                                <small class="text-muted">{{ review.created_at }}</small>
+                            </div>
+                            <div class="rating">
+                                {% for i in "12345" %}
+                                    {% if review.rating >= i|add:0 %}
+                                        <i class="fas fa-star text-warning"></i>
+                                    {% else %}
+                                        <i class="far fa-star text-warning"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <h6>{{ review.title }}</h6>
+                            <p>{{ review.comment }}</p>
+                        </div>
+                        {% empty %}
+                        <p class="text-muted">{% trans "Поки що немає відгуків для цього товару." %}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Схожі товари -->
+    {% if related_products %}
+    <div class="row mt-5">
+        <div class="col-12">
+            <h3>{% trans "Схожі товари" %}</h3>
+            <div class="row">
+                {% for product in related_products %}
+                <div class="col-md-3 mb-4">
+                    <div class="card">
+                        {% if product.images.all %}
+                        <img src="{{ product.images.first.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <h6 class="card-title">
+                                <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
+                            </h6>
+                            <p class="card-text">
+                                {% if product.has_discount %}
+                                <span class="text-success">{{ product.discount_price }} ₴</span>
+                                <small class="text-muted"><del>{{ product.price }} ₴</del></small>
+                                {% else %}
+                                <span class="text-success">{{ product.price }} ₴</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+function changeMainImage(imageUrl) {
+    document.getElementById('mainImage').src = imageUrl;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Додавання до кошика
+    document.querySelector('.add-to-cart').addEventListener('click', function() {
+        const productId = this.dataset.productId;
+        const quantity = document.getElementById('quantity').value;
+        
+        fetch('{% url "shop:add_to_cart" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({
+                product_id: productId,
+                quantity: parseInt(quantity)
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(data.message);
+            } else {
+                alert(data.message);
+            }
+        });
+    });
+
+    // Список бажань
+    const wishlistBtn = document.querySelector('.wishlist-btn');
+    if (wishlistBtn) {
+        wishlistBtn.addEventListener('click', function() {
+            const productId = this.dataset.productId;
+            
+            fetch('{% url "shop:add_to_wishlist" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({
+                    product_id: productId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    location.reload();
+                }
+            });
+        });
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'core/base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% trans "Замовлення успішно оформлено" %}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <div class="success-message">
+                <i class="fas fa-check-circle fa-5x text-success mb-4"></i>
+                <h2>{% trans "Дякуємо за ваше замовлення!" %}</h2>
+                <p class="lead">{% trans "Ваше замовлення успішно оформлено" %}</p>
+                
+                <div class="order-details bg-light p-4 rounded mb-4">
+                    <h4>{% trans "Деталі замовлення" %}</h4>
+                    <p><strong>{% trans "Номер замовлення:" %}</strong> {{ order.order_number }}</p>
+                    <p><strong>{% trans "Email:" %}</strong> {{ order.email }}</p>
+                    <p><strong>{% trans "Загальна сума:" %}</strong> {{ order.total_amount }} ₴</p>
+                    <p><strong>{% trans "Статус:" %}</strong> 
+                        <span class="badge bg-warning">{% trans "Очікує підтвердження" %}</span>
+                    </p>
+                </div>
+                
+                <div class="next-steps">
+                    <h5>{% trans "Що далі?" %}</h5>
+                    <ul class="list-unstyled">
+                        <li>📧 {% trans "Ми надішлемо підтвердження на ваш email" %}</li>
+                        <li>📞 {% trans "Наш менеджер зв'яжеться з вами для підтвердження" %}</li>
+                        <li>🚚 {% trans "Підготуємо та відправимо ваше замовлення" %}</li>
+                    </ul>
+                </div>
+                
+                <div class="actions mt-4">
+                    <a href="{% url 'shop:product_list' %}" class="btn btn-primary me-3">
+                        {% trans "Продовжити покупки" %}
+                    </a>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'shop:order_list' %}" class="btn btn-outline-secondary">
+                        {% trans "Мої замовлення" %}
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
