@@ -5,7 +5,33 @@
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/shop.css' %}" media="screen">
 <style>
-/* Додаткові стилі для адаптивності */
+/* Додаткові стилі для покращеного дизайну */
+:root {
+    --primary-color: #478ac9;
+    --primary-hover: #3d7ab8;
+    --success-color: #27ae60;
+    --danger-color: #e74c3c;
+    --warning-color: #f39c12;
+    --light-gray: #f8f9fa;
+    --medium-gray: #6c757d;
+    --dark-gray: #343a40;
+    --border-color: #dee2e6;
+    --text-color: #2c3e50;
+    --white: #ffffff;
+    --box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    --border-radius: 12px;
+    --transition: all 0.3s ease;
+}
+
+.shop-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+    color: var(--white);
+    padding: 2rem 0;
+    border-radius: var(--border-radius);
+    margin-bottom: 2rem;
+    box-shadow: var(--box-shadow);
+}
+
 .filter-sidebar {
     background: var(--white);
     border-radius: var(--border-radius);
@@ -14,12 +40,321 @@
     margin-bottom: 2rem;
     position: sticky;
     top: 20px;
+    border: 1px solid var(--border-color);
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+}
+
+.filter-sidebar h4 {
+    color: var(--text-color);
+    border-bottom: 3px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.filter-section {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.filter-section:last-child {
+    border-bottom: none;
+}
+
+.filter-section h5 {
+    color: var(--text-color);
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.filter-section h5 i {
+    color: var(--primary-color);
+    width: 16px;
+    text-align: center;
+}
+
+.category-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.category-list li {
+    margin-bottom: 0.25rem;
+}
+
+.category-list a {
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    transition: var(--transition);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    border: 1px solid transparent;
+}
+
+.category-list a:hover,
+.category-list a.active {
+    color: var(--primary-color);
+    background: linear-gradient(135deg, rgba(71, 138, 201, 0.1), rgba(71, 138, 201, 0.05));
+    border-color: rgba(71, 138, 201, 0.2);
+    transform: translateX(5px);
+}
+
+.category-list a i {
+    width: 16px;
+    text-align: center;
+    font-size: 0.9rem;
 }
 
 .products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 992px) {
+    .products-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 991.98px) {
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .products-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+.product-card {
+    border: none;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    transition: var(--transition);
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    background: var(--white);
+    border: 1px solid var(--border-color);
+}
+
+.product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+    border-color: var(--primary-color);
+}
+
+.product-card .card-img-top {
+    height: 220px;
+    object-fit: cover;
+    transition: var(--transition);
+    width: 100%;
+}
+
+.product-card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+.product-card .card-body {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 220px);
+}
+
+.product-card .card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+    height: 2.8rem;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.product-card .card-title a {
+    color: inherit;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.product-card .card-title a:hover {
+    color: var(--primary-color);
+}
+
+.product-card .card-text {
+    font-size: 0.85rem;
+    color: var(--medium-gray);
+    margin-bottom: 0.75rem;
+    flex-grow: 1;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.product-meta {
+    margin-bottom: 0.75rem;
+}
+
+.product-meta small {
+    font-size: 0.8rem;
+    line-height: 1.3;
+    color: var(--medium-gray);
+}
+
+.price-section {
+    margin-bottom: 1rem;
+    min-height: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.current-price {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--success-color);
+    line-height: 1.2;
+}
+
+.old-price {
+    font-size: 0.9rem;
+    text-decoration: line-through;
+    color: var(--medium-gray);
+    margin-top: 0.2rem;
+}
+
+.discount-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--danger-color);
+    color: var(--white);
+    padding: 0.3rem 0.6rem;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    z-index: 2;
+    box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
+}
+
+.featured-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: var(--warning-color);
+    color: var(--white);
+    padding: 0.3rem 0.6rem;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    z-index: 2;
+    box-shadow: 0 2px 8px rgba(243, 156, 18, 0.3);
+}
+
+.rating {
+    color: var(--warning-color);
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+}
+
+.rating .fa-star,
+.rating .fa-star-half-alt {
+    margin-right: 1px;
+}
+
+.product-actions {
+    margin-top: auto;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.product-actions .btn {
+    border-radius: 8px;
+    font-weight: 600;
+    transition: var(--transition);
+    font-size: 0.9rem;
+    padding: 0.6rem 1rem;
+    flex: 1;
+}
+
+.product-actions .btn-primary {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.product-actions .btn-primary:hover {
+    background: var(--primary-hover);
+    border-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(71, 138, 201, 0.4);
+}
+
+.wishlist-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--danger-color);
+    color: var(--danger-color);
+    background: var(--white);
+    transition: var(--transition);
+    flex: none;
+}
+
+.wishlist-btn:hover,
+.wishlist-btn.active {
+    background: var(--danger-color);
+    color: var(--white);
+    transform: scale(1.1);
+}
+
+.sort-options {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    box-shadow: var(--box-shadow);
+    border: 1px solid var(--border-color);
+    margin-bottom: 1.5rem;
+}
+
+.sort-options .form-select {
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+.sort-options .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(71, 138, 201, 0.25);
 }
 
 .mobile-filter-toggle {
@@ -30,7 +365,87 @@
     display: block;
 }
 
-/* Мобільні стилі */
+.pagination {
+    margin-top: 2rem;
+    justify-content: center;
+    gap: 0.25rem;
+}
+
+.pagination .page-link {
+    color: var(--primary-color);
+    border: 2px solid var(--border-color);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    transition: var(--transition);
+    font-weight: 500;
+    margin: 0 0.125rem;
+}
+
+.pagination .page-link:hover {
+    background: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(71, 138, 201, 0.3);
+}
+
+.pagination .page-item.active .page-link {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--white);
+    box-shadow: 0 4px 15px rgba(71, 138, 201, 0.3);
+}
+
+.pagination .page-item.disabled .page-link {
+    color: var(--medium-gray);
+    background: var(--light-gray);
+    border-color: var(--border-color);
+}
+
+.no-results {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    border: 1px solid var(--border-color);
+}
+
+.no-results i {
+    opacity: 0.5;
+    margin-bottom: 1.5rem;
+}
+
+.no-results h4 {
+    color: var(--text-color);
+    margin-bottom: 1rem;
+}
+
+.no-results p {
+    color: var(--medium-gray);
+    margin-bottom: 2rem;
+}
+
+.out-of-stock-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    z-index: 3;
+}
+
+.out-of-stock-overlay .content {
+    color: var(--white);
+    text-align: center;
+    font-weight: 600;
+}
+
 @media (max-width: 991.98px) {
     .mobile-filter-toggle {
         display: block;
@@ -48,20 +463,11 @@
     .filter-sidebar {
         position: static;
         margin-bottom: 1rem;
-    }
-    
-    .products-grid {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1rem;
+        max-height: none;
     }
 }
 
 @media (max-width: 767.98px) {
-    .products-grid {
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: 1rem;
-    }
-    
     .sort-options .d-flex {
         flex-direction: column;
         align-items: stretch !important;
@@ -71,37 +477,42 @@
         margin-bottom: 0.5rem;
         margin-right: 0 !important;
     }
+    
+    .shop-header {
+        padding: 1.5rem 0;
+        text-align: center;
+    }
+    
+    .shop-header h1 {
+        font-size: 1.75rem;
+    }
 }
 
 @media (max-width: 575.98px) {
-    .products-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-    
     .shop-container {
         padding: 0 10px;
     }
     
-    .section-title {
-        font-size: 1.75rem;
-        text-align: center;
+    .product-card .card-img-top {
+        height: 180px;
+    }
+    
+    .product-card .card-body {
+        padding: 1rem;
+        height: calc(100% - 180px);
+    }
+    
+    .current-price {
+        font-size: 1.15rem;
+    }
+    
+    .pagination .page-link {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
     }
 }
 
-/* Анімації для товарів */
-.product-card {
-    opacity: 0;
-    animation: fadeInUp 0.6s ease-out forwards;
-}
-
-.product-card:nth-child(1) { animation-delay: 0.1s; }
-.product-card:nth-child(2) { animation-delay: 0.2s; }
-.product-card:nth-child(3) { animation-delay: 0.3s; }
-.product-card:nth-child(4) { animation-delay: 0.4s; }
-.product-card:nth-child(5) { animation-delay: 0.5s; }
-.product-card:nth-child(6) { animation-delay: 0.6s; }
-
+/* Анімації */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -112,6 +523,17 @@
         transform: translateY(0);
     }
 }
+
+.product-card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.product-card:nth-child(1) { animation-delay: 0.1s; }
+.product-card:nth-child(2) { animation-delay: 0.2s; }
+.product-card:nth-child(3) { animation-delay: 0.3s; }
+.product-card:nth-child(4) { animation-delay: 0.4s; }
+.product-card:nth-child(5) { animation-delay: 0.5s; }
+.product-card:nth-child(6) { animation-delay: 0.6s; }
 </style>
 {% endblock %}
 
@@ -119,163 +541,201 @@
 
 {% block content %}
 <div class="container-fluid">
-    <!-- Хлібні крошки -->
-    <nav aria-label="breadcrumb" class="mt-3">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Головна" %}</a></li>
-            <li class="breadcrumb-item active">{% trans "Каталог товарів" %}</li>
-        </ol>
-    </nav>
-
-    <div class="row">
-        <!-- Бокова панель з фільтрами -->
-        <div class="col-lg-3 col-xl-2">
-            <!-- Кнопка для мобільних пристроїв -->
-            <button class="btn btn-outline-primary mobile-filter-toggle w-100" type="button" 
-                    data-bs-toggle="collapse" data-bs-target="#filterCollapse">
-                <i class="fas fa-filter"></i> {% trans "Фільтри" %}
-            </button>
-            
-            <div class="collapse filter-collapse" id="filterCollapse">
-                <div class="filter-sidebar">
-                    <h4><i class="fas fa-filter"></i> {% trans "Фільтри" %}</h4>
-                    
-                    <!-- Пошук -->
-                    <div class="filter-section">
-                        <h5><i class="fas fa-search"></i> {% trans "Пошук" %}</h5>
-                        <form method="get" action="{% url 'shop:product_list' %}">
-                            <div class="input-group">
-                                <input type="text" name="search" value="{{ search_query }}" 
-                                       class="form-control" placeholder="{% trans 'Пошук товарів...' %}">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-
-                <!-- Категорії -->
-                <div class="filter-section">
-                    <h5><i class="fas fa-tags"></i> {% trans "Категорії" %}</h5>
-                    <ul class="category-list">
-                        <li>
-                            <a href="{% url 'shop:product_list' %}" 
-                               class="{% if not current_category %}active{% endif %}">
-                                <i class="fas fa-th-large"></i> {% trans "Всі товари" %}
-                            </a>
-                        </li>
-                        {% for category in categories %}
-                        <li>
-                            <a href="{% url 'shop:category_detail' slug=category.slug %}"
-                               class="{% if current_category == category.slug %}active{% endif %}">
-                                <i class="fas fa-folder"></i> {{ category.name }}
-                            </a>
-                        </li>
-                        {% endfor %}
-                    </ul>
+    <!-- Заголовок магазину -->
+    <div class="shop-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h1 class="mb-0">
+                        <i class="fas fa-store"></i> {% trans "Каталог товарів" %}
+                    </h1>
+                    {% if search_query %}
+                    <p class="mb-0 mt-2 opacity-75">
+                        <i class="fas fa-search"></i> {% trans "Результати пошуку для:" %} "{{ search_query }}"
+                    </p>
+                    {% endif %}
                 </div>
-
-                <!-- Ціновий діапазон -->
-                {% if price_range.min_price and price_range.max_price %}
-                <div class="filter-section">
-                    <h5><i class="fas fa-hryvnia-sign"></i> {% trans "Ціна" %}</h5>
-                    <form method="get" action="">
-                        <div class="row g-2">
-                            <div class="col-6">
-                                <input type="number" name="min_price" 
-                                       value="{{ request.GET.min_price }}"
-                                       class="form-control form-control-sm" 
-                                       placeholder="{{ price_range.min_price|floatformat:0 }}">
-                            </div>
-                            <div class="col-6">
-                                <input type="number" name="max_price" 
-                                       value="{{ request.GET.max_price }}"
-                                       class="form-control form-control-sm" 
-                                       placeholder="{{ price_range.max_price|floatformat:0 }}">
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-outline-primary btn-sm mt-2 w-100">
-                            <i class="fas fa-check"></i> {% trans "Застосувати" %}
-                        </button>
-                    </form>
-                </div>
-                {% endif %}
-
-                <!-- Додаткові фільтри -->
-                <div class="filter-section">
-                    <h5><i class="fas fa-cog"></i> {% trans "Додатково" %}</h5>
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" id="only_available">
-                        <label class="form-check-label" for="only_available">
-                            {% trans "Тільки в наявності" %}
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="only_featured">
-                        <label class="form-check-label" for="only_featured">
-                            {% trans "Тільки рекомендовані" %}
-                        </label>
-                    </div>
+                <div class="col-md-6 text-md-end">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0 justify-content-md-end">
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'home' %}" class="text-white">
+                                    <i class="fas fa-home"></i> {% trans "Головна" %}
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item active text-white" aria-current="page">
+                                {% trans "Каталог товарів" %}
+                            </li>
+                        </ol>
+                    </nav>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Основний контент -->
-        <div class="col-lg-9 col-md-8">
-            <!-- Заголовок та сортування -->
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <div>
-                    <h1 class="section-title mb-0">{% trans "Каталог товарів" %}</h1>
-                    {% if search_query %}
-                    <p class="text-muted">{% trans "Результати пошуку для:" %} "{{ search_query }}"</p>
-                    {% endif %}
+    <div class="container">
+        <div class="row">
+            <!-- Бокова панель з фільтрами -->
+            <div class="col-xl-3 col-lg-4">
+                <!-- Кнопка для мобільних пристроїв -->
+                <button class="btn btn-outline-primary mobile-filter-toggle w-100" type="button" 
+                        data-bs-toggle="collapse" data-bs-target="#filterCollapse" aria-expanded="false">
+                    <i class="fas fa-filter"></i> {% trans "Фільтри" %}
+                    <i class="fas fa-chevron-down ms-2"></i>
+                </button>
+                
+                <div class="collapse filter-collapse" id="filterCollapse">
+                    <div class="filter-sidebar">
+                        <h4>
+                            <i class="fas fa-sliders-h"></i> {% trans "Фільтри" %}
+                        </h4>
+                        
+                        <!-- Пошук -->
+                        <div class="filter-section">
+                            <h5><i class="fas fa-search"></i> {% trans "Пошук" %}</h5>
+                            <form method="get" action="{% url 'shop:product_list' %}">
+                                <div class="input-group">
+                                    <input type="text" name="search" value="{{ search_query }}" 
+                                           class="form-control" placeholder="{% trans 'Пошук товарів...' %}">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Категорії -->
+                        <div class="filter-section">
+                            <h5><i class="fas fa-tags"></i> {% trans "Категорії" %}</h5>
+                            <ul class="category-list">
+                                <li>
+                                    <a href="{% url 'shop:product_list' %}" 
+                                       class="{% if not current_category %}active{% endif %}">
+                                        <i class="fas fa-th-large"></i> 
+                                        <span>{% trans "Всі товари" %}</span>
+                                        <small class="ms-auto opacity-75">({{ products.paginator.count }})</small>
+                                    </a>
+                                </li>
+                                {% for category in categories %}
+                                <li>
+                                    <a href="{% url 'shop:category_detail' slug=category.slug %}"
+                                       class="{% if current_category == category.slug %}active{% endif %}">
+                                        <i class="fas fa-folder"></i> 
+                                        <span>{{ category.name }}</span>
+                                        <small class="ms-auto opacity-75">({{ category.products.count }})</small>
+                                    </a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <!-- Ціновий діапазон -->
+                        {% if price_range.min_price and price_range.max_price %}
+                        <div class="filter-section">
+                            <h5><i class="fas fa-hryvnia-sign"></i> {% trans "Ціна" %}</h5>
+                            <form method="get" action="">
+                                <div class="row g-2 mb-2">
+                                    <div class="col-6">
+                                        <input type="number" name="min_price" 
+                                               value="{{ request.GET.min_price }}"
+                                               class="form-control form-control-sm" 
+                                               placeholder="Від {{ price_range.min_price|floatformat:0 }}₴">
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="number" name="max_price" 
+                                               value="{{ request.GET.max_price }}"
+                                               class="form-control form-control-sm" 
+                                               placeholder="До {{ price_range.max_price|floatformat:0 }}₴">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-outline-primary btn-sm w-100">
+                                    <i class="fas fa-check"></i> {% trans "Застосувати" %}
+                                </button>
+                            </form>
+                        </div>
+                        {% endif %}
+
+                        <!-- Додаткові фільтри -->
+                        <div class="filter-section">
+                            <h5><i class="fas fa-cog"></i> {% trans "Додатково" %}</h5>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="only_available">
+                                <label class="form-check-label" for="only_available">
+                                    <i class="fas fa-check-circle text-success me-1"></i>
+                                    {% trans "Тільки в наявності" %}
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="only_featured">
+                                <label class="form-check-label" for="only_featured">
+                                    <i class="fas fa-star text-warning me-1"></i>
+                                    {% trans "Тільки рекомендовані" %}
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="only_discounted">
+                                <label class="form-check-label" for="only_discounted">
+                                    <i class="fas fa-percentage text-danger me-1"></i>
+                                    Тільки зі знижкою
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </div>
+
+            <!-- Основний контент -->
+            <div class="col-xl-9 col-lg-8">
+                <!-- Сортування та статистика -->
                 <div class="sort-options">
-                    <form method="get" action="" class="d-flex align-items-center">
-                        <label for="sort" class="me-2 text-nowrap"><i class="fas fa-sort"></i> {% trans "Сортувати:" %}</label>
-                        <select name="sort" id="sort" class="form-select form-select-sm" onchange="this.form.submit()">
-                            <option value="created_at" {% if current_sort == 'created_at' %}selected{% endif %}>
-                                {% trans "За новизною" %}
-                            </option>
-                            <option value="name" {% if current_sort == 'name' %}selected{% endif %}>
-                                {% trans "За назвою" %}
-                            </option>
-                            <option value="price_low" {% if current_sort == 'price_low' %}selected{% endif %}>
-                                {% trans "За ціною (зростання)" %}
-                            </option>
-                            <option value="price_high" {% if current_sort == 'price_high' %}selected{% endif %}>
-                                {% trans "За ціною (спадання)" %}
-                            </option>
-                            <option value="rating" {% if current_sort == 'rating' %}selected{% endif %}>
-                                {% trans "За рейтингом" %}
-                            </option>
-                        </select>
-                        <!-- Передаємо інші параметри фільтрації -->
-                        {% if search_query %}<input type="hidden" name="search" value="{{ search_query }}">{% endif %}
-                        {% if request.GET.min_price %}<input type="hidden" name="min_price" value="{{ request.GET.min_price }}">{% endif %}
-                        {% if request.GET.max_price %}<input type="hidden" name="max_price" value="{{ request.GET.max_price }}">{% endif %}
-                    </form>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            {% if products.paginator.count %}
+                            <span class="text-muted">
+                                <i class="fas fa-info-circle"></i>
+                                {% blocktrans count counter=products.paginator.count %}
+                                    Знайдено {{ counter }} товар
+                                {% plural %}
+                                    Знайдено {{ counter }} товарів
+                                {% endblocktrans %}
+                            </span>
+                            {% endif %}
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <form method="get" action="" class="d-flex align-items-center">
+                                <label for="sort" class="me-2 text-nowrap">
+                                    <i class="fas fa-sort"></i> {% trans "Сортувати:" %}
+                                </label>
+                                <select name="sort" id="sort" class="form-select form-select-sm" 
+                                        onchange="this.form.submit()" style="min-width: 180px;">
+                                    <option value="created_at" {% if current_sort == 'created_at' %}selected{% endif %}>
+                                        {% trans "За новизною" %}
+                                    </option>
+                                    <option value="name" {% if current_sort == 'name' %}selected{% endif %}>
+                                        {% trans "За назвою" %}
+                                    </option>
+                                    <option value="price_low" {% if current_sort == 'price_low' %}selected{% endif %}>
+                                        {% trans "За ціною (зростання)" %}
+                                    </option>
+                                    <option value="price_high" {% if current_sort == 'price_high' %}selected{% endif %}>
+                                        {% trans "За ціною (спадання)" %}
+                                    </option>
+                                    <option value="rating" {% if current_sort == 'rating' %}selected{% endif %}>
+                                        {% trans "За рейтингом" %}
+                                    </option>
+                                </select>
+                                <!-- Передаємо інші параметри фільтрації -->
+                                {% if search_query %}<input type="hidden" name="search" value="{{ search_query }}">{% endif %}
+                                {% if request.GET.min_price %}<input type="hidden" name="min_price" value="{{ request.GET.min_price }}">{% endif %}
+                                {% if request.GET.max_price %}<input type="hidden" name="max_price" value="{{ request.GET.max_price }}">{% endif %}
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Статистика -->
-            {% if products.paginator.count %}
-            <div class="alert alert-info d-flex align-items-center mb-4">
-                <i class="fas fa-info-circle me-2"></i>
-                <span>
-                    {% blocktrans count counter=products.paginator.count %}
-                        Знайдено {{ counter }} товар
-                    {% plural %}
-                        Знайдено {{ counter }} товарів
-                    {% endblocktrans %}
-                </span>
-            </div>
-            {% endif %}
-
-            <!-- Список товарів -->
-            <div class="row">
-                {% for product in products %}
-                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 mb-4">
+                <!-- Список товарів -->
+                <div class="products-grid">
+                    {% for product in products %}
                     <div class="product-card">
                         <!-- Зображення товару -->
                         <div class="position-relative">
@@ -297,15 +757,14 @@
                             <!-- Рекомендований товар -->
                             {% if product.is_featured %}
                             <div class="featured-badge">
-                                <i class="fas fa-star"></i> {% trans "Топ" %}
+                                <i class="fas fa-star"></i> Топ
                             </div>
                             {% endif %}
 
                             <!-- Статус наявності -->
                             {% if not product.is_in_stock %}
-                            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center" 
-                                 style="background: rgba(0,0,0,0.7); color: white;">
-                                <div class="text-center">
+                            <div class="out-of-stock-overlay">
+                                <div class="content">
                                     <i class="fas fa-times-circle fa-2x mb-2"></i>
                                     <div>{% trans "Немає в наявності" %}</div>
                                 </div>
@@ -323,15 +782,20 @@
                             <p class="card-text">{{ product.short_description|truncatewords:10 }}</p>
                             
                             <!-- Категорія -->
-                            <div class="mb-2">
+                            <div class="product-meta">
                                 <small class="text-muted">
                                     <i class="fas fa-tag"></i> {{ product.category.name }}
                                 </small>
+                                {% if product.brand %}
+                                <br><small class="text-muted">
+                                    <i class="fas fa-industry"></i> {{ product.brand }}
+                                </small>
+                                {% endif %}
                             </div>
                             
                             <!-- Рейтинг -->
                             {% if product.rating %}
-                            <div class="rating mb-2">
+                            <div class="rating">
                                 {% for i in "12345" %}
                                     {% if product.rating >= i|add:0 %}
                                         <i class="fas fa-star"></i>
@@ -377,82 +841,85 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                {% empty %}
-                <div class="col-12">
-                    <div class="no-results">
-                        <i class="fas fa-search fa-5x text-muted mb-4"></i>
-                        <h4>{% trans "Товари не знайдені" %}</h4>
-                        <p class="text-muted">{% trans "Спробуйте змінити параметри пошуку або фільтрації." %}</p>
-                        <a href="{% url 'shop:product_list' %}" class="btn btn-primary">
-                            <i class="fas fa-refresh"></i> {% trans "Очистити фільтри" %}
-                        </a>
+                    {% empty %}
+                    <div class="col-12">
+                        <div class="no-results">
+                            <i class="fas fa-search fa-5x text-muted mb-4"></i>
+                            <h4>{% trans "Товари не знайдені" %}</h4>
+                            <p class="text-muted">{% trans "Спробуйте змінити параметри пошуку або фільтрації." %}</p>
+                            <a href="{% url 'shop:product_list' %}" class="btn btn-primary">
+                                <i class="fas fa-refresh"></i> {% trans "Очистити фільтри" %}
+                            </a>
+                        </div>
                     </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
-            </div>
 
-            <!-- Пагінація -->
-            {% if products.has_other_pages %}
-            <nav aria-label="{% trans 'Навігація по сторінках' %}" class="mt-4">
-                <ul class="pagination">
-                    {% if products.has_previous %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}">
-                            <i class="fas fa-angle-double-left"></i> {% trans "Перша" %}
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ products.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}">
-                            <i class="fas fa-angle-left"></i> {% trans "Попередня" %}
-                        </a>
-                    </li>
-                    {% endif %}
-
-                    <!-- Номери сторінок -->
-                    {% for num in products.paginator.page_range %}
-                        {% if products.number == num %}
-                        <li class="page-item active">
-                            <span class="page-link">{{ num }}</span>
-                        </li>
-                        {% elif num > products.number|add:'-3' and num < products.number|add:'3' %}
+                <!-- Пагінація -->
+                {% if products.has_other_pages %}
+                <nav aria-label="{% trans 'Навігація по сторінках' %}" class="mt-4">
+                    <ul class="pagination justify-content-center">
+                        {% if products.has_previous %}
                         <li class="page-item">
-                            <a class="page-link" href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}">{{ num }}</a>
+                            <a class="page-link" href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.min_price %}&min_price={{ request.GET.min_price }}{% endif %}{% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}">
+                                <i class="fas fa-angle-double-left"></i>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ products.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.min_price %}&min_price={{ request.GET.min_price }}{% endif %}{% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}">
+                                <i class="fas fa-angle-left"></i> {% trans "Попередня" %}
+                            </a>
                         </li>
                         {% endif %}
-                    {% endfor %}
 
-                    {% if products.has_next %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ products.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}">
-                            {% trans "Наступна" %} <i class="fas fa-angle-right"></i>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ products.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}">
-                            {% trans "Остання" %} <i class="fas fa-angle-double-right"></i>
-                        </a>
-                    </li>
-                    {% endif %}
-                </ul>
-                
-                <div class="text-center mt-2">
-                    <small class="text-muted">
-                        {% trans "Сторінка" %} {{ products.number }} {% trans "з" %} {{ products.paginator.num_pages }}
-                    </small>
-                </div>
-            </nav>
-            {% endif %}
+                        <!-- Номери сторінок -->
+                        {% for num in products.paginator.page_range %}
+                            {% if products.number == num %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ num }}</span>
+                            </li>
+                            {% elif num > products.number|add:'-3' and num < products.number|add:'3' %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.min_price %}&min_price={{ request.GET.min_price }}{% endif %}{% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}">{{ num }}</a>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if products.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ products.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.min_price %}&min_price={{ request.GET.min_price }}{% endif %}{% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}">
+                                {% trans "Наступна" %} <i class="fas fa-angle-right"></i>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ products.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.min_price %}&min_price={{ request.GET.min_price }}{% endif %}{% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}">
+                                <i class="fas fa-angle-double-right"></i>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                    
+                    <div class="text-center mt-3">
+                        <small class="text-muted">
+                            {% trans "Сторінка" %} {{ products.number }} {% trans "з" %} {{ products.paginator.num_pages }}
+                            ({% trans "Загалом" %}: {{ products.paginator.count }} {% trans "товарів" %})
+                        </small>
+                    </div>
+                </nav>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>
 
 <!-- Кнопка прокрутки вгору -->
-<button class="btn btn-primary btn-floating" id="scrollToTop" title="{% trans 'Вгору' %}">
+<button class="btn btn-primary position-fixed" id="scrollToTop" 
+        style="bottom: 30px; right: 30px; width: 50px; height: 50px; border-radius: 50%; display: none; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.3);"
+        title="{% trans 'Вгору' %}">
     <i class="fas fa-arrow-up"></i>
 </button>
 
-<!-- JavaScript для AJAX запитів та інших функцій -->
+<!-- JavaScript для функціональності -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Кнопка прокрутки вгору
@@ -461,6 +928,8 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('scroll', function() {
         if (window.pageYOffset > 300) {
             scrollBtn.style.display = 'flex';
+            scrollBtn.style.alignItems = 'center';
+            scrollBtn.style.justifyContent = 'center';
         } else {
             scrollBtn.style.display = 'none';
         }
@@ -481,7 +950,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const originalText = this.innerHTML;
             
             // Показуємо індикатор завантаження
-            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> {% trans "Додавання..." %}';
+            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Додавання...';
             this.disabled = true;
             
             fetch('{% url "shop:add_to_cart" %}', {
@@ -500,11 +969,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (data.success) {
                     // Показуємо повідомлення про успіх
                     showAlert(data.message, 'success');
-                    // Оновлюємо кількість товарів у кошику
-                    updateCartCounter(data.cart_total_items);
                     
                     // Тимчасово змінюємо кнопку
-                    this.innerHTML = '<i class="fas fa-check"></i> {% trans "Додано!" %}';
+                    this.innerHTML = '<i class="fas fa-check"></i> Додано!';
                     this.classList.remove('btn-primary');
                     this.classList.add('btn-success');
                     
@@ -521,7 +988,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             })
             .catch(error => {
-                showAlert('{% trans "Помилка при додаванні товару" %}', 'error');
+                showAlert('Помилка при додаванні товару', 'error');
                 this.innerHTML = originalText;
                 this.disabled = false;
             });
@@ -552,9 +1019,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (data.action === 'added') {
                         icon.className = 'fas fa-heart';
                         this.classList.add('active');
+                        this.title = 'Видалити з бажань';
                     } else {
                         icon.className = 'far fa-heart';
                         this.classList.remove('active');
+                        this.title = 'Додати до бажань';
                     }
                 } else {
                     showAlert(data.message, 'error');
@@ -571,43 +1040,60 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('only_featured')?.addEventListener('change', function() {
         applyFilters();
     });
+    
+    document.getElementById('only_discounted')?.addEventListener('change', function() {
+        applyFilters();
+    });
+
+    // Закриття мобільних фільтрів при виборі категорії
+    document.querySelectorAll('.category-list a').forEach(link => {
+        link.addEventListener('click', function() {
+            const collapse = document.getElementById('filterCollapse');
+            if (collapse && window.getComputedStyle(collapse).display !== 'none') {
+                const bsCollapse = new bootstrap.Collapse(collapse, {toggle: false});
+                bsCollapse.hide();
+            }
+        });
+    });
 });
 
 function showAlert(message, type) {
     // Створюємо алерт
     const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
     const iconClass = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle';
+    const bgColor = type === 'success' ? '#d4edda' : '#f8d7da';
+    const borderColor = type === 'success' ? '#c3e6cb' : '#f5c6cb';
+    const textColor = type === 'success' ? '#155724' : '#721c24';
     
-    const alertHtml = `
-        <div class="alert ${alertClass} alert-dismissible fade show position-fixed" 
-             style="top: 20px; right: 20px; z-index: 1060; max-width: 400px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert ${alertClass} alert-dismissible fade show position-fixed`;
+    alertDiv.style.cssText = `
+        top: 20px; 
+        right: 20px; 
+        z-index: 1060; 
+        max-width: 400px; 
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        border: 1px solid ${borderColor};
+        background-color: ${bgColor};
+        color: ${textColor};
+        border-radius: 12px;
+        padding: 1rem 1.5rem;
+    `;
+    alertDiv.innerHTML = `
+        <div class="d-flex align-items-center">
             <i class="fas ${iconClass} me-2"></i>
-            ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <span>${message}</span>
+            <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Закрити"></button>
         </div>
     `;
-    document.body.insertAdjacentHTML('beforeend', alertHtml);
+    document.body.appendChild(alertDiv);
     
     // Автоматично приховуємо через 4 секунди
     setTimeout(() => {
-        const alert = document.querySelector('.alert');
-        if (alert) {
-            alert.remove();
+        if (alertDiv && alertDiv.parentNode) {
+            alertDiv.remove();
         }
     }, 4000);
-}
-
-function updateCartCounter(count) {
-    // Функція для оновлення лічильника кошика в хедері
-    const counter = document.querySelector('.cart-counter');
-    if (counter) {
-        counter.textContent = count;
-        // Додаємо анімацію
-        counter.classList.add('animate__animated', 'animate__pulse');
-        setTimeout(() => {
-            counter.classList.remove('animate__animated', 'animate__pulse');
-        }, 1000);
-    }
 }
 
 function applyFilters() {
@@ -628,45 +1114,36 @@ function applyFilters() {
         params.delete('featured');
     }
     
+    if (document.getElementById('only_discounted')?.checked) {
+        params.set('discounted', '1');
+    } else {
+        params.delete('discounted');
+    }
+    
     // Перенаправляємо з новими параметрами
     window.location.href = url.pathname + '?' + params.toString();
 }
+
+// Плавна анімація для карточок при завантаженні
+function animateCards() {
+    const cards = document.querySelectorAll('.product-card');
+    cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        
+        setTimeout(() => {
+            card.style.transition = 'all 0.6s ease-out';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, index * 100);
+    });
+}
+
+// Запускаємо анімацію після завантаження
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', animateCards);
+} else {
+    animateCards();
+}
 </script>
-
-<!-- Додаткові стилі для анімацій -->
-<style>
-.product-card {
-    opacity: 0;
-    animation: fadeInUp 0.6s ease-out forwards;
-}
-
-.product-card:nth-child(1) { animation-delay: 0.1s; }
-.product-card:nth-child(2) { animation-delay: 0.2s; }
-.product-card:nth-child(3) { animation-delay: 0.3s; }
-.product-card:nth-child(4) { animation-delay: 0.4s; }
-.product-card:nth-child(5) { animation-delay: 0.5s; }
-.product-card:nth-child(6) { animation-delay: 0.6s; }
-
-.wishlist-btn.active {
-    background: var(--danger-color) !important;
-    color: var(--white) !important;
-    border-color: var(--danger-color) !important;
-}
-
-.btn-floating {
-    display: none;
-}
-
-@media (max-width: 768px) {
-    .sort-options .d-flex {
-        flex-direction: column;
-        align-items: stretch !important;
-    }
-    
-    .sort-options label {
-        margin-bottom: 0.5rem;
-        margin-right: 0 !important;
-    }
-}
-</style>
 {% endblock %}
