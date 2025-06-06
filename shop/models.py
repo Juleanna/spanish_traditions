@@ -106,6 +106,10 @@ class Product(models.Model):
             return self.is_available
         return self.stock > 0 and self.is_available
 
+    @property
+    def get_price(self):
+        """Повертає актуальну ціну (знижкову або звичайну)"""
+        return self.discount_price if self.discount_price else self.price
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images', verbose_name=_("Товар"))

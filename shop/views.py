@@ -14,6 +14,12 @@ from django.db import models
 from decimal import Decimal
 import json
 
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import View
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+
 from .models import (
     Category, Product, ProductImage, Cart, CartItem, 
     Order, OrderItem, Review, Wishlist
@@ -741,3 +747,634 @@ def search(request):
     }
     
     return render(request, 'shop/search_results.html', context)
+
+@login_required
+def order_success(request, order_number):
+    """Сторінка успішного оформлення замовлення"""
+    order = get_object_or_404(Order, order_number=order_number)
+    
+    # Перевіряємо, чи користувач має доступ до цього замовлення
+    if order.user != request.user and not request.user.is_staff:
+        if not order.email == request.user.email:
+            messages.error(request, _('Ви не маєте доступу до цього замовлення'))
+            return redirect('shop:order_list')
+    
+    context = {
+        'order': order,
+    }
+    
+    return render(request, 'shop/order_success.html', context)
+
+
+@login_required
+def order_list(request):
+    """Список замовлень користувача"""
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    
+    # Пагінація
+    paginator = Paginator(orders, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    context = {
+        'orders': page_obj,
+    }
+    
+    return render(request, 'shop/order_list.html', context)
+
+
+@login_required
+def order_detail(request, order_number):
+    """Детальна інформація про замовлення"""
+    order = get_object_or_404(
+        Order.objects.prefetch_related('items__product'),
+        order_number=order_number
+    )
+    
+    # Перевіряємо доступ
+    if order.user != request.user and not request.user.is_staff:
+        messages.error(request, _('Ви не маєте доступу до цього замовлення'))
+        return redirect('shop:order_list')
+    
+    context = {
+        'order': order,
+    }
+    
+    return render(request, 'shop/order_detail.html', context)
+
+
+@login_required
+@require_POST
+def cancel_order(request, order_number):
+    """Скасування замовлення"""
+    order = get_object_or_404(Order, order_number=order_number, user=request.user)
+    
+    if order.status not in ['pending', 'confirmed']:
+        messages.error(request, _('Це замовлення не можна скасувати'))
+        return redirect('shop:order_detail', order_number=order_number)
+    
+    # Повертаємо товари на склад
+    for item in order.items.all():
+        if item.product.track_stock:
+            item.product.stock = F('stock') + item.quantity
+            item.product.save(update_fields=['stock'])
+    
+    # Оновлюємо статус замовлення
+    order.status = 'cancelled'
+    order.save()
+    
+    messages.success(request, _('Замовлення успішно скасовано'))
+    return redirect('shop:order_detail', order_number=order_number)
+
+
+@login_required
+def wishlist(request):
+    """Список бажань користувача"""
+    wishlist_items = Wishlist.objects.filter(
+        user=request.user
+    ).select_related('product__category').prefetch_related('product__images')
+    
+    context = {
+        'wishlist_items': wishlist_items,
+    }
+    
+    return render(request, 'shop/wishlist.html', context)
+
+
+@login_required
+@require_POST
+def add_to_wishlist(request):
+    """Додавання/видалення товару зі списку бажань"""
+    try:
+        data = json.loads(request.body)
+        product_id = data.get('product_id')
+        
+        product = get_object_or_404(Product, id=product_id, is_active=True)
+        
+        wishlist_item, created = Wishlist.objects.get_or_create(
+            user=request.user,
+            product=product
+        )
+        
+        if not created:
+            wishlist_item.delete()
+            return JsonResponse({
+                'success': True,
+                'message': _('Товар видалено зі списку бажань'),
+                'action': 'removed'
+            })
+        else:
+            return JsonResponse({
+                'success': True,
+                'message': _('Товар додано до списку бажань'),
+                'action': 'added'
+            })
+            
+    except json.JSONDecodeError:
+        return JsonResponse({
+            'success': False,
+            'message': _('Некоректний формат даних')
+        })
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'message': _('Помилка при роботі зі списком бажань')
+        })
+
+
+@login_required
+@require_POST
+def remove_from_wishlist(request):
+    """Видалення товару зі списку бажань"""
+    try:
+        data = json.loads(request.body)
+        product_id = data.get('product_id')
+        
+        wishlist_item = get_object_or_404(
+            Wishlist, 
+            user=request.user, 
+            product_id=product_id
+        )
+        
+        wishlist_item.delete()
+        
+        return JsonResponse({
+            'success': True,
+            'message': _('Товар видалено зі списку бажань')
+        })
+        
+    except json.JSONDecodeError:
+        return JsonResponse({
+            'success': False,
+            'message': _('Некоректний формат даних')
+        })
+
+
+@login_required
+@require_POST
+def clear_wishlist(request):
+    """Очищення списку бажань"""
+    Wishlist.objects.filter(user=request.user).delete()
+    
+    return JsonResponse({
+        'success': True,
+        'message': _('Список бажань очищено')
+    })
+
+
+@login_required
+@require_POST
+def add_review(request, product_slug):
+    """Додавання відгуку до товару"""
+    product = get_object_or_404(Product, slug=product_slug, is_active=True)
+    
+    # Перевіряємо, чи користувач вже залишав відгук
+    existing_review = Review.objects.filter(
+        product=product, 
+        user=request.user
+    ).first()
+    
+    if existing_review:
+        messages.error(request, _('Ви вже залишили відгук для цього товару'))
+        return redirect('shop:product_detail', slug=product_slug)
+    
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.product = product
+            review.user = request.user
+            
+            # Перевіряємо, чи користувач купував цей товар
+            has_purchased = OrderItem.objects.filter(
+                order__user=request.user,
+                product=product,
+                order__status='delivered'
+            ).exists()
+            
+            review.is_verified_purchase = has_purchased
+            review.save()
+            
+            messages.success(request, _('Відгук додано. Після модерації він з\'явиться на сайті.'))
+        else:
+            messages.error(request, _('Помилка при додаванні відгуку'))
+    
+    return redirect('shop:product_detail', slug=product_slug)
+
+
+@login_required
+@require_POST
+def edit_review(request, review_id):
+    """Редагування відгуку"""
+    review = get_object_or_404(Review, id=review_id, user=request.user)
+    
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, instance=review)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.is_approved = False  # Потребує повторної модерації
+            review.save()
+            
+            messages.success(request, _('Відгук оновлено. Після модерації він з\'явиться на сайті.'))
+        else:
+            messages.error(request, _('Помилка при оновленні відгуку'))
+    
+    return redirect('shop:product_detail', slug=review.product.slug)
+
+
+@login_required
+@require_POST
+def delete_review(request, review_id):
+    """Видалення відгуку"""
+    review = get_object_or_404(Review, id=review_id, user=request.user)
+    product_slug = review.product.slug
+    review.delete()
+    
+    messages.success(request, _('Відгук видалено'))
+    return redirect('shop:product_detail', slug=product_slug)
+
+
+@require_POST
+def clear_cart(request):
+    """Очищення кошика"""
+    cart = get_cart(request)
+    cart.items.all().delete()
+    
+    return JsonResponse({
+        'success': True,
+        'message': _('Кошик очищено')
+    })
+
+
+def search_autocomplete(request):
+    """Автозаповнення для пошуку"""
+    query = request.GET.get('q', '').strip()
+    results = []
+    
+    if query and len(query) >= 2:
+        # Шукаємо товари
+        products = Product.objects.filter(
+            Q(name__icontains=query) | 
+            Q(brand__icontains=query),
+            is_active=True
+        ).values('name', 'slug')[:10]
+        
+        for product in products:
+            results.append({
+                'type': 'product',
+                'name': product['name'],
+                'url': reverse('shop:product_detail', kwargs={'slug': product['slug']})
+            })
+        
+        # Шукаємо категорії
+        categories = Category.objects.filter(
+            name__icontains=query,
+            is_active=True
+        ).values('name', 'slug')[:5]
+        
+        for category in categories:
+            results.append({
+                'type': 'category',
+                'name': category['name'],
+                'url': reverse('shop:category_detail', kwargs={'slug': category['slug']})
+            })
+    
+    return JsonResponse({'results': results})
+
+
+def compare_products(request):
+    """Порівняння товарів"""
+    compare_ids = request.session.get('compare_products', [])
+    products = Product.objects.filter(
+        id__in=compare_ids, 
+        is_active=True
+    ).select_related('category').prefetch_related('images')
+    
+    # Групуємо характеристики для порівняння
+    comparison_data = {}
+    for product in products:
+        comparison_data[product.id] = {
+            'product': product,
+            'specs': {
+                'Ціна': product.get_price,
+                'Категорія': product.category.name,
+                'Бренд': product.brand or '-',
+                'Країна': product.country_origin or '-',
+                'Вага': f"{product.weight} кг" if product.weight else '-',
+                'Об\'єм': f"{product.volume} л" if product.volume else '-',
+                'Рейтинг': f"{product.rating}/5" if product.rating else '-',
+                'В наявності': 'Так' if product.is_in_stock() else 'Ні',
+            }
+        }
+    
+    context = {
+        'products': products,
+        'comparison_data': comparison_data,
+    }
+    
+    return render(request, 'shop/compare.html', context)
+
+
+@require_POST
+def add_to_compare(request):
+    """Додавання товару до порівняння"""
+    try:
+        data = json.loads(request.body)
+        product_id = data.get('product_id')
+        
+        product = get_object_or_404(Product, id=product_id, is_active=True)
+        
+        compare_products = request.session.get('compare_products', [])
+        
+        if product_id in compare_products:
+            return JsonResponse({
+                'success': False,
+                'message': _('Товар вже додано до порівняння')
+            })
+        
+        if len(compare_products) >= 4:
+            return JsonResponse({
+                'success': False,
+                'message': _('Максимум 4 товари для порівняння')
+            })
+        
+        compare_products.append(product_id)
+        request.session['compare_products'] = compare_products
+        request.session.modified = True
+        
+        return JsonResponse({
+            'success': True,
+            'message': _('Товар додано до порівняння'),
+            'count': len(compare_products)
+        })
+        
+    except json.JSONDecodeError:
+        return JsonResponse({
+            'success': False,
+            'message': _('Некоректний формат даних')
+        })
+
+
+@require_POST
+def remove_from_compare(request):
+    """Видалення товару з порівняння"""
+    try:
+        data = json.loads(request.body)
+        product_id = data.get('product_id')
+        
+        compare_products = request.session.get('compare_products', [])
+        
+        if product_id in compare_products:
+            compare_products.remove(product_id)
+            request.session['compare_products'] = compare_products
+            request.session.modified = True
+        
+        return JsonResponse({
+            'success': True,
+            'message': _('Товар видалено з порівняння'),
+            'count': len(compare_products)
+        })
+        
+    except json.JSONDecodeError:
+        return JsonResponse({
+            'success': False,
+            'message': _('Некоректний формат даних')
+        })
+
+
+@require_POST
+def clear_compare(request):
+    """Очищення списку порівняння"""
+    request.session['compare_products'] = []
+    request.session.modified = True
+    
+    return JsonResponse({
+        'success': True,
+        'message': _('Список порівняння очищено')
+    })
+
+
+def check_product_stock(request, product_id):
+    """Перевірка наявності товару (API)"""
+    try:
+        product = Product.objects.get(id=product_id, is_active=True)
+        
+        return JsonResponse({
+            'success': True,
+            'in_stock': product.is_in_stock(),
+            'stock': product.stock if product.track_stock else None,
+            'available': product.is_available
+        })
+    except Product.DoesNotExist:
+        return JsonResponse({
+            'success': False,
+            'message': _('Товар не знайдено')
+        })
+
+
+def get_cart_count(request):
+    """Отримання кількості товарів в кошику (API)"""
+    cart = get_cart(request)
+    
+    return JsonResponse({
+        'success': True,
+        'count': cart.total_items,
+        'total_price': float(cart.total_price)
+    })
+
+
+@require_POST
+def calculate_shipping(request):
+    """Розрахунок вартості доставки (API)"""
+    try:
+        data = json.loads(request.body)
+        city = data.get('city')
+        total_amount = Decimal(data.get('total_amount', 0))
+        
+        # Проста логіка розрахунку доставки
+        if total_amount >= 1000:
+            shipping_cost = 0
+        elif city and city.lower() in ['київ', 'kyiv']:
+            shipping_cost = 30
+        else:
+            shipping_cost = 50
+        
+        return JsonResponse({
+            'success': True,
+            'shipping_cost': shipping_cost,
+            'free_shipping_threshold': 1000
+        })
+        
+    except (json.JSONDecodeError, ValueError):
+        return JsonResponse({
+            'success': False,
+            'message': _('Некоректні дані')
+        })
+
+
+def product_quick_view(request, product_id):
+    """Швидкий перегляд товару (для модального вікна)"""
+    product = get_object_or_404(Product, id=product_id, is_active=True)
+    
+    # Базова інформація для швидкого перегляду
+    data = {
+        'success': True,
+        'product': {
+            'id': product.id,
+            'name': product.name,
+            'description': product.short_description,
+            'price': float(product.price),
+            'discount_price': float(product.discount_price) if product.discount_price else None,
+            'in_stock': product.is_in_stock(),
+            'category': product.category.name,
+            'brand': product.brand,
+            'rating': float(product.rating) if product.rating else None,
+            'images': [
+                {'url': img.image.url, 'alt': img.alt_text}
+                for img in product.images.all()[:3]
+            ]
+        }
+    }
+    
+    return JsonResponse(data)
+
+
+def filter_products_ajax(request):
+    """AJAX фільтрація товарів"""
+    # Отримуємо параметри фільтрації
+    category_id = request.GET.get('category')
+    min_price = request.GET.get('min_price')
+    max_price = request.GET.get('max_price')
+    brands = request.GET.getlist('brand')
+    in_stock = request.GET.get('in_stock') == 'true'
+    sort_by = request.GET.get('sort', 'created_at')
+    
+    # Базовий запит
+    products = Product.objects.filter(is_active=True)
+    
+    # Застосовуємо фільтри
+    if category_id:
+        products = products.filter(category_id=category_id)
+    
+    if min_price:
+        products = products.filter(price__gte=min_price)
+    
+    if max_price:
+        products = products.filter(price__lte=max_price)
+    
+    if brands:
+        products = products.filter(brand__in=brands)
+    
+    if in_stock:
+        products = products.filter(
+            Q(track_stock=False, is_available=True) |
+            Q(track_stock=True, stock__gt=0, is_available=True)
+        )
+    
+    # Сортування
+    sort_options = {
+        'name': 'name',
+        'price_low': 'price',
+        'price_high': '-price',
+        'rating': '-rating',
+        'created_at': '-created_at'
+    }
+    
+    if sort_by in sort_options:
+        products = products.order_by(sort_options[sort_by])
+    
+    # Пагінація
+    paginator = Paginator(products, 12)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+    
+    # Формуємо відповідь
+    products_data = []
+    for product in page_obj:
+        products_data.append({
+            'id': product.id,
+            'name': product.name,
+            'slug': product.slug,
+            'price': float(product.price),
+            'discount_price': float(product.discount_price) if product.discount_price else None,
+            'image': product.images.first().image.url if product.images.exists() else None,
+            'rating': float(product.rating) if product.rating else None,
+            'in_stock': product.is_in_stock(),
+            'is_featured': product.is_featured,
+            'url': product.get_absolute_url()
+        })
+    
+    return JsonResponse({
+        'success': True,
+        'products': products_data,
+        'total_count': paginator.count,
+        'page': page_obj.number,
+        'total_pages': paginator.num_pages,
+        'has_next': page_obj.has_next(),
+        'has_previous': page_obj.has_previous()
+    })
+
+
+@require_POST
+def validate_coupon(request):
+    """Валідація промокоду"""
+    try:
+        data = json.loads(request.body)
+        coupon_code = data.get('coupon_code', '').strip()
+        
+        # Тут можна додати логіку валідації промокодів
+        # Наразі просто демонстраційний код
+        valid_coupons = {
+            'SAVE10': {'discount': 10, 'type': 'percentage'},
+            'SAVE50': {'discount': 50, 'type': 'fixed'},
+            'FREESHIP': {'discount': 0, 'type': 'free_shipping'}
+        }
+        
+        if coupon_code.upper() in valid_coupons:
+            coupon = valid_coupons[coupon_code.upper()]
+            return JsonResponse({
+                'success': True,
+                'message': _('Промокод застосовано'),
+                'discount': coupon['discount'],
+                'type': coupon['type']
+            })
+        else:
+            return JsonResponse({
+                'success': False,
+                'message': _('Недійсний промокод')
+            })
+            
+    except json.JSONDecodeError:
+        return JsonResponse({
+            'success': False,
+            'message': _('Некоректний формат даних')
+        })
+
+
+def track_order(request, order_number):
+    """Відстеження замовлення"""
+    try:
+        order = Order.objects.get(order_number=order_number)
+        
+        # Дозволяємо відстеження без входу, якщо є email
+        if request.method == 'POST':
+            email = request.POST.get('email')
+            if email == order.email:
+                context = {
+                    'order': order,
+                    'tracking_allowed': True
+                }
+                return render(request, 'shop/track_order.html', context)
+            else:
+                messages.error(request, _('Невірний email'))
+        
+        context = {
+            'order_number': order_number,
+            'tracking_allowed': False
+        }
+        
+    except Order.DoesNotExist:
+        messages.error(request, _('Замовлення не знайдено'))
+        return redirect('shop:product_list')
+    
+    return render(request, 'shop/track_order.html', context)

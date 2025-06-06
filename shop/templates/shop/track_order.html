@@ -1,0 +1,352 @@
+{% extends 'core/base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/shop.css' %}" media="screen">
+<style>
+.tracking-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.tracking-form {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.tracking-status {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.status-timeline {
+    position: relative;
+    padding: 20px 0;
+}
+
+.status-item {
+    position: relative;
+    padding-left: 50px;
+    margin-bottom: 30px;
+}
+
+.status-item:last-child {
+    margin-bottom: 0;
+}
+
+.status-icon {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+    border: 3px solid #dee2e6;
+}
+
+.status-item.completed .status-icon {
+    background: #28a745;
+    color: white;
+    border-color: #28a745;
+}
+
+.status-item.active .status-icon {
+    background: #ffc107;
+    color: white;
+    border-color: #ffc107;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.status-line {
+    position: absolute;
+    left: 19px;
+    top: 40px;
+    width: 3px;
+    height: calc(100% - 40px);
+    background: #dee2e6;
+}
+
+.status-item.completed .status-line {
+    background: #28a745;
+}
+
+.status-content h5 {
+    margin-bottom: 5px;
+    color: #2c3e50;
+}
+
+.status-content p {
+    margin: 0;
+    color: #6c757d;
+    font-size: 14px;
+}
+
+.order-info-card {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.order-info-card h6 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.info-row:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.info-label {
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.info-value {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.tracking-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.tracking-header h2 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.tracking-header p {
+    color: #6c757d;
+}
+
+@media (max-width: 768px) {
+    .tracking-container {
+        padding: 20px 10px;
+    }
+    
+    .tracking-form,
+    .tracking-status {
+        padding: 20px;
+    }
+    
+    .status-item {
+        padding-left: 40px;
+    }
+    
+    .status-icon {
+        width: 30px;
+        height: 30px;
+        font-size: 14px;
+    }
+    
+    .status-line {
+        left: 14px;
+    }
+}
+</style>
+{% endblock %}
+
+{% block title %}{% trans "Відстеження замовлення" %}{% endblock %}
+
+{% block content %}
+<div class="tracking-container">
+    <div class="tracking-header">
+        <h2><i class="fas fa-shipping-fast"></i> {% trans "Відстеження замовлення" %}</h2>
+        <p>{% trans "Введіть номер замовлення та email для відстеження" %}</p>
+    </div>
+    
+    {% if not tracking_allowed %}
+    <!-- Форма для введення даних -->
+    <div class="tracking-form">
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="order_number" class="form-label">
+                    <i class="fas fa-hashtag"></i> {% trans "Номер замовлення" %}
+                </label>
+                <input type="text" class="form-control" id="order_number" 
+                       name="order_number" value="{{ order_number }}" readonly>
+            </div>
+            
+            <div class="mb-3">
+                <label for="email" class="form-label">
+                    <i class="fas fa-envelope"></i> {% trans "Email" %}
+                </label>
+                <input type="email" class="form-control" id="email" name="email" 
+                       placeholder="{% trans 'Введіть email, вказаний при замовленні' %}" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary w-100">
+                <i class="fas fa-search"></i> {% trans "Відстежити замовлення" %}
+            </button>
+        </form>
+    </div>
+    
+    {% else %}
+    <!-- Інформація про замовлення -->
+    <div class="tracking-status">
+        <h4 class="mb-4">
+            {% trans "Замовлення" %} #{{ order.order_number }}
+        </h4>
+        
+        <!-- Статус timeline -->
+        <div class="status-timeline">
+            <!-- Очікує підтвердження -->
+            <div class="status-item {% if order.status != 'cancelled' %}completed{% endif %}">
+                <div class="status-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="status-line"></div>
+                <div class="status-content">
+                    <h5>{% trans "Замовлення створено" %}</h5>
+                    <p>{{ order.created_at|date:"d.m.Y H:i" }}</p>
+                </div>
+            </div>
+            
+            <!-- Підтверджено -->
+            <div class="status-item {% if order.status in 'confirmed,processing,shipped,delivered' %}completed{% elif order.status == 'pending' %}active{% endif %}">
+                <div class="status-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="status-line"></div>
+                <div class="status-content">
+                    <h5>{% trans "Підтверджено" %}</h5>
+                    <p>{% if order.status != 'pending' and order.status != 'cancelled' %}
+                        {% trans "Замовлення підтверджено менеджером" %}
+                    {% else %}
+                        {% trans "Очікує підтвердження" %}
+                    {% endif %}</p>
+                </div>
+            </div>
+            
+            <!-- Обробляється -->
+            <div class="status-item {% if order.status in 'processing,shipped,delivered' %}completed{% elif order.status == 'confirmed' %}active{% endif %}">
+                <div class="status-icon">
+                    <i class="fas fa-box"></i>
+                </div>
+                <div class="status-line"></div>
+                <div class="status-content">
+                    <h5>{% trans "Обробляється" %}</h5>
+                    <p>{% if order.status in 'processing,shipped,delivered' %}
+                        {% trans "Замовлення зібрано та підготовлено" %}
+                    {% else %}
+                        {% trans "Готується до відправки" %}
+                    {% endif %}</p>
+                </div>
+            </div>
+            
+            <!-- Відправлено -->
+            <div class="status-item {% if order.status in 'shipped,delivered' %}completed{% elif order.status == 'processing' %}active{% endif %}">
+                <div class="status-icon">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <div class="status-line"></div>
+                <div class="status-content">
+                    <h5>{% trans "Відправлено" %}</h5>
+                    <p>{% if order.shipped_at %}
+                        {{ order.shipped_at|date:"d.m.Y H:i" }}
+                    {% else %}
+                        {% trans "Очікує відправки" %}
+                    {% endif %}</p>
+                </div>
+            </div>
+            
+            <!-- Доставлено -->
+            <div class="status-item {% if order.status == 'delivered' %}completed{% elif order.status == 'shipped' %}active{% endif %}">
+                <div class="status-icon">
+                    <i class="fas fa-home"></i>
+                </div>
+                <div class="status-content">
+                    <h5>{% trans "Доставлено" %}</h5>
+                    <p>{% if order.delivered_at %}
+                        {{ order.delivered_at|date:"d.m.Y H:i" }}
+                    {% else %}
+                        {% trans "Очікується доставка" %}
+                    {% endif %}</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Інформація про замовлення -->
+        <div class="order-info-card">
+            <h6><i class="fas fa-info-circle"></i> {% trans "Деталі замовлення" %}</h6>
+            
+            <div class="info-row">
+                <span class="info-label">{% trans "Статус:" %}</span>
+                <span class="info-value">
+                    {% if order.status == 'pending' %}
+                        <span class="badge bg-warning">{% trans "Очікує підтвердження" %}</span>
+                    {% elif order.status == 'confirmed' %}
+                        <span class="badge bg-info">{% trans "Підтверджено" %}</span>
+                    {% elif order.status == 'processing' %}
+                        <span class="badge bg-primary">{% trans "Обробляється" %}</span>
+                    {% elif order.status == 'shipped' %}
+                        <span class="badge bg-success">{% trans "Відправлено" %}</span>
+                    {% elif order.status == 'delivered' %}
+                        <span class="badge bg-success">{% trans "Доставлено" %}</span>
+                    {% elif order.status == 'cancelled' %}
+                        <span class="badge bg-danger">{% trans "Скасовано" %}</span>
+                    {% endif %}
+                </span>
+            </div>
+            
+            <div class="info-row">
+                <span class="info-label">{% trans "Дата замовлення:" %}</span>
+                <span class="info-value">{{ order.created_at|date:"d.m.Y" }}</span>
+            </div>
+            
+            <div class="info-row">
+                <span class="info-label">{% trans "Сума замовлення:" %}</span>
+                <span class="info-value">{{ order.total_amount }} ₴</span>
+            </div>
+            
+            <div class="info-row">
+                <span class="info-label">{% trans "Адреса доставки:" %}</span>
+                <span class="info-value">{{ order.city }}, {{ order.address_line1 }}</span>
+            </div>
+            
+            <div class="info-row">
+                <span class="info-label">{% trans "Одержувач:" %}</span>
+                <span class="info-value">{{ order.first_name }} {{ order.last_name }}</span>
+            </div>
+        </div>
+        
+        <div class="mt-4 text-center">
+            <a href="{% url 'shop:product_list' %}" class="btn btn-outline-primary">
+                <i class="fas fa-shopping-bag"></i> {% trans "Продовжити покупки" %}
+            </a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
