@@ -441,8 +441,7 @@
                                 {% if product.is_in_stock %}
                               <!-- Замість звичайної кнопки -->
 <button class="btn btn-primary add-to-cart-btn" 
-        data-product-id="{{ product.id }}"
-        onclick="addToCart({{ product.id }}, 1)">
+        data-product-id="{{ product.id }}">
     <i class="fas fa-shopping-cart me-2"></i>
     {% trans "Додати до корзини" %}
 </button>
@@ -536,59 +535,6 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
-
-    // Додавання до кошика
-    document.querySelectorAll('.add-to-cart').forEach(button => {
-        button.addEventListener('click', function() {
-            const productId = this.dataset.productId;
-            const quantity = 1;
-            const originalText = this.innerHTML;
-            
-            // Показуємо індикатор завантаження
-            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Додавання...';
-            this.disabled = true;
-            
-            fetch('{% url "shop:add_to_cart" %}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': '{{ csrf_token }}'
-                },
-                body: JSON.stringify({
-                    product_id: productId,
-                    quantity: quantity
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Показуємо повідомлення про успіх
-                    showAlert(data.message, 'success');
-                    
-                    // Тимчасово змінюємо кнопку
-                    this.innerHTML = '<i class="fas fa-check"></i> Додано!';
-                    this.classList.remove('btn-primary');
-                    this.classList.add('btn-success');
-                    
-                    setTimeout(() => {
-                        this.innerHTML = originalText;
-                        this.classList.remove('btn-success');
-                        this.classList.add('btn-primary');
-                        this.disabled = false;
-                    }, 2000);
-                } else {
-                    showAlert(data.message, 'error');
-                    this.innerHTML = originalText;
-                    this.disabled = false;
-                }
-            })
-            .catch(error => {
-                showAlert('Помилка при додаванні товару', 'error');
-                this.innerHTML = originalText;
-                this.disabled = false;
-            });
-        });
-    });
 
     // Додавання до списку бажань
     document.querySelectorAll('.wishlist-btn').forEach(button => {

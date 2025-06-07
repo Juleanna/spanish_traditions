@@ -122,7 +122,7 @@
 
                         <div class="product-actions mt-3">
                             {% if product.is_in_stock %}
-                            <button class="btn btn-primary add-to-cart" data-product-id="{{ product.id }}">
+                           <button class="btn btn-primary add-to-cart-btn" data-product-id="{{ product.id }}">
                                 <i class="fas fa-shopping-cart"></i> {% trans "До кошика" %}
                             </button>
                             {% else %}
@@ -185,33 +185,6 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Додавання до кошика
-    document.querySelectorAll('.add-to-cart').forEach(button => {
-        button.addEventListener('click', function() {
-            const productId = this.dataset.productId;
-            
-            fetch('{% url "shop:add_to_cart" %}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': '{{ csrf_token }}'
-                },
-                body: JSON.stringify({
-                    product_id: productId,
-                    quantity: 1
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert(data.message);
-                } else {
-                    alert(data.message);
-                }
-            });
-        });
-    });
-
     // Список бажань
     document.querySelectorAll('.wishlist-btn').forEach(button => {
         button.addEventListener('click', function() {

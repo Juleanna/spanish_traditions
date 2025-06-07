@@ -1253,7 +1253,7 @@ def add_to_cart(request):
         cart_item, created = CartItem.objects.get_or_create(
             cart=cart,
             product=product,
-            defaults={'quantity': quantity, 'price': product.get_price()}
+            defaults={'quantity': quantity, 'price': product.get_price}
         )
         
         if not created:
