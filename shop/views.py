@@ -416,141 +416,6 @@ def add_to_cart(request):
         })
 
 
-def cart_detail(request):
-    """Покращена сторінка кошика"""
-    cart = get_cart(request)
-    cart_items = cart.items.select_related('product__category').prefetch_related('product__images').all()
-    
-    # Перевіряємо наявність товарів у кошику
-    unavailable_items = []
-    for item in cart_items:
-        if not item.product.is_available or (
-            item.product.track_stock and item.product.stock < item.quantity
-        ):
-            unavailable_items.append(item)
-    
-    # Рекомендовані товари для кошика
-    if cart_items.exists():
-        categories = set(item.product.category for item in cart_items)
-        recommended_products = Product.objects.filter(
-            category__in=categories,
-            is_active=True,
-            is_available=True
-        ).exclude(
-            id__in=[item.product.id for item in cart_items]
-        ).annotate(
-            in_stock=Case(
-                When(track_stock=False, is_available=True, then=True),
-                When(track_stock=True, stock__gt=0, is_available=True, then=True),
-                default=False,
-                output_field=BooleanField()
-            )
-        ).filter(in_stock=True).order_by('-is_featured', '?')[:4]
-    else:
-        recommended_products = []
-    
-    context = {
-        'cart': cart,
-        'cart_items': cart_items,
-        'unavailable_items': unavailable_items,
-        'recommended_products': recommended_products,
-        'shipping_cost': Decimal('50.00'),  # Можна зробити динамічним
-    }
-    
-    return render(request, 'shop/cart_detail.html', context)
-
-
-@require_POST
-def update_cart_item(request):
-    """Покращене оновлення кількості товару в кошику"""
-    try:
-        data = json.loads(request.body)
-        item_id = data.get('item_id')
-        quantity = int(data.get('quantity'))
-        
-        cart = get_cart(request)
-        cart_item = get_object_or_404(CartItem, id=item_id, cart=cart)
-        
-        if quantity <= 0:
-            cart_item.delete()
-            return JsonResponse({
-                'success': True,
-                'message': _('Товар видалено з кошика'),
-                'cart_total_items': cart.total_items,
-                'cart_total_price': float(cart.total_price),
-                'item_removed': True
-            })
-        
-        # Перевіряємо наявність товару
-        if not cart_item.product.is_available:
-            return JsonResponse({
-                'success': False,
-                'message': _('Товар більше недоступний')
-            })
-        
-        if cart_item.product.track_stock and cart_item.product.stock < quantity:
-            return JsonResponse({
-                'success': False,
-                'message': _('Недостатньо товару на складі. Доступно: {} шт.').format(
-                    cart_item.product.stock
-                )
-            })
-        
-        cart_item.quantity = quantity
-        cart_item.price = cart_item.product.get_price  # Оновлюємо ціну
-        cart_item.save()
-        
-        return JsonResponse({
-            'success': True,
-            'message': _('Кошик оновлено'),
-            'cart_total_items': cart.total_items,
-            'cart_total_price': float(cart.total_price),
-            'item_total_price': float(cart_item.total_price),
-            'item_quantity': cart_item.quantity
-        })
-        
-    except json.JSONDecodeError:
-        return JsonResponse({
-            'success': False,
-            'message': _('Некоректний формат даних')
-        })
-    except Exception as e:
-        return JsonResponse({
-            'success': False,
-            'message': _('Помилка при оновленні кошика')
-        })
-
-
-@require_POST
-def remove_from_cart(request):
-    """Покращене видалення товару з кошика"""
-    try:
-        data = json.loads(request.body)
-        item_id = data.get('item_id')
-        
-        cart = get_cart(request)
-        cart_item = get_object_or_404(CartItem, id=item_id, cart=cart)
-        product_name = cart_item.product.name
-        cart_item.delete()
-        
-        return JsonResponse({
-            'success': True,
-            'message': _('"{}" видалено з кошика').format(product_name),
-            'cart_total_items': cart.total_items,
-            'cart_total_price': float(cart.total_price)
-        })
-        
-    except json.JSONDecodeError:
-        return JsonResponse({
-            'success': False,
-            'message': _('Некоректний формат даних')
-        })
-    except Exception as e:
-        return JsonResponse({
-            'success': False,
-            'message': _('Помилка при видаленні товару')
-        })
-
 
 def checkout(request):
     """Покращене оформлення замовлення"""
@@ -1378,3 +1243,174 @@ def track_order(request, order_number):
         return redirect('shop:product_list')
     
     return render(request, 'shop/track_order.html', context)
+
+
+def get_cart(request):
+    """Отримуємо або створюємо кошик для користувача"""
+    if request.user.is_authenticated:
+        cart, created = Cart.objects.get_or_create(user=request.user)
+    else:
+        session_key = request.session.session_key
+        if not session_key:
+            request.session.create()
+            session_key = request.session.session_key
+        cart, created = Cart.objects.get_or_create(session_key=session_key)
+    
+    return cart
+
+
+def cart_data_api(request):
+    """API для отримання даних кошика для віджета"""
+    cart = get_cart(request)
+    cart_items = cart.items.select_related('product').all()
+    
+    items_data = []
+    for item in cart_items:
+        items_data.append({
+            'id': item.id,
+            'name': item.product.name,
+            'quantity': item.quantity,
+            'price': float(item.price),
+            'total_price': float(item.total_price),
+            'image': item.product.images.first().image.url if item.product.images.exists() else None,
+        })
+    
+    return JsonResponse({
+        'total_items': cart.total_items,
+        'total_price': float(cart.total_price),
+        'items': items_data
+    })
+
+
+@require_POST
+def add_to_cart(request):
+    """Додавання товару до кошика"""
+    try:
+        data = json.loads(request.body)
+        product_id = data.get('product_id')
+        quantity = int(data.get('quantity', 1))
+        
+        product = get_object_or_404(Product, id=product_id, is_active=True)
+        
+        # Перевіряємо наявність товару
+        if product.track_stock and product.stock < quantity:
+            return JsonResponse({
+                'success': False,
+                'message': _('Недостатньо товару на складі')
+            })
+        
+        cart = get_cart(request)
+        
+        # Перевіряємо, чи товар вже є в кошику
+        cart_item, created = CartItem.objects.get_or_create(
+            cart=cart,
+            product=product,
+            defaults={'quantity': quantity, 'price': product.get_price}
+        )
+        
+        if not created:
+            # Якщо товар вже є, збільшуємо кількість
+            new_quantity = cart_item.quantity + quantity
+            if product.track_stock and product.stock < new_quantity:
+                return JsonResponse({
+                    'success': False,
+                    'message': _('Недостатньо товару на складі')
+                })
+            cart_item.quantity = new_quantity
+            cart_item.save()
+        
+        return JsonResponse({
+            'success': True,
+            'message': _('Товар додано до кошика'),
+            'cart_total_items': cart.total_items,
+            'cart_total_price': float(cart.total_price)
+        })
+        
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'message': _('Помилка при додаванні товару')
+        })
+
+
+def cart_detail(request):
+    """Сторінка кошика"""
+    cart = get_cart(request)
+    cart_items = cart.items.select_related('product').all()
+    
+    context = {
+        'cart': cart,
+        'cart_items': cart_items,
+    }
+    
+    return render(request, 'shop/cart_detail.html', context)
+
+
+@require_POST
+def update_cart_item(request):
+    """Оновлення кількості товару в кошику"""
+    try:
+        data = json.loads(request.body)
+        item_id = data.get('item_id')
+        quantity = int(data.get('quantity'))
+        
+        cart = get_cart(request)
+        cart_item = get_object_or_404(CartItem, id=item_id, cart=cart)
+        
+        if quantity <= 0:
+            cart_item.delete()
+            return JsonResponse({
+                'success': True,
+                'message': _('Товар видалено з кошика'),
+                'cart_total_items': cart.total_items,
+                'cart_total_price': float(cart.total_price)
+            })
+        
+        # Перевіряємо наявність товару
+        if cart_item.product.track_stock and cart_item.product.stock < quantity:
+            return JsonResponse({
+                'success': False,
+                'message': _('Недостатньо товару на складі')
+            })
+        
+        cart_item.quantity = quantity
+        cart_item.save()
+        
+        return JsonResponse({
+            'success': True,
+            'message': _('Кошик оновлено'),
+            'cart_total_items': cart.total_items,
+            'cart_total_price': float(cart.total_price),
+            'item_total_price': float(cart_item.total_price)
+        })
+        
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'message': _('Помилка при оновленні кошика')
+        })
+
+
+@require_POST
+def remove_from_cart(request):
+    """Видалення товару з кошика"""
+    try:
+        data = json.loads(request.body)
+        item_id = data.get('item_id')
+        
+        cart = get_cart(request)
+        cart_item = get_object_or_404(CartItem, id=item_id, cart=cart)
+        cart_item.delete()
+        
+        return JsonResponse({
+            'success': True,
+            'message': _('Товар видалено з кошика'),
+            'cart_total_items': cart.total_items,
+            'cart_total_price': float(cart.total_price)
+        })
+        
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'message': _('Помилка при видаленні товару')
+        })

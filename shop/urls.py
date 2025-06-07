@@ -68,4 +68,6 @@ urlpatterns = [
     
     # Відстеження замовлення
     path('track/<str:order_number>/', views.track_order, name='track_order'),
+
+    path('cart/data/', views.cart_data_api, name='cart_data_api'),
 ]

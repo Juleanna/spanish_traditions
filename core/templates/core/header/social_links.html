@@ -1,3 +1,4 @@
+<!-- Оновлений файл core/templates/core/header/social_links.html -->
 {% load static %}
 {% load i18n %}
 <div class="u-align-center-sm u-align-center-xs u-section-row" data-animation-name="" data-animation-duration="0"
@@ -7,30 +8,32 @@
             title="Головна">
             <img src="{% static 'images/Logo.png' %}" class="u-logo-image u-logo-image-1">
         </a>
+        
         <div class="u-clearfix u-group-elements u-valign-middle-lg u-group-elements-1">
+            <!-- Соціальні мережі -->
             <div class="u-clearfix u-group-elements u-valign-middle u-group-elements-2" title="">
                 <div class="u-social-icons u-social-icons-1">
-                    <a class="u-social-url" title="facebook" target="_blank" href=""><span
-                            class="u-icon u-social-facebook u-social-icon u-icon-1">
+                    <a class="u-social-url" title="facebook" target="_blank" href="">
+                        <span class="u-icon u-social-facebook u-social-icon u-icon-1">
                             <image src="{% static 'images/icons8-facebook-новый.svg' %}">
-                                </svg>
                         </span>
                     </a>
-                    <a class="u-social-url" title="twitter" target="_blank" href=""><span
-                            class="u-icon u-social-icon u-social-twitter u-icon-2">
-                            <image src="{% static 'images/icons8-твиттер-в-круге.svg' %}"></image>
+                    <a class="u-social-url" title="twitter" target="_blank" href="">
+                        <span class="u-icon u-social-icon u-social-twitter u-icon-2">
+                            <image src="{% static 'images/icons8-твиттер-в-круге.svg' %}">
                         </span>
                     </a>
-                    <a class="u-social-url" title="instagram" target="_blank" href=""><span
-                            class="u-icon u-social-icon u-social-instagram u-icon-3">
-                            <image src="{% static 'images/icons8-инстаграм-в-круге.svg' %}"></image>
+                    <a class="u-social-url" title="instagram" target="_blank" href="">
+                        <span class="u-icon u-social-icon u-social-instagram u-icon-3">
+                            <image src="{% static 'images/icons8-инстаграм-в-круге.svg' %}">
                         </span>
                     </a>
                 </div>
             </div>
         </div>
-        <div
-            class="u-h-spacing-12 u-language u-language-content-icon-text u-language-layout-dropdown u-v-spacing-6 u-language-1">
+
+        <!-- Мовний перемикач -->
+        <div class="u-h-spacing-12 u-language u-language-content-icon-text u-language-layout-dropdown u-v-spacing-6 u-language-1">
             <a class="u-language-active u-language-url" href="#" data-language="uk">
                 <svg class="u-caret u-caret-svg" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px"
@@ -85,12 +88,406 @@
                 </a>
             </div>
         </div>
-        <div class="cart-widget">
-    <a href="{% url 'shop:cart_detail' %}" class="btn btn-outline-primary">
-        <i class="fas fa-shopping-cart"></i>
-        <span class="cart-counter">0</span>
-    </a>
-</div>
-        
+
+        <!-- Гарний віджет кошика -->
+        <div class="cart-widget-container">
+            <div class="cart-widget" id="cart-widget">
+                <a href="{% url 'shop:cart_detail' %}" class="cart-link" id="cart-link">
+                    <div class="cart-icon-wrapper">
+                        <svg class="cart-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.44C5.03 14.52 5.4 15 6 15h12v-2H6l1.1-2h7.45c.75 0 1.41-.41 1.75-1.03L18.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                        </svg>
+                        <span class="cart-counter" id="cart-counter">0</span>
+                    </div>
+                    <div class="cart-info">
+                        <span class="cart-text">{% trans "Кошик" %}</span>
+                        <span class="cart-total" id="cart-total">0 ₴</span>
+                    </div>
+                </a>
+                
+                <!-- Dropdown з товарами -->
+                <div class="cart-dropdown" id="cart-dropdown">
+                    <div class="cart-dropdown-header">
+                        <h5>{% trans "Ваш кошик" %}</h5>
+                    </div>
+                    <div class="cart-dropdown-content" id="cart-dropdown-content">
+                        <!-- Товари будуть додаватися через JavaScript -->
+                        <div class="empty-cart-message" id="empty-cart-message">
+                            <i class="fas fa-shopping-cart"></i>
+                            <p>{% trans "Кошик порожній" %}</p>
+                        </div>
+                    </div>
+                    <div class="cart-dropdown-footer">
+                        <a href="{% url 'shop:cart_detail' %}" class="btn btn-primary btn-sm w-100">
+                            {% trans "Переглянути кошик" %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+<style>
+/* Стилі для віджета кошика */
+.cart-widget-container {
+    position: relative;
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.cart-widget {
+    position: relative;
+}
+
+.cart-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid transparent;
+}
+
+.cart-link:hover {
+    background: #007bff;
+    color: white;
+    border-color: #007bff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.cart-icon-wrapper {
+    position: relative;
+    margin-right: 10px;
+}
+
+.cart-icon {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s ease;
+}
+
+.cart-link:hover .cart-icon {
+    transform: scale(1.1);
+}
+
+.cart-counter {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #e74c3c;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    animation: pulse 0.3s ease;
+}
+
+.cart-counter.updated {
+    animation: bounce 0.5s ease;
+}
+
+.cart-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.cart-text {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1;
+}
+
+.cart-total {
+    font-size: 12px;
+    color: #666;
+    font-weight: 600;
+}
+
+.cart-link:hover .cart-total {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Dropdown стилі */
+.cart-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 350px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    border: 1px solid #e9ecef;
+    margin-top: 10px;
+}
+
+.cart-widget:hover .cart-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.cart-dropdown-header {
+    padding: 15px 20px 10px;
+    border-bottom: 1px solid #f1f3f4;
+}
+
+.cart-dropdown-header h5 {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.cart-dropdown-content {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.cart-item-mini {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid #f8f9fa;
+    transition: background-color 0.2s ease;
+}
+
+.cart-item-mini:hover {
+    background-color: #f8f9fa;
+}
+
+.cart-item-mini:last-child {
+    border-bottom: none;
+}
+
+.cart-item-image {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-right: 10px;
+}
+
+.cart-item-details {
+    flex: 1;
+}
+
+.cart-item-name {
+    font-size: 13px;
+    font-weight: 500;
+    margin: 0 0 2px 0;
+    color: #333;
+    line-height: 1.2;
+}
+
+.cart-item-info {
+    font-size: 11px;
+    color: #666;
+}
+
+.cart-item-price {
+    font-size: 13px;
+    font-weight: 600;
+    color: #007bff;
+}
+
+.empty-cart-message {
+    text-align: center;
+    padding: 30px 20px;
+    color: #999;
+}
+
+.empty-cart-message i {
+    font-size: 32px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.empty-cart-message p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.cart-dropdown-footer {
+    padding: 15px 20px;
+    border-top: 1px solid #f1f3f4;
+    background: #f8f9fa;
+    border-radius: 0 0 12px 12px;
+}
+
+.cart-dropdown-total {
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Анімації */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+@keyframes bounce {
+    0%, 20%, 53%, 80%, 100% { transform: scale(1); }
+    40%, 43% { transform: scale(1.3); }
+    70% { transform: scale(1.1); }
+}
+
+/* Адаптивність */
+@media (max-width: 768px) {
+    .cart-dropdown {
+        width: 300px;
+        right: -50px;
+    }
+    
+    .cart-info {
+        display: none;
+    }
+    
+    .cart-link {
+        padding: 8px 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .cart-dropdown {
+        width: 280px;
+        right: -100px;
+    }
+}
+
+/* Стрілка dropdown */
+.cart-dropdown::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    right: 20px;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid white;
+}
+</style>
+
+<script>
+// JavaScript для оновлення віджета кошика
+class CartWidget {
+    constructor() {
+        this.cartCounter = document.getElementById('cart-counter');
+        this.cartTotal = document.getElementById('cart-total');
+        this.cartDropdownContent = document.getElementById('cart-dropdown-content');
+        this.emptyCartMessage = document.getElementById('empty-cart-message');
+        
+        this.loadCartData();
+        this.setupEventListeners();
+    }
+
+    setupEventListeners() {
+        // Оновлення кошика при додаванні товарів
+        document.addEventListener('cartUpdated', (event) => {
+            this.updateWidget(event.detail);
+        });
+
+        // Закриття dropdown при кліку поза ним
+        document.addEventListener('click', (event) => {
+            const cartWidget = document.getElementById('cart-widget');
+            if (!cartWidget.contains(event.target)) {
+                const dropdown = document.getElementById('cart-dropdown');
+                dropdown.style.opacity = '0';
+                dropdown.style.visibility = 'hidden';
+            }
+        });
+    }
+
+    async loadCartData() {
+        try {
+            const response = await fetch('/shop/cart/data/', {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                }
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                this.updateWidget(data);
+            }
+        } catch (error) {
+            console.error('Error loading cart data:', error);
+        }
+    }
+
+    updateWidget(cartData) {
+        // Оновлюємо лічильник
+        this.cartCounter.textContent = cartData.total_items || 0;
+        this.cartTotal.textContent = (cartData.total_price || 0) + ' ₴';
+        
+        // Анімація лічильника
+        this.cartCounter.classList.add('updated');
+        setTimeout(() => {
+            this.cartCounter.classList.remove('updated');
+        }, 500);
+
+        // Оновлюємо dropdown контент
+        this.updateDropdownContent(cartData.items || []);
+    }
+
+    updateDropdownContent(items) {
+        if (!items || items.length === 0) {
+            this.cartDropdownContent.innerHTML = `
+                <div class="empty-cart-message">
+                    <i class="fas fa-shopping-cart"></i>
+                    <p>{% trans "Кошик порожній" %}</p>
+                </div>
+            `;
+            return;
+        }
+
+        let itemsHtml = '';
+        items.forEach(item => {
+            itemsHtml += `
+                <div class="cart-item-mini">
+                    <img src="${item.image || '/static/images/no-image.jpg'}" alt="${item.name}" class="cart-item-image">
+                    <div class="cart-item-details">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-info">${item.quantity} шт. × ${item.price} ₴</div>
+                    </div>
+                    <div class="cart-item-price">${item.total_price} ₴</div>
+                </div>
+            `;
+        });
+
+        this.cartDropdownContent.innerHTML = itemsHtml;
+    }
+}
+
+// Ініціалізація віджета після завантаження DOM
+document.addEventListener('DOMContentLoaded', function() {
+    new CartWidget();
+});
+
+// Функція для оновлення кошика з інших частин сайту
+window.updateCartWidget = function(cartData) {
+    const event = new CustomEvent('cartUpdated', { detail: cartData });
+    document.dispatchEvent(event);
+};
+</script>

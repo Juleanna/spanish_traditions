@@ -20,6 +20,7 @@
     <meta name="twitter:title" content="Магазин «Іспанські традиції» – іспанські продукти в Україні">
     <meta name="twitter:description"
         content="Оригінальні іспанські продукти: вино, оливкова олія, хамони, сири та делікатеси. Доставка по Україні.">
+    <meta name="csrf-token" content="{{ csrf_token }}">
     <title>{% block title %}{% trans "Головна" %}{% endblock %}</title>
     <link rel="icon" href="{% static 'images/favicon.png' %}">
     <link rel="stylesheet" href="{% static 'css/nicepage.css' %}" media="screen">
@@ -73,5 +74,106 @@
             <path d="m275.565 189.451 223.897 223.897h51.668l-275.565-275.565-275.565 275.565h51.668z"></path>
         </svg></span>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+<!-- Додайте цей JavaScript до базового шаблону або до кожного шаблону з кнопками "Додати до кошика" -->
+<script>
+// Оновлена функція додавання до кошика
+function addToCart(productId, quantity = 1) {
+    fetch('{% url "shop:add_to_cart" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCsrfToken()
+        },
+        body: JSON.stringify({
+            product_id: productId,
+            quantity: quantity
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Показуємо повідомлення
+            showNotification(data.message, 'success');
+            
+            // Оновлюємо віджет кошика
+            if (window.updateCartWidget) {
+                window.updateCartWidget({
+                    total_items: data.cart_total_items,
+                    total_price: data.cart_total_price
+                });
+                
+                // Перезавантажуємо повні дані кошика
+                loadCartData();
+            }
+        } else {
+            showNotification(data.message, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotification('{% trans "Помилка при додаванні товару" %}', 'error');
+    });
+}
+
+// Функція для завантаження даних кошика
+function loadCartData() {
+    fetch('/shop/cart/data/')
+        .then(response => response.json())
+        .then(data => {
+            if (window.updateCartWidget) {
+                window.updateCartWidget(data);
+            }
+        })
+        .catch(error => console.error('Error loading cart data:', error));
+}
+
+// Функція для отримання CSRF токена
+function getCsrfToken() {
+    return document.querySelector('[name=csrfmiddlewaretoken]')?.value || 
+           document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || 
+           '{{ csrf_token }}';
+}
+
+// Функція для показу повідомлень
+function showNotification(message, type) {
+    // Створюємо елемент повідомлення
+    const notification = document.createElement('div');
+    notification.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show position-fixed`;
+    notification.style.cssText = 'top: 20px; right: 20px; z-index: 2000; max-width: 350px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);';
+    
+    notification.innerHTML = `
+        <div class="d-flex align-items-center">
+            <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'} me-2"></i>
+            <span>${message}</span>
+            <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"></button>
+        </div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Автоматично видаляємо через 4 секунди
+    setTimeout(() => {
+        notification.remove();
+    }, 4000);
+}
+
+// Ініціалізація при завантаженні сторінки
+document.addEventListener('DOMContentLoaded', function() {
+    // Завантажуємо дані кошика
+    loadCartData();
+    
+    // Прив'язуємо обробники до кнопок "Додати до кошика"
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const productId = this.dataset.productId;
+            const quantityInput = document.getElementById('quantity');
+            const quantity = quantityInput ? parseInt(quantityInput.value) : 1;
+            
+            addToCart(productId, quantity);
+        });
+    });
+});
+</script>
+    </body>
 </html>
