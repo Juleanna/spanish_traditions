@@ -4,298 +4,7 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/shop.css' %}" media="screen">
-<style>
-/* Стилі для красивої сторінки товару */
-.product-detail-container {
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    min-height: 100vh;
-    padding: 40px 0;
-}
 
-.product-card {
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    margin-bottom: 30px;
-}
-
-.product-images-section {
-    position: relative;
-    background: #f8f9fa;
-    padding: 30px;
-}
-
-.main-image-container {
-    position: relative;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.main-product-image {
-    max-width: 100%;
-    max-height: 500px;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s ease;
-}
-
-.main-product-image:hover {
-    transform: scale(1.05);
-}
-
-.product-badges {
-    position: absolute;
-    top: 20px;
-    right: 20px; /* Змінено з left на right */
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    z-index: 10;
-}
-
-.badge {
-    padding: 8px 15px;
-    border-radius: 25px;
-    font-size: 12px;
-    font-weight: 600;
-    color: white;
-    backdrop-filter: blur(10px);
-}
-
-.discount-badge {
-    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
-}
-
-.featured-badge {
-    background: linear-gradient(45deg, #feca57, #ff9ff3);
-}
-
-.thumbnails-container {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.product-thumb {
-    width: 80px;
-    height: 80px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: 3px solid transparent;
-    object-fit: cover;
-}
-
-.product-thumb:hover {
-    border-color: #007bff;
-    transform: scale(1.1);
-}
-
-.product-thumb.active {
-    border-color: #007bff;
-    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
-}
-
-.product-info-section {
-    padding: 40px;
-}
-
-.product-title {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: #2c3e50;
-    margin-bottom: 15px;
-    line-height: 1.3;
-    text-transform: none; /* Видаляємо великі літери */
-}
-
-.product-brand {
-    color: #7f8c8d;
-    font-size: 1rem;
-    margin-bottom: 20px;
-}
-
-.rating-section {
-    display: flex;
-    align-items: center;
-    margin-bottom: 25px;
-    padding: 15px;
-    background: linear-gradient(45deg, #f8f9fa, #e9ecef);
-    border-radius: 15px;
-}
-
-.stars {
-    color: #f39c12;
-    margin-right: 15px;
-}
-
-.star {
-    font-size: 1.2rem;
-    margin-right: 3px;
-}
-
-.rating-text {
-    color: #666;
-    font-size: 0.95rem;
-}
-
-.price-section {
-    margin-bottom: 30px;
-    padding: 25px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 20px;
-    color: white;
-}
-
-.current-price {
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin-bottom: 10px;
-}
-
-.old-price {
-    font-size: 1.5rem;
-    text-decoration: line-through;
-    opacity: 0.8;
-    margin-right: 15px;
-}
-
-.discount-percentage {
-    background: rgba(255, 255, 255, 0.3);
-    padding: 5px 15px;
-    border-radius: 20px;
-    font-size: 1rem;
-    font-weight: 600;
-}
-
-.short-description {
-    font-size: 1.1rem;
-    color: #666;
-    margin-bottom: 25px;
-    line-height: 1.6;
-}
-
-.stock-info {
-    display: flex;
-    align-items: center;
-    margin-bottom: 25px;
-    padding: 15px;
-    border-radius: 15px;
-}
-
-.stock-available {
-    background: rgba(39, 174, 96, 0.1);
-    color: #27ae60;
-    font-weight: 600;
-}
-
-.stock-unavailable {
-    background: rgba(231, 76, 60, 0.1);
-    color: #e74c3c;
-    font-weight: 600;
-}
-
-.quantity-selector {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 25px;
-}
-
-.quantity-label {
-    font-weight: 600;
-    color: #2c3e50;
-}
-
-.quantity-input {
-    width: 80px;
-    text-align: center;
-    border: 2px solid #e9ecef;
-    border-radius: 10px;
-    padding: 10px;
-    font-size: 1.1rem;
-    font-weight: 600;
-}
-
-.product-actions {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 30px;
-}
-
-.btn-add-cart {
-    flex: 1;
-    background: linear-gradient(45deg, #007bff, #0056b3);
-    color: white;
-    border: none;
-    padding: 15px 25px;
-    border-radius: 15px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
-}
-
-.btn-add-cart:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4);
-    color: white;
-}
-
-.btn-wishlist {
-    width: 60px;
-    height: 60px;
-    border: 2px solid #e9ecef;
-    border-radius: 15px;
-    background: white;
-    color: #666;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    font-size: 1.5rem;
-}
-
-.btn-wishlist:hover {
-    border-color: #e74c3c;
-    color: #e74c3c;
-    transform: scale(1.1);
-}
-
-.btn-wishlist.active {
-    background: #e74c3c;
-    color: white !important;
-    border-color: #e74c3c;
-}
-
-/* Адаптивність */
-@media (max-width: 768px) {
-    .product-badges {
-        right: 10px;
-        top: 10px;
-    }
-    
-    .product-title {
-        font-size: 1.5rem;
-    }
-    
-    .current-price {
-        font-size: 2rem;
-    }
-    
-    .product-actions {
-        flex-direction: column;
-    }
-    
-    .btn-wishlist {
-        width: 100%;
-        height: 50px;
-    }
-}
-</style>
 {% endblock %}
 
 {% block title %}{{ product.name }}{% endblock %}
@@ -397,20 +106,51 @@
 
                         <!-- Короткий опис -->
                         {% if product.short_description %}
-                        <div class="short-description">
-                            {{ product.short_description }}
+                        <div class="product-description">
+                            <p>{{ product.short_description }}</p>
                         </div>
                         {% endif %}
 
-                        <!-- Наявність -->
-                        <div class="stock-info {% if product.is_in_stock %}stock-available{% else %}stock-unavailable{% endif %}">
-                            {% if product.is_in_stock %}
-                                <i class="fas fa-check-circle"></i> {% trans "В наявності" %}
-                                {% if product.track_stock and product.stock <= 5 %}
-                                    ({% trans "Залишилось" %} {{ product.stock }} {% trans "шт." %})
+                        <!-- Характеристики -->
+                        <div class="product-specs">
+                            <h5 class="specs-title">{% trans "Основні характеристики" %}</h5>
+                            <div class="specs-list">
+                                {% if product.weight %}
+                                <div class="spec-item">
+                                    <span class="spec-label">{% trans "Вага:" %}</span>
+                                    <span class="spec-value">{{ product.weight }} {% trans "кг" %}</span>
+                                </div>
                                 {% endif %}
+                                {% if product.volume %}
+                                <div class="spec-item">
+                                    <span class="spec-label">{% trans "Об'єм:" %}</span>
+                                    <span class="spec-value">{{ product.volume }} {% trans "л" %}</span>
+                                </div>
+                                {% endif %}
+                                {% if product.country_origin %}
+                                <div class="spec-item">
+                                    <span class="spec-label">{% trans "Країна:" %}</span>
+                                    <span class="spec-value">{{ product.country_origin }}</span>
+                                </div>
+                                {% endif %}
+                                <div class="spec-item">
+                                    <span class="spec-label">{% trans "Категорія:" %}</span>
+                                    <span class="spec-value">{{ product.category.name }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Наявність -->
+                        <div class="stock-section">
+                            {% if product.is_in_stock %}
+                            <div class="stock-available">
+                                <i class="fas fa-check-circle"></i> {% trans "В наявності" %}
+                                {% if product.track_stock %} ({{ product.stock }} {% trans "шт." %}){% endif %}
+                            </div>
                             {% else %}
+                            <div class="stock-unavailable">
                                 <i class="fas fa-times-circle"></i> {% trans "Немає в наявності" %}
+                            </div>
                             {% endif %}
                         </div>
 
@@ -430,25 +170,148 @@
                             {% if user.is_authenticated %}
                             <button class="btn btn-wishlist wishlist-btn {% if is_in_wishlist %}active{% endif %}" 
                                     data-product-id="{{ product.id }}"
-                                    title="{% if is_in_wishlist %}{% trans 'Видалити з бажань' %}{% else %}{% trans 'Додати до бажань' %}{% endif %}">
+                                    data-tooltip="{% if is_in_wishlist %}{% trans 'Видалити з бажань' %}{% else %}{% trans 'Додати до бажань' %}{% endif %}">
                                 <i class="{% if is_in_wishlist %}fas{% else %}far{% endif %} fa-heart"></i>
                             </button>
                             {% else %}
-                            <a href="{% url 'admin:login' %}?next={{ request.path }}" class="btn btn-wishlist" 
-                               title="{% trans 'Увійдіть для додавання до списку бажань' %}">
+                            <a href="{% url 'admin:login' %}?next={{ request.path }}" 
+                               class="btn btn-wishlist"
+                               data-tooltip="{% trans 'Увійдіть для збереження' %}">
                                 <i class="far fa-heart"></i>
                             </a>
                             {% endif %}
                         </div>
-                        {% else %}
-                        <button class="btn btn-secondary btn-lg w-100" disabled>
-                            <i class="fas fa-ban"></i> {% trans "Немає в наявності" %}
-                        </button>
                         {% endif %}
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Табы з детальною інформацією -->
+        <div class="product-tabs">
+            <ul class="nav nav-tabs" id="productTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button">
+                        <i class="fas fa-info-circle me-2"></i>{% trans "Детальний опис" %}
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button">
+                        <i class="fas fa-comments me-2"></i>{% trans "Відгуки" %} ({{ product.reviews_count }})
+                    </button>
+                </li>
+            </ul>
+            
+            <div class="tab-content" id="productTabsContent">
+                <!-- Детальний опис -->
+                <div class="tab-pane fade show active" id="description" role="tabpanel">
+                    <div class="description-content">
+                        {{ product.description|safe }}
+                    </div>
+                </div>
+                
+                <!-- Відгуки -->
+                <div class="tab-pane fade" id="reviews" role="tabpanel">
+                    <!-- Форма додавання відгуку -->
+                    {% if user.is_authenticated and not user_review %}
+                    <div class="review-form">
+                        <h5><i class="fas fa-edit me-2"></i>{% trans "Залишити відгук" %}</h5>
+                        <form method="post" action="{% url 'shop:add_review' product_slug=product.slug %}">
+                            {% csrf_token %}
+                            {% if review_form %}
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">{% trans "Оцінка" %}</label>
+                                    {{ review_form.rating }}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">{% trans "Заголовок" %}</label>
+                                    {{ review_form.title }}
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label class="form-label">{% trans "Ваш відгук" %}</label>
+                                    {{ review_form.comment }}
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-paper-plane me-2"></i>{% trans "Додати відгук" %}
+                                    </button>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </form>
+                    </div>
+                    {% endif %}
+
+                    <!-- Список відгуків -->
+                    {% for review in reviews %}
+                    <div class="review-item">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <div class="reviewer-avatar">
+                                    {{ review.user.first_name.0|default:review.user.username.0|upper }}
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">{{ review.user.first_name|default:review.user.username }}</h6>
+                                    <small class="text-muted">{{ review.created_at }}</small>
+                                    {% if review.is_verified_purchase %}
+                                    <span class="badge bg-success ms-2">
+                                        <i class="fas fa-check"></i> {% trans "Підтверджена покупка" %}
+                                    </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="stars">
+                                {% for i in "12345" %}
+                                    {% if review.rating >= i|add:0 %}
+                                        <i class="fas fa-star star"></i>
+                                    {% else %}
+                                        <i class="far fa-star star"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <h6>{{ review.title }}</h6>
+                        <p>{{ review.comment }}</p>
+                    </div>
+                    {% empty %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-comments fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">{% trans "Поки що немає відгуків для цього товару." %}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Схожі товари -->
+        {% if related_products %}
+        <div class="related-products">
+            <h3 class="mb-4"><i class="fas fa-heart me-2"></i>{% trans "Вам також може сподобатися" %}</h3>
+            <div class="row">
+                {% for related_product in related_products %}
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="related-product-card">
+                        {% if related_product.images.all %}
+                        <img src="{{ related_product.images.first.image.url }}" class="img-fluid rounded mb-3" alt="{{ related_product.name }}">
+                        {% endif %}
+                        <h6>
+                            <a href="{{ related_product.get_absolute_url }}" class="text-decoration-none">{{ related_product.name }}</a>
+                        </h6>
+                        <div class="price mt-2">
+                            {% if related_product.has_discount %}
+                            <span class="text-success fw-bold">{{ related_product.discount_price }} ₴</span>
+                            <small class="text-muted"><del>{{ related_product.price }} ₴</del></small>
+                            {% else %}
+                            <span class="text-success fw-bold">{{ related_product.price }} ₴</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
     </div>
 </div>
 
@@ -462,24 +325,28 @@ function changeMainImage(imageUrl, thumbElement) {
     });
     thumbElement.classList.add('active');
 }
-
 document.addEventListener('DOMContentLoaded', function() {
-    // Обчислюємо економію правильно
+    // Обчислюємо економію
     {% if product.has_discount %}
     const originalPrice = parseFloat('{{ product.price }}'.replace(',', '.'));
     const discountPrice = parseFloat('{{ product.discount_price }}'.replace(',', '.'));
     const savings = originalPrice - discountPrice;
     const savingsElement = document.getElementById('savings-amount');
     if (savingsElement) {
-        savingsElement.textContent = savings.toFixed(0);
+        savingsElement.textContent = Math.round(savings);
     }
     {% endif %}
 
-    // Список бажань
+    
+    // Додавання до списку бажань (тільки для авторизованих користувачів)
     const wishlistBtn = document.querySelector('.wishlist-btn');
     if (wishlistBtn) {
+        let isWishlistProcessing = false;
+        
         wishlistBtn.addEventListener('click', function(e) {
             e.preventDefault();
+            
+            if (isWishlistProcessing) return;
             
             // Перевіряємо, чи користувач авторизований
             {% if not user.is_authenticated %}
@@ -488,8 +355,13 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
             {% endif %}
             
+            isWishlistProcessing = true;
             const productId = this.dataset.productId;
             const icon = this.querySelector('i');
+            const originalClass = icon.className;
+            
+            // Показуємо індикатор завантаження
+            icon.className = 'fas fa-spinner fa-spin';
             
             fetch('{% url "shop:add_to_wishlist" %}', {
                 method: 'POST',
@@ -504,19 +376,55 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
+                    showAlert ? showAlert(data.message, 'success') : alert(data.message);
+                    
+                    // Змінюємо іконку залежно від дії
                     if (data.action === 'added') {
-                        this.classList.add('active');
                         icon.className = 'fas fa-heart';
-                        this.title = '{% trans "Видалити з бажань" %}';
+                        this.classList.add('active');
+                        this.title = 'Видалити з бажань';
                     } else {
-                        this.classList.remove('active');
                         icon.className = 'far fa-heart';
-                        this.title = '{% trans "Додати до бажань" %}';
+                        this.classList.remove('active');
+                        this.title = 'Додати до бажань';
                     }
+                } else {
+                    showAlert ? showAlert(data.message, 'error') : alert(data.message);
+                    icon.className = originalClass;
                 }
+                isWishlistProcessing = false;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showAlert ? showAlert('Помилка при роботі зі списком бажань', 'error') : alert('Помилка при роботі зі списком бажань');
+                icon.className = originalClass;
+                isWishlistProcessing = false;
             });
         });
     }
 });
+
+// Функція для показу сповіщень (якщо не існує)
+if (typeof showAlert === 'undefined') {
+    function showAlert(message, type) {
+        // Простий fallback для показу повідомлень
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show`;
+        alertDiv.style.position = 'fixed';
+        alertDiv.style.top = '20px';
+        alertDiv.style.right = '20px';
+        alertDiv.style.zIndex = '9999';
+        alertDiv.innerHTML = `
+            ${message}
+            
+        `;
+        
+        document.body.appendChild(alertDiv);
+        
+        setTimeout(() => {
+            alertDiv.remove();
+        }, 3000);
+    }
+}
 </script>
 {% endblock %}

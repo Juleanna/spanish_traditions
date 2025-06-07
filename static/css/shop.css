@@ -2227,10 +2227,6 @@
     box-shadow: 0 2px 8px rgba(243, 156, 18, 0.3);
 }
 
-/* Якщо є обидва бейджі */
-.product-card .discount-badge + .featured-badge {
-    top: 45px;
-}
 
 /* Для мобільних пристроїв */
 @media (max-width: 768px) {
