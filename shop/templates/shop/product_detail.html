@@ -792,7 +792,6 @@ function changeMainImage(imageUrl, thumbElement) {
     });
     thumbElement.classList.add('active');
 }
-
 document.addEventListener('DOMContentLoaded', function() {
     // Обчислюємо економію
     {% if product.has_discount %}
@@ -805,56 +804,103 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     {% endif %}
 
-    // Додавання до кошика
+    // Додавання до кошика (з захистом від повторного кліку)
     const addToCartBtn = document.querySelector('.add-to-cart');
     if (addToCartBtn) {
-        addToCartBtn.addEventListener('click', function() {
+        let isProcessing = false; // Флаг для запобігання повторному кліку
+        
+        addToCartBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            if (isProcessing) return; // Якщо вже обробляється запит, ігноруємо клік
+            
+            isProcessing = true;
             const productId = this.dataset.productId;
             const quantityInput = document.getElementById('quantity');
-            const quantity = quantityInput ? quantityInput.value : 1;
+            const quantity = quantityInput ? parseInt(quantityInput.value) : 1;
+            const originalText = this.innerHTML;
+            
+            // Показуємо індикатор завантаження
+            this.innerHTML = ' Додавання...';
+            this.disabled = true;
             
             fetch('{% url "shop:add_to_cart" %}', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                    'X-CSRFToken': '{{ csrf_token }}'
                 },
                 body: JSON.stringify({
                     product_id: productId,
-                    quantity: parseInt(quantity)
+                    quantity: quantity
                 })
             })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    showNotification(data.message, 'success');
-                    if (window.updateCartWidget) {
-                        window.updateCartWidget({
-                            total_items: data.cart_total_items,
-                            total_price: data.cart_total_price
-                        });
-                    }
+                    // Показуємо повідомлення про успіх
+                    showAlert ? showAlert(data.message, 'success') : alert(data.message);
+                    
+                    // Тимчасово змінюємо кнопку
+                    this.innerHTML = ' Додано!';
+                    this.classList.remove('btn-primary');
+                    this.classList.add('btn-success');
+                    
+                    // Повертаємо кнопку у початковий стан через 2 секунди
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                        this.classList.remove('btn-success');
+                        this.classList.add('btn-primary');
+                        this.disabled = false;
+                        isProcessing = false;
+                    }, 2000);
                 } else {
-                    showNotification(data.message, 'error');
+                    showAlert ? showAlert(data.message, 'error') : alert(data.message);
+                    this.innerHTML = originalText;
+                    this.disabled = false;
+                    isProcessing = false;
                 }
             })
             .catch(error => {
-                showNotification('{% trans "Помилка при додаванні товару" %}', 'error');
+                console.error('Error:', error);
+                showAlert ? showAlert('Помилка при додаванні товару', 'error') : alert('Помилка при додаванні товару');
+                this.innerHTML = originalText;
+                this.disabled = false;
+                isProcessing = false;
             });
         });
     }
 
-    // Список бажань
+    // Додавання до списку бажань (тільки для авторизованих користувачів)
     const wishlistBtn = document.querySelector('.wishlist-btn');
     if (wishlistBtn) {
-        wishlistBtn.addEventListener('click', function() {
+        let isWishlistProcessing = false;
+        
+        wishlistBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            if (isWishlistProcessing) return;
+            
+            // Перевіряємо, чи користувач авторизований
+            {% if not user.is_authenticated %}
+            alert('Для додавання до списку бажань потрібно увійти в систему');
+            window.location.href = '{% url "account_login" %}';
+            return;
+            {% endif %}
+            
+            isWishlistProcessing = true;
             const productId = this.dataset.productId;
+            const icon = this.querySelector('i');
+            const originalClass = icon.className;
+            
+            // Показуємо індикатор завантаження
+            icon.className = 'fas fa-spinner fa-spin';
             
             fetch('{% url "shop:add_to_wishlist" %}', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                    'X-CSRFToken': '{{ csrf_token }}'
                 },
                 body: JSON.stringify({
                     product_id: productId
@@ -863,44 +909,55 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    showNotification(data.message, 'success');
-                    const icon = this.querySelector('i');
+                    showAlert ? showAlert(data.message, 'success') : alert(data.message);
+                    
+                    // Змінюємо іконку залежно від дії
                     if (data.action === 'added') {
                         icon.className = 'fas fa-heart';
                         this.classList.add('active');
-                        this.setAttribute('data-tooltip', '{% trans "Видалити з бажань" %}');
+                        this.title = 'Видалити з бажань';
                     } else {
                         icon.className = 'far fa-heart';
                         this.classList.remove('active');
-                        this.setAttribute('data-tooltip', '{% trans "Додати до бажань" %}');
+                        this.title = 'Додати до бажань';
                     }
                 } else {
-                    showNotification(data.message, 'error');
+                    showAlert ? showAlert(data.message, 'error') : alert(data.message);
+                    icon.className = originalClass;
                 }
+                isWishlistProcessing = false;
             })
             .catch(error => {
-                showNotification('{% trans "Помилка при роботі зі списком бажань" %}', 'error');
+                console.error('Error:', error);
+                showAlert ? showAlert('Помилка при роботі зі списком бажань', 'error') : alert('Помилка при роботі зі списком бажань');
+                icon.className = originalClass;
+                isWishlistProcessing = false;
             });
         });
     }
 });
 
-function showNotification(message, type) {
-    const notification = document.createElement('div');
-    notification.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show position-fixed`;
-    notification.style.cssText = 'top: 20px; right: 20px; z-index: 2000; max-width: 350px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);';
-    notification.innerHTML = `
-        <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'} me-2"></i>
-        ${message}
-        <button type="button" class="btn-close" onclick="this.parentElement.remove()"></button>
-    `;
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        if (notification.parentElement) {
-            notification.remove();
-        }
-    }, 4000);
+// Функція для показу сповіщень (якщо не існує)
+if (typeof showAlert === 'undefined') {
+    function showAlert(message, type) {
+        // Простий fallback для показу повідомлень
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show`;
+        alertDiv.style.position = 'fixed';
+        alertDiv.style.top = '20px';
+        alertDiv.style.right = '20px';
+        alertDiv.style.zIndex = '9999';
+        alertDiv.innerHTML = `
+            ${message}
+            
+        `;
+        
+        document.body.appendChild(alertDiv);
+        
+        setTimeout(() => {
+            alertDiv.remove();
+        }, 3000);
+    }
 }
 </script>
 {% endblock %}

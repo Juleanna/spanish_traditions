@@ -162,11 +162,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Завантажуємо дані кошика
     loadCartData();
     
-    // Прив'язуємо обробники до кнопок "Додати до кошика"
+      e.preventDefault();
+            c// Прив'язуємо обробники до кнопок "Додати до кошика"
     document.querySelectorAll('.add-to-cart').forEach(button => {
         button.addEventListener('click', function(e) {
-            e.preventDefault();
-            const productId = this.dataset.productId;
+          onst productId = this.dataset.productId;
             const quantityInput = document.getElementById('quantity');
             const quantity = quantityInput ? parseInt(quantityInput.value) : 1;
             
