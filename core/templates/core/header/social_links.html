@@ -25,13 +25,14 @@
                     </a>
                     <a class="u-social-url" title="instagram" target="_blank" href="">
                         <span class="u-icon u-social-icon u-social-instagram u-icon-3">
-                            <image src="{% static 'images/icons8-инстаграм-в-круге.svg' %}">
+                            <image src="{% static 'images/icons8-instagram.svg' %}">
                         </span>
                     </a>
                 </div>
             </div>
         </div>
 
+    <div class="language-switcher">
         <!-- Мовний перемикач -->
         <div class="u-h-spacing-12 u-language u-language-content-icon-text u-language-layout-dropdown u-v-spacing-6 u-language-1">
             <a class="u-language-active u-language-url" href="#" data-language="uk">
@@ -88,43 +89,45 @@
                 </a>
             </div>
         </div>
+        </div>
 
-        <!-- Гарний віджет кошика -->
-        <div class="cart-widget-container">
-            <div class="cart-widget" id="cart-widget">
-                <a href="{% url 'shop:cart_detail' %}" class="cart-link" id="cart-link">
-                    <div class="cart-icon-wrapper">
-                        <svg class="cart-icon" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.44C5.03 14.52 5.4 15 6 15h12v-2H6l1.1-2h7.45c.75 0 1.41-.41 1.75-1.03L18.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
-                        </svg>
-                        <span class="cart-counter" id="cart-counter">0</span>
-                    </div>
-                    <div class="cart-info">
-                        <span class="cart-text">{% trans "Кошик" %}</span>
-                        <span class="cart-total" id="cart-total">0 ₴</span>
-                    </div>
-                </a>
-                
-                <!-- Dropdown з товарами -->
-                <div class="cart-dropdown" id="cart-dropdown">
-                    <div class="cart-dropdown-header">
-                        <h5>{% trans "Ваш кошик" %}</h5>
-                    </div>
-                    <div class="cart-dropdown-content" id="cart-dropdown-content">
-                        <!-- Товари будуть додаватися через JavaScript -->
-                        <div class="empty-cart-message" id="empty-cart-message">
-                            <i class="fas fa-shopping-cart"></i>
-                            <p>{% trans "Кошик порожній" %}</p>
-                        </div>
-                    </div>
-                    <div class="cart-dropdown-footer">
-                        <a href="{% url 'shop:cart_detail' %}" class="btn btn-primary btn-sm w-100">
-                            {% trans "Переглянути кошик" %}
-                        </a>
-                    </div>
+<div class="header-actions">
+<!-- Віджет корзини -->
+<div class="cart-widget-container">
+    <div class="cart-widget" id="cart-widget">
+        <a href="{% url 'shop:cart_detail' %}" class="cart-link" id="cart-link">
+            <div class="cart-icon-wrapper">
+                <svg class="cart-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.44C5.03 14.52 5.4 15 6 15h12v-2H6l1.1-2h7.45c.75 0 1.41-.41 1.75-1.03L18.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                </svg>
+                <span class="cart-counter" id="cart-counter">0</span>
+            </div>
+            <div class="cart-info">
+                <span class="cart-text">{% trans "Кошик" %}</span>
+                <span class="cart-total" id="cart-total">0 ₴</span>
+            </div>
+        </a>
+        
+        <!-- Dropdown з товарами -->
+        <div class="cart-dropdown" id="cart-dropdown">
+            <div class="cart-dropdown-header">
+                <h5>{% trans "Ваш кошик" %}</h5>
+            </div>
+            <div class="cart-dropdown-content" id="cart-dropdown-content">
+                <div class="empty-cart-message" id="empty-cart-message">
+                    <i class="fas fa-shopping-cart"></i>
+                    <p>{% trans "Кошик порожній" %}</p>
                 </div>
             </div>
+            <div class="cart-dropdown-footer">
+                <a href="{% url 'shop:cart_detail' %}" class="btn btn-primary btn-sm w-100">
+                    {% trans "Переглянути кошик" %}
+                </a>
+            </div>
         </div>
+    </div>
+</div>
+</div>
     </div>
 </div>
 
@@ -387,107 +390,3 @@
     border-bottom: 8px solid white;
 }
 </style>
-
-<script>
-// JavaScript для оновлення віджета кошика
-class CartWidget {
-    constructor() {
-        this.cartCounter = document.getElementById('cart-counter');
-        this.cartTotal = document.getElementById('cart-total');
-        this.cartDropdownContent = document.getElementById('cart-dropdown-content');
-        this.emptyCartMessage = document.getElementById('empty-cart-message');
-        
-        this.loadCartData();
-        this.setupEventListeners();
-    }
-
-    setupEventListeners() {
-        // Оновлення кошика при додаванні товарів
-        document.addEventListener('cartUpdated', (event) => {
-            this.updateWidget(event.detail);
-        });
-
-        // Закриття dropdown при кліку поза ним
-        document.addEventListener('click', (event) => {
-            const cartWidget = document.getElementById('cart-widget');
-            if (!cartWidget.contains(event.target)) {
-                const dropdown = document.getElementById('cart-dropdown');
-                dropdown.style.opacity = '0';
-                dropdown.style.visibility = 'hidden';
-            }
-        });
-    }
-
-    async loadCartData() {
-        try {
-            const response = await fetch('/shop/cart/data/', {
-                method: 'GET',
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                }
-            });
-            
-            if (response.ok) {
-                const data = await response.json();
-                this.updateWidget(data);
-            }
-        } catch (error) {
-            console.error('Error loading cart data:', error);
-        }
-    }
-
-    updateWidget(cartData) {
-        // Оновлюємо лічильник
-        this.cartCounter.textContent = cartData.total_items || 0;
-        this.cartTotal.textContent = (cartData.total_price || 0) + ' ₴';
-        
-        // Анімація лічильника
-        this.cartCounter.classList.add('updated');
-        setTimeout(() => {
-            this.cartCounter.classList.remove('updated');
-        }, 500);
-
-        // Оновлюємо dropdown контент
-        this.updateDropdownContent(cartData.items || []);
-    }
-
-    updateDropdownContent(items) {
-        if (!items || items.length === 0) {
-            this.cartDropdownContent.innerHTML = `
-                <div class="empty-cart-message">
-                    <i class="fas fa-shopping-cart"></i>
-                    <p>{% trans "Кошик порожній" %}</p>
-                </div>
-            `;
-            return;
-        }
-
-        let itemsHtml = '';
-        items.forEach(item => {
-            itemsHtml += `
-                <div class="cart-item-mini">
-                    <img src="${item.image || '/static/images/no-image.jpg'}" alt="${item.name}" class="cart-item-image">
-                    <div class="cart-item-details">
-                        <div class="cart-item-name">${item.name}</div>
-                        <div class="cart-item-info">${item.quantity} шт. × ${item.price} ₴</div>
-                    </div>
-                    <div class="cart-item-price">${item.total_price} ₴</div>
-                </div>
-            `;
-        });
-
-        this.cartDropdownContent.innerHTML = itemsHtml;
-    }
-}
-
-// Ініціалізація віджета після завантаження DOM
-document.addEventListener('DOMContentLoaded', function() {
-    new CartWidget();
-});
-
-// Функція для оновлення кошика з інших частин сайту
-window.updateCartWidget = function(cartData) {
-    const event = new CustomEvent('cartUpdated', { detail: cartData });
-    document.dispatchEvent(event);
-};
-</script>

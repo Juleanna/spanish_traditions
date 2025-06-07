@@ -18,9 +18,9 @@ urlpatterns = [
     # Кошик та керування ним
     path('cart/', views.cart_detail, name='cart_detail'),
     path('cart/add/', views.add_to_cart, name='add_to_cart'),
+    path('cart/data/', views.cart_data_api, name='cart_data'),  
     path('cart/update/', views.update_cart_item, name='update_cart_item'),
     path('cart/remove/', views.remove_from_cart, name='remove_from_cart'),
-    path('cart/clear/', views.clear_cart, name='clear_cart'),  # Додаткова функція
     
     # Оформлення замовлення
     path('checkout/', views.checkout, name='checkout'),

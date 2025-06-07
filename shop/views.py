@@ -1189,33 +1189,54 @@ def get_cart(request):
 def cart_data_api(request):
     """API для отримання даних кошика для віджета"""
     cart = get_cart(request)
-    cart_items = cart.items.select_related('product').all()
+    cart_items = cart.items.select_related('product').prefetch_related('product__images').all()
     
     items_data = []
     for item in cart_items:
+        # Отримуємо перше зображення товару
+        image_url = None
+        if item.product.images.exists():
+            image_url = item.product.images.first().image.url
+        elif hasattr(item.product, 'image') and item.product.image:
+            image_url = item.product.image.url
+            
         items_data.append({
             'id': item.id,
+            'product_id': item.product.id,  # ДОДАНО: ID товару
             'name': item.product.name,
             'quantity': item.quantity,
             'price': float(item.price),
             'total_price': float(item.total_price),
-            'image': item.product.images.first().image.url if item.product.images.exists() else None,
+            'image': image_url,
+            'url': item.product.get_absolute_url() if hasattr(item.product, 'get_absolute_url') else '#',  # ДОДАНО: посилання на товар
         })
     
     return JsonResponse({
+        'success': True,  # ДОДАНО: індикатор успіху
         'total_items': cart.total_items,
         'total_price': float(cart.total_price),
-        'items': items_data
+        'items': items_data,
+        'cart_id': cart.id,  # ДОДАНО: ID корзини
     })
-
 
 @require_POST
 def add_to_cart(request):
     """Додавання товару до кошика"""
     try:
-        data = json.loads(request.body)
+        # Підтримуємо як JSON, так і FormData
+        if request.content_type == 'application/json':
+            data = json.loads(request.body)
+        else:
+            data = request.POST
+            
         product_id = data.get('product_id')
         quantity = int(data.get('quantity', 1))
+        
+        if not product_id:
+            return JsonResponse({
+                'success': False,
+                'message': _('Не вказано товар')
+            })
         
         product = get_object_or_404(Product, id=product_id, is_active=True)
         
@@ -1223,7 +1244,7 @@ def add_to_cart(request):
         if product.track_stock and product.stock < quantity:
             return JsonResponse({
                 'success': False,
-                'message': _('Недостатньо товару на складі')
+                'message': _('Недостатньо товару на складі. Доступно: ') + str(product.stock)
             })
         
         cart = get_cart(request)
@@ -1232,7 +1253,7 @@ def add_to_cart(request):
         cart_item, created = CartItem.objects.get_or_create(
             cart=cart,
             product=product,
-            defaults={'quantity': quantity, 'price': product.get_price}
+            defaults={'quantity': quantity, 'price': product.get_price()}
         )
         
         if not created:
@@ -1241,24 +1262,57 @@ def add_to_cart(request):
             if product.track_stock and product.stock < new_quantity:
                 return JsonResponse({
                     'success': False,
-                    'message': _('Недостатньо товару на складі')
+                    'message': _('Недостатньо товару на складі. Доступно: ') + str(product.stock)
                 })
             cart_item.quantity = new_quantity
             cart_item.save()
+        
+        # ВИПРАВЛЕННЯ: Оновлюємо дані корзини після додавання
+        cart.refresh_from_db()
+        
+        # Отримуємо оновлені дані корзини для віджета
+        cart_items = cart.items.select_related('product').prefetch_related('product__images').all()
+        items_data = []
+        for item in cart_items:
+            image_url = None
+            if item.product.images.exists():
+                image_url = item.product.images.first().image.url
+            elif hasattr(item.product, 'image') and item.product.image:
+                image_url = item.product.image.url
+                
+            items_data.append({
+                'id': item.id,
+                'product_id': item.product.id,
+                'name': item.product.name,
+                'quantity': item.quantity,
+                'price': float(item.price),
+                'total_price': float(item.total_price),
+                'image': image_url,
+            })
         
         return JsonResponse({
             'success': True,
             'message': _('Товар додано до кошика'),
             'cart_total_items': cart.total_items,
-            'cart_total_price': float(cart.total_price)
+            'cart_total_price': float(cart.total_price),
+            'cart_items': items_data,  # ДОДАНО: список товарів для оновлення dropdown
+            'added_product': {
+                'id': product.id,
+                'name': product.name,
+                'quantity': quantity
+            }
         })
         
+    except ValueError as e:
+        return JsonResponse({
+            'success': False,
+            'message': _('Неправильний формат даних')
+        })
     except Exception as e:
         return JsonResponse({
             'success': False,
-            'message': _('Помилка при додаванні товару')
+            'message': _('Помилка при додаванні товару: ') + str(e)
         })
-
 
 def cart_detail(request):
     """Сторінка кошика"""
