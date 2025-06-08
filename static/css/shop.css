@@ -2173,3 +2173,216 @@
     margin-top: 0.25rem;
     opacity: 0.8;
 }
+
+/* ========================================
+   СТИЛІ ДЛЯ ПОКРАЩЕНОГО КОШИКА
+========================================= */
+
+/* Анімації для кошика */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Покращені стилі для сповіщень */
+.alert-cart {
+    min-width: 300px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    border: none;
+    border-radius: 12px;
+    animation: slideIn 0.3s ease;
+}
+
+/* Стилі для завантаження */
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #478ac9;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Покращені tooltip */
+.cart-tooltip {
+    position: relative;
+}
+
+.cart-tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    margin-bottom: 5px;
+}
+
+.cart-tooltip::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: #333;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.cart-tooltip:hover::after,
+.cart-tooltip:hover::before {
+    opacity: 1;
+}
+
+/* Стилі для миготливого кошика в хедері при додаванні товару */
+.cart-widget.item-added {
+    animation: cartPulse 0.6s ease;
+}
+
+@keyframes cartPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Покращені мобільні стилі */
+@media (max-width: 576px) {
+    .cart-item {
+        padding: 1rem 0.75rem;
+    }
+    
+    .cart-item-info h5 {
+        font-size: 1rem;
+    }
+    
+    .quantity-controls {
+        transform: scale(0.85);
+    }
+    
+    .cart-summary {
+        padding: 1.5rem 1rem;
+    }
+    
+    .checkout-btn,
+    .continue-btn {
+        padding: 0.875rem 1.5rem;
+        font-size: 1rem;
+    }
+}
+
+/* Стилі для темної теми (якщо потрібно) */
+@media (prefers-color-scheme: dark) {
+    .cart-item,
+    .cart-summary {
+        background: #2d3748;
+        color: #e2e8f0;
+        border-color: #4a5568;
+    }
+    
+    .cart-item-info h5 a {
+        color: #e2e8f0;
+    }
+    
+    .meta-tag {
+        background: #4a5568;
+        color: #e2e8f0;
+    }
+    
+    .quantity-btn {
+        background: #4a5568;
+        color: #e2e8f0;
+    }
+    
+    .quantity-btn:hover {
+        background: #478ac9;
+    }
+}
+
+/* Додаткові ефекти для преміум вигляду */
+.cart-premium-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    box-shadow: 0 3px 10px rgba(243, 156, 18, 0.3);
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+/* Стилі для рекомендованих товарів (якщо додасте) */
+.recommended-section {
+    margin-top: 3rem;
+    padding: 2rem;
+    background: #f8f9fa;
+    border-radius: 16px;
+}
+
+.recommended-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.recommended-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.recommended-item {
+    background: white;
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.recommended-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}

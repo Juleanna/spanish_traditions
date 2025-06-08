@@ -167,6 +167,13 @@ def product_list(request):
     paginator = Paginator(products, items_per_page)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+
+    # Отримуємо список товарів у wishlist для поточного користувача
+    wishlist_product_ids = []
+    if request.user.is_authenticated:
+        wishlist_product_ids = list(Wishlist.objects.filter(
+            user=request.user
+        ).values_list('product_id', flat=True))
     
     # Контекст для шаблону
     context = {
@@ -185,6 +192,7 @@ def product_list(request):
         },
         'total_products': paginator.count,
         'items_per_page': items_per_page,
+        'wishlist_product_ids': wishlist_product_ids,
     }
     
     return render(request, 'shop/product_list.html', context)
@@ -1395,3 +1403,34 @@ def remove_from_cart(request):
             'success': False,
             'message': _('Помилка при видаленні товару')
         })
+
+def cart_detail(request):
+    """Детальна сторінка кошика"""
+    cart = get_cart(request)
+    cart_items = cart.items.select_related('product__category').prefetch_related('product__images').all()
+    
+    # Отримуємо рекомендовані товари
+    related_products = []
+    if cart_items:
+        # Збираємо категорії товарів у кошику
+        categories = set()
+        for item in cart_items:
+            categories.add(item.product.category)
+        
+        # Отримуємо товари з тих же категорій
+        cart_product_ids = [item.product.id for item in cart_items]
+        related_products = Product.objects.filter(
+            category__in=categories,
+            is_active=True,
+            is_available=True
+        ).exclude(
+            id__in=cart_product_ids
+        ).select_related('category').prefetch_related('images').order_by('?')[:8]
+    
+    context = {
+        'cart': cart,
+        'cart_items': cart_items,
+        'related_products': related_products,
+    }
+    
+    return render(request, 'shop/cart_detail.html', context)

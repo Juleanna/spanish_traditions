@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="{% static 'css/shop.css' %}" media="screen">
     <link rel="stylesheet" href="{% static 'css/main_page.css' %}" media="screen">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     {% block extra_css %}{% endblock %}
     
     <script class="u-script" type="text/javascript" src="{% static 'js/jquery.js' %}" defer></script>
@@ -578,6 +579,69 @@ window.addEventListener('error', function(event) {
     }
 });
 
+</script>
+<script>
+    // Додавання до списку бажань
+document.querySelectorAll('.wishlist-btn').forEach(button => {
+    button.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const productId = this.dataset.productId;
+        const icon = this.querySelector('i');
+        const button = this;
+        
+        // Показуємо індикатор завантаження
+        icon.className = 'fas fa-spinner fa-spin';
+        
+        fetch('{% url "shop:add_to_wishlist" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({
+                product_id: productId
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Показуємо повідомлення (якщо є функція showAlert)
+                if (typeof showAlert === 'function') {
+                    showAlert(data.message, 'success');
+                } else {
+                    alert(data.message);
+                }
+                
+                // Змінюємо іконку залежно від дії
+                if (data.action === 'added') {
+                    icon.className = 'fas fa-heart';
+                    button.classList.add('active');
+                    button.title = 'Видалити з бажань';
+                } else {
+                    icon.className = 'far fa-heart';
+                    button.classList.remove('active');
+                    button.title = 'Додати до бажань';
+                }
+            } else {
+                // Помилка
+                if (typeof showAlert === 'function') {
+                    showAlert(data.message || 'Помилка', 'error');
+                } else {
+                    alert(data.message || 'Помилка');
+                }
+                // Повертаємо попередню іконку
+                icon.className = button.classList.contains('active') ? 'fas fa-heart' : 'far fa-heart';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Виникла помилка при оновленні списку бажань');
+            // Повертаємо попередню іконку
+            icon.className = button.classList.contains('active') ? 'fas fa-heart' : 'far fa-heart';
+        });
+    });
+});
 </script>
     </body>
 </html>

@@ -2,11 +2,6 @@
 {% load i18n %}
 {% load static %}
 
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/shop.css' %}" media="screen">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-{% endblock %}
-
 {% block title %}{% trans "Каталог товарів" %}{% endblock %}
 
 {% block content %}
@@ -321,12 +316,14 @@
                                 </button>
                                 {% endif %}
 
-                                {% if user.is_authenticated %}
-                                <button class="wishlist-btn" data-product-id="{{ product.id }}"
-                                    title="{% trans 'Додати до бажань' %}">
-                                    <i class="far fa-heart"></i>
-                                </button>
-                                {% endif %}
+<!-- Wishlist button для авторизованих користувачів -->
+{% if user.is_authenticated %}
+<button class="wishlist-btn {% if product.id in wishlist_product_ids %}active{% endif %}" 
+        data-product-id="{{ product.id }}"
+        title="{% if product.id in wishlist_product_ids %}{% trans 'Видалити з бажань' %}{% else %}{% trans 'Додати до бажань' %}{% endif %}">
+    <i class="{% if product.id in wishlist_product_ids %}fas{% else %}far{% endif %} fa-heart"></i>
+</button>
+{% endif %}
                             </div>
                         </div>
                     </div>
@@ -410,45 +407,7 @@
 <!-- JavaScript для функціональності -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-
-
-        // Додавання до списку бажань
-        document.querySelectorAll('.wishlist-btn').forEach(button => {
-            button.addEventListener('click', function () {
-                const productId = this.dataset.productId;
-                const icon = this.querySelector('i');
-
-                fetch('{% url "shop:add_to_wishlist" %}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': '{{ csrf_token }}'
-                    },
-                    body: JSON.stringify({
-                        product_id: productId
-                    })
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            showAlert(data.message, 'success');
-                            // Змінюємо іконку
-                            if (data.action === 'added') {
-                                icon.className = 'fas fa-heart';
-                                this.classList.add('active');
-                                this.title = 'Видалити з бажань';
-                            } else {
-                                icon.className = 'far fa-heart';
-                                this.classList.remove('active');
-                                this.title = 'Додати до бажань';
-                            }
-                        } else {
-                            showAlert(data.message, 'error');
-                        }
-                    });
-            });
-        });
-
+      
         // Фільтри
         document.getElementById('only_available')?.addEventListener('change', function () {
             applyFilters();

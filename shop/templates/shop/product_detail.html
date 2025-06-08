@@ -2,11 +2,6 @@
 {% load i18n %}
 {% load static %}
 
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/shop.css' %}" media="screen">
-
-{% endblock %}
-
 {% block title %}{{ product.name }}{% endblock %}
 
 {% block content %}
@@ -169,19 +164,19 @@
                                 <i class="fas fa-shopping-cart me-2"></i>{% trans "Додати до кошика" %}
                             </button>
                             
-                            {% if user.is_authenticated %}
-                            <button class="btn btn-wishlist wishlist-btn {% if is_in_wishlist %}active{% endif %}" 
-                                    data-product-id="{{ product.id }}"
-                                    data-tooltip="{% if is_in_wishlist %}{% trans 'Видалити з бажань' %}{% else %}{% trans 'Додати до бажань' %}{% endif %}">
-                                <i class="{% if is_in_wishlist %}fas{% else %}far{% endif %} fa-heart"></i>
-                            </button>
-                            {% else %}
-                            <a href="{% url 'admin:login' %}?next={{ request.path }}" 
-                               class="btn btn-wishlist"
-                               data-tooltip="{% trans 'Увійдіть для збереження' %}">
-                                <i class="far fa-heart"></i>
-                            </a>
-                            {% endif %}
+{% if user.is_authenticated %}
+<button class="wishlist-btn {% if is_in_wishlist %}active{% endif %}" 
+        data-product-id="{{ product.id }}"
+        title="{% if is_in_wishlist %}{% trans 'Видалити з бажань' %}{% else %}{% trans 'Додати до бажань' %}{% endif %}">
+    <i class="{% if is_in_wishlist %}fas{% else %}far{% endif %} fa-heart"></i>
+</button>
+{% else %}
+<a href="{% url 'admin:login' %}?next={{ request.path }}" 
+   class="wishlist-btn"
+   title="{% trans 'Увійдіть для збереження' %}">
+    <i class="far fa-heart"></i>
+</a>
+{% endif %}
                         </div>
                         {% endif %}
                     </div>
@@ -339,71 +334,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     {% endif %}
 
-    
-    // Додавання до списку бажань (тільки для авторизованих користувачів)
-    const wishlistBtn = document.querySelector('.wishlist-btn');
-    if (wishlistBtn) {
-        let isWishlistProcessing = false;
-        
-        wishlistBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            if (isWishlistProcessing) return;
-            
-            // Перевіряємо, чи користувач авторизований
-            {% if not user.is_authenticated %}
-            alert('Для додавання до списку бажань потрібно увійти в систему');
-            window.location.href = '{% url "admin:login" %}?next={{ request.path }}';
-            return;
-            {% endif %}
-            
-            isWishlistProcessing = true;
-            const productId = this.dataset.productId;
-            const icon = this.querySelector('i');
-            const originalClass = icon.className;
-            
-            // Показуємо індикатор завантаження
-            icon.className = 'fas fa-spinner fa-spin';
-            
-            fetch('{% url "shop:add_to_wishlist" %}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': '{{ csrf_token }}'
-                },
-                body: JSON.stringify({
-                    product_id: productId
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    showAlert ? showAlert(data.message, 'success') : alert(data.message);
-                    
-                    // Змінюємо іконку залежно від дії
-                    if (data.action === 'added') {
-                        icon.className = 'fas fa-heart';
-                        this.classList.add('active');
-                        this.title = 'Видалити з бажань';
-                    } else {
-                        icon.className = 'far fa-heart';
-                        this.classList.remove('active');
-                        this.title = 'Додати до бажань';
-                    }
-                } else {
-                    showAlert ? showAlert(data.message, 'error') : alert(data.message);
-                    icon.className = originalClass;
-                }
-                isWishlistProcessing = false;
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showAlert ? showAlert('Помилка при роботі зі списком бажань', 'error') : alert('Помилка при роботі зі списком бажань');
-                icon.className = originalClass;
-                isWishlistProcessing = false;
-            });
-        });
-    }
 });
 
 // Функція для показу сповіщень (якщо не існує)
