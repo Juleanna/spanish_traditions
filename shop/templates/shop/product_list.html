@@ -426,15 +426,24 @@
                             </div>
                             {% endif %}
 
-                            <!-- Ціна -->
-                            <div class="price-section">
-                                {% if product.has_discount %}
-                                <span class="current-price">{{ product.discount_price }} ₴</span>
-                                <span class="old-price">{{ product.price }} ₴</span>
-                                {% else %}
-                                <span class="current-price">{{ product.price }} ₴</span>
-                                {% endif %}
-                            </div>
+                            
+<!-- Ціна -->
+<div class="price-section minimal">
+    {% if product.has_discount %}
+    <div class="price-with-discount">
+        <div class="price-main">
+            <span class="currency">₴</span>
+            <span class="amount">{{ product.discount_price|floatformat:0 }}</span>
+        </div>
+        <div class="price-old">{{ product.price }} ₴</div>
+    </div>
+    {% else %}
+    <div class="price-regular">
+        <span class="currency">₴</span>
+        <span class="amount">{{ product.price|floatformat:0 }}</span>
+    </div>
+    {% endif %}
+</div>
 
                             <!-- Кнопки дій -->
                             <div class="product-actions">

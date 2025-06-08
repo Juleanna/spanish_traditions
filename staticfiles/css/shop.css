@@ -365,87 +365,6 @@
 }
 
 /* ========================================
-   Ціни
-========================================= */
-
-.price-section {
-    margin-bottom: 1rem;
-    min-height: 2.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.current-price {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--success-color);
-    line-height: 1.2;
-}
-
-.old-price {
-    font-size: 0.9rem;
-    text-decoration: line-through;
-    color: var(--medium-gray);
-    margin-top: 0.2rem;
-}
-
-/* ========================================
-   Бейджі
-========================================= */
-
-.discount-badge {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: linear-gradient(135deg, var(--danger-color), #c0392b);
-    color: var(--white);
-    padding: 0.3rem 0.6rem;
-    border-radius: 15px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    z-index: 2;
-    box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
-    animation: pulse 2s infinite;
-}
-
-.featured-badge {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background: linear-gradient(135deg, var(--warning-color), #d68910);
-    color: var(--white);
-    padding: 0.3rem 0.6rem;
-    border-radius: 15px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    z-index: 2;
-    box-shadow: 0 2px 8px rgba(243, 156, 18, 0.3);
-}
-
-
-.out-of-stock-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0,0,0,0.8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--border-radius) var(--border-radius) 0 0;
-    z-index: 3;
-    backdrop-filter: blur(2px);
-}
-
-.out-of-stock-overlay .content {
-    color: var(--white);
-    text-align: center;
-    font-weight: 600;
-}
-
-/* ========================================
    Рейтинг
 ========================================= */
 
@@ -866,9 +785,6 @@
         height: calc(100% - 180px);
     }
     
-    .current-price {
-        font-size: 1.15rem;
-    }
     
     .pagination .page-link {
         padding: 0.5rem 0.75rem;
@@ -1329,19 +1245,6 @@
     justify-content: center;
 }
 
-.current-price {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--success-color);
-    line-height: 1.2;
-}
-
-.old-price {
-    font-size: 0.9rem;
-    text-decoration: line-through;
-    color: var(--medium-gray);
-    margin-top: 0.2rem;
-}
 
 
 .rating {
@@ -1569,9 +1472,6 @@
         height: calc(100% - 180px);
     }
     
-    .current-price {
-        font-size: 1.15rem;
-    }
     
     .pagination .page-link {
         padding: 0.5rem 0.75rem;
@@ -2234,4 +2134,42 @@
         font-size: 0.7rem;
         padding: 4px 10px;
     }
+}
+
+.price-section.minimal {
+    background: transparent;
+    padding: 0.5rem 0;
+    border: none;
+}
+
+.price-with-discount {
+    text-align: center;
+}
+
+.price-main, .price-regular {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.25rem;
+}
+
+.currency {
+    font-size: 1rem;
+    color: #27ae60;
+    font-weight: 600;
+}
+
+.amount {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #27ae60;
+    line-height: 1;
+}
+
+.price-old {
+    font-size: 0.875rem;
+    color: #95a5a6;
+    text-decoration: line-through;
+    margin-top: 0.25rem;
+    opacity: 0.8;
 }
