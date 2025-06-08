@@ -28,20 +28,22 @@
                 <!-- Зображення товару -->
                 <div class="col-lg-6">
                     <div class="product-images-section">
-                        <div class="product-badges">
-                            {% if product.has_discount %}
-                            <span class="badge discount-badge">
-                                <i class="fas fa-percent"></i> -{{ product.discount_percentage }}%
-                            </span>
-                            {% endif %}
-                            {% if product.is_featured %}
-                            <span class="badge featured-badge">
-                                <i class="fas fa-star"></i> {% trans "Хіт продажів" %}
-                            </span>
-                            {% endif %}
-                        </div>
+
 
                         <div class="main-image-container">
+                                <!-- Бейджі тепер всередині контейнера -->
+    <div class="product-badges">
+        {% if product.has_discount %}
+        <span class="badge discount-badge">
+            <i class="fas fa-percent"></i> -{{ product.discount_percentage }}%
+        </span>
+        {% endif %}
+        {% if product.is_featured %}
+        <span class="badge featured-badge">
+            <i class="fas fa-star"></i> {% trans "Хіт продажів" %}
+        </span>
+        {% endif %}
+    </div>
                             {% if main_image %}
                             <img src="{{ main_image.image.url }}" class="main-product-image" alt="{{ product.name }}" id="mainImage">
                             {% else %}

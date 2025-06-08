@@ -5,145 +5,6 @@
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/shop.css' %}" media="screen">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-/* Додаткові стилі для сторінки товарів */
-.shop-container {
-    padding: 2rem 0;
-}
-
-.filter-sidebar {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    border: 1px solid #dee2e6;
-    position: sticky;
-    top: 20px;
-    max-height: calc(100vh - 100px);
-    overflow-y: auto;
-}
-
-.filter-sidebar h4 {
-    color: #2c3e50;
-    border-bottom: 3px solid #478ac9;
-    padding-bottom: 0.75rem;
-    margin-bottom: 1.5rem;
-    font-weight: 700;
-    font-size: 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.filter-section {
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #dee2e6;
-}
-
-.filter-section:last-child {
-    border-bottom: none;
-}
-
-.filter-section h5 {
-    color: #2c3e50;
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.category-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.category-list li {
-    margin-bottom: 0.25rem;
-}
-
-.category-list a {
-    color: #2c3e50;
-    text-decoration: none;
-    padding: 0.75rem 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    transition: all 0.3s ease;
-    border-radius: 8px;
-    border: 1px solid transparent;
-}
-
-.category-list a:hover,
-.category-list a.active {
-    color: #478ac9;
-    background: rgba(71, 138, 201, 0.1);
-    border-color: rgba(71, 138, 201, 0.2);
-    transform: translateX(3px);
-}
-
-.products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-}
-
-@media (min-width: 992px) {
-    .products-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (max-width: 991.98px) {
-    .products-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-    }
-    
-    .mobile-filter-toggle {
-        display: block !important;
-    }
-    
-    .filter-collapse {
-        display: none;
-    }
-    
-    .filter-collapse.show {
-        display: block;
-    }
-}
-
-@media (max-width: 575.98px) {
-    .products-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-.mobile-filter-toggle {
-    background: linear-gradient(135deg, #478ac9, #3d7ab8);
-    border: none;
-    color: white;
-    font-weight: 600;
-    padding: 1rem 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
-    width: 100%;
-    display: none;
-    margin-bottom: 1rem;
-}
-
-.mobile-filter-toggle:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-    color: white;
-}
-</style>
 {% endblock %}
 
 {% block title %}{% trans "Каталог товарів" %}{% endblock %}
@@ -173,36 +34,36 @@
             <!-- Бокова панель з фільтрами -->
             <div class="col-xl-3 col-lg-4">
                 <!-- Кнопка для мобільних пристроїв -->
-                <button class="btn mobile-filter-toggle" type="button" 
-                        data-bs-toggle="collapse" data-bs-target="#filterCollapse" aria-expanded="false">
+                <button class="btn mobile-filter-toggle" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#filterCollapse" aria-expanded="false">
                     <div class="d-flex justify-content-between align-items-center w-100">
                         <span><i class="fas fa-filter"></i> {% trans "Фільтри" %}</span>
                         <i class="fas fa-chevron-down"></i>
                     </div>
                 </button>
-                
+
                 <div class="collapse filter-collapse show" id="filterCollapse">
                     <div class="filter-sidebar">
                         <h4>
                             <i class="fas fa-sliders-h"></i> {% trans "Фільтри" %}
                         </h4>
-                        
+
                         <!-- Пошук -->
                         <div class="filter-section">
                             <h5><i class="fas fa-search"></i> {% trans "Пошук" %}</h5>
                             <form method="get" action="{% url 'shop:product_list' %}">
                                 <div class="input-group">
-                                    <input type="text" name="search" value="{{ search_query }}" 
-                                           class="form-control" placeholder="{% trans 'Пошук товарів...' %}">
+                                    <input type="text" name="search" value="{{ search_query }}" class="form-control"
+                                        placeholder="{% trans 'Пошук товарів...' %}">
                                     <button type="submit" class="btn btn-primary">
                                         <i class="fas fa-search"></i>
                                     </button>
                                 </div>
                                 <!-- Зберігаємо інші параметри -->
                                 {% for key, value in request.GET.items %}
-                                    {% if key != 'search' and key != 'page' %}
-                                    <input type="hidden" name="{{ key }}" value="{{ value }}">
-                                    {% endif %}
+                                {% if key != 'search' and key != 'page' %}
+                                <input type="hidden" name="{{ key }}" value="{{ value }}">
+                                {% endif %}
                                 {% endfor %}
                             </form>
                         </div>
@@ -212,10 +73,10 @@
                             <h5><i class="fas fa-tags"></i> {% trans "Категорії" %}</h5>
                             <ul class="category-list">
                                 <li>
-                                    <a href="{% url 'shop:product_list' %}" 
-                                       class="{% if not current_category %}active{% endif %}">
+                                    <a href="{% url 'shop:product_list' %}"
+                                        class="{% if not current_category %}active{% endif %}">
                                         <div class="d-flex align-items-center">
-                                            <i class="fas fa-th-large me-2"></i> 
+                                            <i class="fas fa-th-large me-2"></i>
                                             <span>{% trans "Всі товари" %}</span>
                                         </div>
                                         <small class="opacity-75">({{ total_products }})</small>
@@ -224,9 +85,9 @@
                                 {% for category in categories %}
                                 <li>
                                     <a href="{% url 'shop:category_detail' slug=category.slug %}"
-                                       class="{% if current_category == category.slug %}active{% endif %}">
+                                        class="{% if current_category == category.slug %}active{% endif %}">
                                         <div class="d-flex align-items-center">
-                                            <i class="fas fa-folder me-2"></i> 
+                                            <i class="fas fa-folder me-2"></i>
                                             <span>{{ category.name }}</span>
                                         </div>
                                         <small class="opacity-75">({{ category.products_count }})</small>
@@ -243,23 +104,21 @@
                             <form method="get" action="">
                                 <div class="row g-2 mb-2">
                                     <div class="col-6">
-                                        <input type="number" name="min_price" 
-                                               value="{{ filters.min_price }}"
-                                               class="form-control form-control-sm" 
-                                               placeholder="Від {{ price_range.min_price|floatformat:0 }}₴">
+                                        <input type="number" name="min_price" value="{{ filters.min_price }}"
+                                            class="form-control form-control-sm"
+                                            placeholder="Від {{ price_range.min_price|floatformat:0 }}₴">
                                     </div>
                                     <div class="col-6">
-                                        <input type="number" name="max_price" 
-                                               value="{{ filters.max_price }}"
-                                               class="form-control form-control-sm" 
-                                               placeholder="До {{ price_range.max_price|floatformat:0 }}₴">
+                                        <input type="number" name="max_price" value="{{ filters.max_price }}"
+                                            class="form-control form-control-sm"
+                                            placeholder="До {{ price_range.max_price|floatformat:0 }}₴">
                                     </div>
                                 </div>
                                 <!-- Зберігаємо інші параметри -->
                                 {% for key, value in request.GET.items %}
-                                    {% if key != 'min_price' and key != 'max_price' and key != 'page' %}
-                                    <input type="hidden" name="{{ key }}" value="{{ value }}">
-                                    {% endif %}
+                                {% if key != 'min_price' and key != 'max_price' and key != 'page' %}
+                                <input type="hidden" name="{{ key }}" value="{{ value }}">
+                                {% endif %}
                                 {% endfor %}
                                 <button type="submit" class="btn btn-outline-primary btn-sm w-100">
                                     <i class="fas fa-check"></i> {% trans "Застосувати" %}
@@ -273,26 +132,26 @@
                             <h5><i class="fas fa-cog"></i> {% trans "Додатково" %}</h5>
                             <div class="form-check mb-2">
                                 <input class="form-check-input" type="checkbox" id="only_available" 
-                                       {% if filters.only_available %}checked{% endif %}>
+                                {% if filters.only_available %}checked{% endif %}>
                                 <label class="form-check-label" for="only_available">
                                     <i class="fas fa-check-circle text-success me-1"></i>
                                     {% trans "Тільки в наявності" %}
                                 </label>
                             </div>
                             <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="only_featured"
-                                       {% if filters.only_featured %}checked{% endif %}>
+                                <input class="form-check-input" type="checkbox" id="only_featured" 
+                                {% if filters.only_featured %}checked{% endif %}>
                                 <label class="form-check-label" for="only_featured">
                                     <i class="fas fa-star text-warning me-1"></i>
                                     {% trans "Тільки рекомендовані" %}
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="only_discounted"
-                                       {% if filters.only_discounted %}checked{% endif %}>
+                                <input class="form-check-input" type="checkbox" id="only_discounted" 
+                                {% if filters.only_discounted %}checked{% endif %}>
                                 <label class="form-check-label" for="only_discounted">
                                     <i class="fas fa-percentage text-danger me-1"></i>
-                                    Тільки зі знижкою
+                                    {% trans "Тільки зі знижкою" %}
                                 </label>
                             </div>
                         </div>
@@ -311,9 +170,9 @@
                             <span class="text-muted">
                                 <i class="fas fa-info-circle"></i>
                                 {% blocktrans count counter=products.paginator.count %}
-                                    Знайдено {{ counter }} товар
+                                Знайдено {{ counter }} товар
                                 {% plural %}
-                                    Знайдено {{ counter }} товарів
+                                Знайдено {{ counter }} товарів
                                 {% endblocktrans %}
                             </span>
                             {% endif %}
@@ -323,8 +182,8 @@
                                 <label for="sort" class="me-2 text-nowrap">
                                     <i class="fas fa-sort"></i> {% trans "Сортувати:" %}
                                 </label>
-                                <select name="sort" id="sort" class="form-select form-select-sm" 
-                                        onchange="this.form.submit()" style="min-width: 180px;">
+                                <select name="sort" id="sort" class="form-select form-select-sm"
+                                    onchange="this.form.submit()" style="min-width: 180px;">
                                     <option value="created_at" {% if current_sort == 'created_at' %}selected{% endif %}>
                                         {% trans "За новизною" %}
                                     </option>
@@ -342,9 +201,12 @@
                                     </option>
                                 </select>
                                 <!-- Передаємо інші параметри фільтрації -->
-                                {% if search_query %}<input type="hidden" name="search" value="{{ search_query }}">{% endif %}
-                                {% if request.GET.min_price %}<input type="hidden" name="min_price" value="{{ request.GET.min_price }}">{% endif %}
-                                {% if request.GET.max_price %}<input type="hidden" name="max_price" value="{{ request.GET.max_price }}">{% endif %}
+                                {% if search_query %}<input type="hidden" name="search" value="{{ search_query }}">
+                                {% endif %}
+                                {% if request.GET.min_price %}<input type="hidden" name="min_price"
+                                    value="{{ request.GET.min_price }}">{% endif %}
+                                {% if request.GET.max_price %}<input type="hidden" name="max_price"
+                                    value="{{ request.GET.max_price }}">{% endif %}
                             </form>
                         </div>
                     </div>
@@ -357,11 +219,11 @@
                         <!-- Зображення товару -->
                         <div class="position-relative">
                             {% if product.images.all %}
-                                {% with product.images.first as main_image %}
-                                <img src="{{ main_image.image.url }}" class="card-img-top" alt="{{ product.name }}">
-                                {% endwith %}
+                            {% with product.images.first as main_image %}
+                            <img src="{{ main_image.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                            {% endwith %}
                             {% else %}
-                                <img src="{% static 'images/no-image.jpg' %}" class="card-img-top" alt="{{ product.name }}">
+                            <img src="{% static 'images/no-image.jpg' %}" class="card-img-top" alt="{{ product.name }}">
                             {% endif %}
 
                             <!-- Знижка -->
@@ -394,10 +256,10 @@
                             <h6 class="card-title">
                                 <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
                             </h6>
-                            
+
                             <!-- Короткий опис -->
                             <p class="card-text">{{ product.short_description|truncatewords:10 }}</p>
-                            
+
                             <!-- Категорія -->
                             <div class="product-meta">
                                 <small class="text-muted">
@@ -409,60 +271,59 @@
                                 </small>
                                 {% endif %}
                             </div>
-                            
+
                             <!-- Рейтинг -->
                             {% if product.rating %}
                             <div class="rating">
                                 {% for i in "12345" %}
-                                    {% if product.rating >= i|add:0 %}
-                                        <i class="fas fa-star"></i>
-                                    {% elif product.rating >= i|add:0|add:-0.5 %}
-                                        <i class="fas fa-star-half-alt"></i>
-                                    {% else %}
-                                        <i class="far fa-star"></i>
-                                    {% endif %}
+                                {% if product.rating >= i|add:0 %}
+                                <i class="fas fa-star"></i>
+                                {% elif product.rating >= i|add:0|add:-0.5 %}
+                                <i class="fas fa-star-half-alt"></i>
+                                {% else %}
+                                <i class="far fa-star"></i>
+                                {% endif %}
                                 {% endfor %}
                                 <small class="text-muted ms-1">({{ product.reviews_count }})</small>
                             </div>
                             {% endif %}
 
-                            
-<!-- Ціна -->
-<div class="price-section minimal">
-    {% if product.has_discount %}
-    <div class="price-with-discount">
-        <div class="price-main">
-            <span class="currency">₴</span>
-            <span class="amount">{{ product.discount_price|floatformat:0 }}</span>
-        </div>
-        <div class="price-old">{{ product.price }} ₴</div>
-    </div>
-    {% else %}
-    <div class="price-regular">
-        <span class="currency">₴</span>
-        <span class="amount">{{ product.price|floatformat:0 }}</span>
-    </div>
-    {% endif %}
-</div>
+
+                            <!-- Ціна -->
+                            <div class="price-section minimal">
+                                {% if product.has_discount %}
+                                <div class="price-with-discount">
+                                    <div class="price-main">
+                                        <span class="currency">₴</span>
+                                        <span class="amount">{{ product.discount_price|floatformat:0 }}</span>
+                                    </div>
+                                    <div class="price-old">{{ product.price }} ₴</div>
+                                </div>
+                                {% else %}
+                                <div class="price-regular">
+                                    <span class="currency">₴</span>
+                                    <span class="amount">{{ product.price|floatformat:0 }}</span>
+                                </div>
+                                {% endif %}
+                            </div>
 
                             <!-- Кнопки дій -->
                             <div class="product-actions">
                                 {% if product.is_in_stock %}
-                              <!-- Замість звичайної кнопки -->
-<button class="btn btn-primary add-to-cart-btn" 
-        data-product-id="{{ product.id }}">
-    <i class="fas fa-shopping-cart me-2"></i>
-    {% trans "Додати до корзини" %}
-</button>
+                                <!-- Замість звичайної кнопки -->
+                                <button class="btn btn-primary add-to-cart-btn" data-product-id="{{ product.id }}">
+                                    <i class="fas fa-shopping-cart me-2"></i>
+                                    {% trans "Додати до корзини" %}
+                                </button>
                                 {% else %}
                                 <button class="btn btn-secondary" disabled>
                                     <i class="fas fa-ban"></i> {% trans "Немає в наявності" %}
                                 </button>
                                 {% endif %}
-                                
+
                                 {% if user.is_authenticated %}
-                                <button class="wishlist-btn" data-product-id="{{ product.id }}" 
-                                        title="{% trans 'Додати до бажань' %}">
+                                <button class="wishlist-btn" data-product-id="{{ product.id }}"
+                                    title="{% trans 'Додати до бажань' %}">
                                     <i class="far fa-heart"></i>
                                 </button>
                                 {% endif %}
@@ -489,12 +350,14 @@
                     <ul class="pagination justify-content-center">
                         {% if products.has_previous %}
                         <li class="page-item">
-                            <a class="page-link" href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.min_price %}&min_price={{ request.GET.min_price }}{% endif %}{% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}">
+                            <a class="page-link"
+                                href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.min_price %}&min_price={{ request.GET.min_price }}{% endif %}{% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}">
                                 <i class="fas fa-angle-double-left"></i>
                             </a>
                         </li>
                         <li class="page-item">
-                            <a class="page-link" href="?page={{ products.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.min_price %}&min_price={{ request.GET.min_price }}{% endif %}{% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}">
+                            <a class="page-link"
+                                href="?page={{ products.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.min_price %}&min_price={{ request.GET.min_price }}{% endif %}{% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}">
                                 <i class="fas fa-angle-left"></i> {% trans "Попередня" %}
                             </a>
                         </li>
@@ -502,31 +365,35 @@
 
                         <!-- Номери сторінок -->
                         {% for num in products.paginator.page_range %}
-                            {% if products.number == num %}
-                            <li class="page-item active">
-                                <span class="page-link">{{ num }}</span>
-                            </li>
-                            {% elif num > products.number|add:'-3' and num < products.number|add:'3' %}
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.min_price %}&min_price={{ request.GET.min_price }}{% endif %}{% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}">{{ num }}</a>
+                        {% if products.number == num %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                        {% elif num > products.number|add:'-3' and num < products.number|add:'3' %} <li
+                            class="page-item">
+                            <a class="page-link"
+                                href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.min_price %}&min_price={{ request.GET.min_price }}{% endif %}{% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}">
+                                {{ num }}</a>
                             </li>
                             {% endif %}
-                        {% endfor %}
+                            {% endfor %}
 
-                        {% if products.has_next %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ products.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.min_price %}&min_price={{ request.GET.min_price }}{% endif %}{% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}">
-                                {% trans "Наступна" %} <i class="fas fa-angle-right"></i>
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ products.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.min_price %}&min_price={{ request.GET.min_price }}{% endif %}{% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}">
-                                <i class="fas fa-angle-double-right"></i>
-                            </a>
-                        </li>
-                        {% endif %}
+                            {% if products.has_next %}
+                            <li class="page-item">
+                                <a class="page-link"
+                                    href="?page={{ products.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.min_price %}&min_price={{ request.GET.min_price }}{% endif %}{% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}">
+                                    {% trans "Наступна" %} <i class="fas fa-angle-right"></i>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link"
+                                    href="?page={{ products.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.min_price %}&min_price={{ request.GET.min_price }}{% endif %}{% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}">
+                                    <i class="fas fa-angle-double-right"></i>
+                                </a>
+                            </li>
+                            {% endif %}
                     </ul>
-                    
+
                     <div class="text-center mt-3">
                         <small class="text-muted">
                             {% trans "Сторінка" %} {{ products.number }} {% trans "з" %} {{ products.paginator.num_pages }}
@@ -542,82 +409,82 @@
 
 <!-- JavaScript для функціональності -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
 
 
-    // Додавання до списку бажань
-    document.querySelectorAll('.wishlist-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const productId = this.dataset.productId;
-            const icon = this.querySelector('i');
-            
-            fetch('{% url "shop:add_to_wishlist" %}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': '{{ csrf_token }}'
-                },
-                body: JSON.stringify({
-                    product_id: productId
+        // Додавання до списку бажань
+        document.querySelectorAll('.wishlist-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const productId = this.dataset.productId;
+                const icon = this.querySelector('i');
+
+                fetch('{% url "shop:add_to_wishlist" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({
+                        product_id: productId
+                    })
                 })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    showAlert(data.message, 'success');
-                    // Змінюємо іконку
-                    if (data.action === 'added') {
-                        icon.className = 'fas fa-heart';
-                        this.classList.add('active');
-                        this.title = 'Видалити з бажань';
-                    } else {
-                        icon.className = 'far fa-heart';
-                        this.classList.remove('active');
-                        this.title = 'Додати до бажань';
-                    }
-                } else {
-                    showAlert(data.message, 'error');
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            showAlert(data.message, 'success');
+                            // Змінюємо іконку
+                            if (data.action === 'added') {
+                                icon.className = 'fas fa-heart';
+                                this.classList.add('active');
+                                this.title = 'Видалити з бажань';
+                            } else {
+                                icon.className = 'far fa-heart';
+                                this.classList.remove('active');
+                                this.title = 'Додати до бажань';
+                            }
+                        } else {
+                            showAlert(data.message, 'error');
+                        }
+                    });
+            });
+        });
+
+        // Фільтри
+        document.getElementById('only_available')?.addEventListener('change', function () {
+            applyFilters();
+        });
+
+        document.getElementById('only_featured')?.addEventListener('change', function () {
+            applyFilters();
+        });
+
+        document.getElementById('only_discounted')?.addEventListener('change', function () {
+            applyFilters();
+        });
+
+        // Закриття мобільних фільтрів при виборі категорії
+        document.querySelectorAll('.category-list a').forEach(link => {
+            link.addEventListener('click', function () {
+                const collapse = document.getElementById('filterCollapse');
+                if (collapse && window.getComputedStyle(collapse).display !== 'none') {
+                    const bsCollapse = new bootstrap.Collapse(collapse, { toggle: false });
+                    bsCollapse.hide();
                 }
             });
         });
     });
 
-    // Фільтри
-    document.getElementById('only_available')?.addEventListener('change', function() {
-        applyFilters();
-    });
-    
-    document.getElementById('only_featured')?.addEventListener('change', function() {
-        applyFilters();
-    });
-    
-    document.getElementById('only_discounted')?.addEventListener('change', function() {
-        applyFilters();
-    });
+    function showAlert(message, type) {
+        // Створюємо алерт
+        const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+        const iconClass = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle';
+        const bgColor = type === 'success' ? '#d4edda' : '#f8d7da';
+        const borderColor = type === 'success' ? '#c3e6cb' : '#f5c6cb';
+        const textColor = type === 'success' ? '#155724' : '#721c24';
 
-    // Закриття мобільних фільтрів при виборі категорії
-    document.querySelectorAll('.category-list a').forEach(link => {
-        link.addEventListener('click', function() {
-            const collapse = document.getElementById('filterCollapse');
-            if (collapse && window.getComputedStyle(collapse).display !== 'none') {
-                const bsCollapse = new bootstrap.Collapse(collapse, {toggle: false});
-                bsCollapse.hide();
-            }
-        });
-    });
-});
-
-function showAlert(message, type) {
-    // Створюємо алерт
-    const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
-    const iconClass = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle';
-    const bgColor = type === 'success' ? '#d4edda' : '#f8d7da';
-    const borderColor = type === 'success' ? '#c3e6cb' : '#f5c6cb';
-    const textColor = type === 'success' ? '#155724' : '#721c24';
-    
-    const alertDiv = document.createElement('div');
-    alertDiv.className = `alert ${alertClass} alert-dismissible fade show position-fixed`;
-    alertDiv.style.cssText = `
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert ${alertClass} alert-dismissible fade show position-fixed`;
+        alertDiv.style.cssText = `
         top: 20px; 
         right: 20px; 
         z-index: 1060; 
@@ -629,71 +496,71 @@ function showAlert(message, type) {
         border-radius: 12px;
         padding: 1rem 1.5rem;
     `;
-    alertDiv.innerHTML = `
+        alertDiv.innerHTML = `
         <div class="d-flex align-items-center">
             <i class="fas ${iconClass} me-2"></i>
             <span>${message}</span>
             <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Закрити"></button>
         </div>
     `;
-    document.body.appendChild(alertDiv);
-    
-    // Автоматично приховуємо через 4 секунди
-    setTimeout(() => {
-        if (alertDiv && alertDiv.parentNode) {
-            alertDiv.remove();
-        }
-    }, 4000);
-}
+        document.body.appendChild(alertDiv);
 
-function applyFilters() {
-    // Функція для застосування фільтрів
-    const url = new URL(window.location.href);
-    const params = new URLSearchParams(url.search);
-    
-    // Додаємо фільтри
-    if (document.getElementById('only_available')?.checked) {
-        params.set('available', '1');
-    } else {
-        params.delete('available');
-    }
-    
-    if (document.getElementById('only_featured')?.checked) {
-        params.set('featured', '1');
-    } else {
-        params.delete('featured');
-    }
-    
-    if (document.getElementById('only_discounted')?.checked) {
-        params.set('discounted', '1');
-    } else {
-        params.delete('discounted');
-    }
-    
-    // Перенаправляємо з новими параметрами
-    window.location.href = url.pathname + '?' + params.toString();
-}
-
-// Плавна анімація для карточок при завантаженні
-function animateCards() {
-    const cards = document.querySelectorAll('.product-card');
-    cards.forEach((card, index) => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(30px)';
-        
+        // Автоматично приховуємо через 4 секунди
         setTimeout(() => {
-            card.style.transition = 'all 0.6s ease-out';
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-        }, index * 100);
-    });
-}
+            if (alertDiv && alertDiv.parentNode) {
+                alertDiv.remove();
+            }
+        }, 4000);
+    }
 
-// Запускаємо анімацію після завантаження
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', animateCards);
-} else {
-    animateCards();
-}
+    function applyFilters() {
+        // Функція для застосування фільтрів
+        const url = new URL(window.location.href);
+        const params = new URLSearchParams(url.search);
+
+        // Додаємо фільтри
+        if (document.getElementById('only_available')?.checked) {
+            params.set('available', '1');
+        } else {
+            params.delete('available');
+        }
+
+        if (document.getElementById('only_featured')?.checked) {
+            params.set('featured', '1');
+        } else {
+            params.delete('featured');
+        }
+
+        if (document.getElementById('only_discounted')?.checked) {
+            params.set('discounted', '1');
+        } else {
+            params.delete('discounted');
+        }
+
+        // Перенаправляємо з новими параметрами
+        window.location.href = url.pathname + '?' + params.toString();
+    }
+
+    // Плавна анімація для карточок при завантаженні
+    function animateCards() {
+        const cards = document.querySelectorAll('.product-card');
+        cards.forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+
+            setTimeout(() => {
+                card.style.transition = 'all 0.6s ease-out';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, index * 100);
+        });
+    }
+
+    // Запускаємо анімацію після завантаження
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', animateCards);
+    } else {
+        animateCards();
+    }
 </script>
 {% endblock %}
