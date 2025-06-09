@@ -68,7 +68,18 @@
                 </span> — {% trans "кращі смаки та аромати Іспанії у вашому домі. © 2025. Усі права захищено" %}
             </p>
         </div>
-    </footer><span
+    </footer>
+    <div id="universalModal" class="modal">
+    <div class="modal-content">
+        <p id="modalMessage"></p>
+        <div id="modalResponse" style="display: none; margin-top: 10px;"></div>
+        <button id="modalConfirm" class="btn">{% trans 'Так' %}</button>
+        <button id="modalCancel" class="btn">{% trans 'Ні' %}</button>
+    </div>
+</div>
+
+
+    <span
         style="height: 64px; width: 64px; margin-left: 0px; margin-right: auto; margin-top: 0px; background-image: none; right: 20px; bottom: 20px; padding: 15px"
         class="u-back-to-top u-icon u-icon-circle u-opacity u-opacity-85 u-palette-1-base" data-href="#"><svg
             class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 551.13 551.13">
@@ -642,6 +653,60 @@ document.querySelectorAll('.wishlist-btn').forEach(button => {
         });
     });
 });
+</script>
+
+<script>
+const modal = {
+    element: document.getElementById('universalModal'),
+    messageElement: document.getElementById('modalMessage'),
+    responseElement: document.getElementById('modalResponse'),
+    confirmButton: document.getElementById('modalConfirm'),
+    cancelButton: document.getElementById('modalCancel'),
+
+    open(message, onConfirm, onCancel) {
+        this.messageElement.textContent = message;
+        this.responseElement.style.display = 'none'; // Скрыть блок ответа
+        this.responseElement.textContent = ''; // Очистить предыдущий ответ
+
+        this.showButtons(true); // Показать кнопки
+
+        const handleConfirm = () => {
+            this.responseElement.style.display = 'none'; // Скрываем ответ
+            this.showButtons(false); // Скрыть кнопки при подтверждении
+            if (typeof onConfirm === 'function') onConfirm(this);
+        };
+
+        const handleCancel = () => {
+            this.close();
+            if (typeof onCancel === 'function') onCancel();
+        };
+
+        this.confirmButton.addEventListener('click', handleConfirm, { once: true });
+        this.cancelButton.addEventListener('click', handleCancel, { once: true });
+
+        this.element.style.display = 'block';
+    },
+
+    showResponse(message, success = true) {
+        this.responseElement.style.display = 'block';
+        this.responseElement.style.color = success ? 'green' : 'red';
+        this.responseElement.textContent = message;
+
+        this.showButtons(false); // Скрыть кнопки при отображении ответа
+    },
+
+    showButtons(show) {
+        const displayValue = show ? 'inline-block' : 'none';
+        this.confirmButton.style.display = displayValue;
+        this.cancelButton.style.display = displayValue;
+    },
+
+    close() {
+        this.element.style.display = 'none';
+    }
+};
+
+
 </script>
     </body>
 </html>

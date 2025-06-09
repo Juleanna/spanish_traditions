@@ -131,6 +131,35 @@ class CheckoutForm(forms.Form):
             'class': 'form-control',
         })
     )
+
+    # Додайте після поля country:
+    delivery_method = forms.ChoiceField(
+    label=_('Спосіб доставки'),
+    choices=[
+        ('standard', _('Стандартна доставка (2-3 дні) - 50 ₴')),
+        ('express', _('Експрес доставка (наступний день) - 100 ₴')),
+        ('pickup', _('Самовивіз з магазину - безкоштовно')),
+        ('nova_poshta', _('Нова Пошта - 60 ₴')),
+    ],
+    initial='standard',
+    widget=forms.RadioSelect(attrs={
+        'class': 'delivery-option'
+    })
+    )
+
+    payment_method = forms.ChoiceField(
+    label=_('Спосіб оплати'),
+    choices=[
+        ('cash_on_delivery', _('Оплата при отриманні готівкою')),
+        ('card_on_delivery', _('Оплата при отриманні карткою')),
+        ('online_card', _('Оплата карткою онлайн')),
+        ('bank_transfer', _('Банківський переказ')),
+    ],
+    initial='cash_on_delivery',
+    widget=forms.RadioSelect(attrs={
+        'class': 'payment-option'
+    })
+    )
     
     # Додаткові примітки
     notes = forms.CharField(

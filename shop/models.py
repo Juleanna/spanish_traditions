@@ -214,6 +214,25 @@ class Order(models.Model):
     state = models.CharField(_("Область"), max_length=100)
     postal_code = models.CharField(_("Поштовий код"), max_length=20)
     country = models.CharField(_("Країна"), max_length=100, default="Україна")
+
+    # Додайте ці поля до класу Order після поля country
+    DELIVERY_CHOICES = [
+    ('standard', _('Стандартна доставка (2-3 дні) - 50 ₴')),
+    ('express', _('Експрес доставка (наступний день) - 100 ₴')),
+    ('pickup', _('Самовивіз з магазину - безкоштовно')),
+    ('nova_poshta', _('Нова Пошта - 60 ₴')),
+    ]
+
+    PAYMENT_CHOICES = [
+    ('cash_on_delivery', _('Оплата при отриманні готівкою')),
+    ('card_on_delivery', _('Оплата при отриманні карткою')),
+    ('online_card', _('Оплата карткою онлайн')),
+    ('bank_transfer', _('Банківський переказ')),
+    ]
+
+    # Додайте ці поля після country
+    delivery_method = models.CharField(_("Спосіб доставки"), max_length=20, choices=DELIVERY_CHOICES, default='standard')
+    payment_method = models.CharField(_("Спосіб оплати"), max_length=20, choices=PAYMENT_CHOICES, default='cash_on_delivery')
     
     # Фінансова інформація
     subtotal = models.DecimalField(_("Сума без доставки"), max_digits=10, decimal_places=2)

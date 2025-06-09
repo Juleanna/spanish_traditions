@@ -1451,8 +1451,6 @@ def cart_detail(request):
     
     return render(request, 'shop/cart_detail.html', context)
 
-from django.utils import timezone
-from .models import Coupon, CouponUsage
 
 @require_POST
 def validate_coupon(request):
