@@ -177,6 +177,13 @@
     <i class="far fa-heart"></i>
 </a>
 {% endif %}
+
+<!-- Знайдіть блок з кнопками (після кнопки wishlist) і додайте: -->
+<button class="compare-btn {% if product.id in request.session.compare_products %}active{% endif %}" 
+        data-product-id="{{ product.id }}"
+        title="{% trans 'Порівняти товар' %}">
+    <i class="fas fa-balance-scale"></i>
+</button>
                         </div>
                         {% endif %}
                     </div>
@@ -358,5 +365,31 @@ if (typeof showAlert === 'undefined') {
         }, 3000);
     }
 }
+</script>
+<script>
+    // Додайте в блок <script>
+document.querySelector('.compare-btn')?.addEventListener('click', function() {
+    const productId = this.dataset.productId;
+    
+    fetch('{% url "shop:add_to_compare" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({
+            product_id: productId
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            this.classList.add('active');
+            showNotification(data.message, 'success');
+        } else {
+            showNotification(data.message, 'warning');
+        }
+    });
+});
 </script>
 {% endblock %}

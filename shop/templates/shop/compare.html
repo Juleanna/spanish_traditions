@@ -1,98 +1,294 @@
 {% extends 'core/base.html' %}
-{% load i18n %}
 {% load static %}
+{% load i18n %}
+{% load shop_filters %}
 
 {% block extra_css %}
-
 <style>
-.compare-container {
-    overflow-x: auto;
-    padding: 20px 0;
+/* Основні стилі */
+.compare-page {
+    min-height: 60vh;
+    padding: 40px 0;
+    background-color: #f8f9fa;
+}
+
+.compare-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.compare-header h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.compare-header p {
+    color: #6c757d;
+    font-size: 1.1rem;
+}
+
+/* Таблиця порівняння */
+.compare-wrapper {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 30px rgba(0,0,0,0.1);
+    overflow: hidden;
+    margin-bottom: 30px;
 }
 
 .compare-table {
-    min-width: 600px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    overflow: hidden;
+    width: 100%;
+    border-collapse: collapse;
 }
 
 .compare-table th {
-    background: #f8f9fa;
-    font-weight: 600;
-    padding: 15px;
-    text-align: left;
+    background-color: #f8f9fa;
+    padding: 20px;
+    text-align: center;
+    vertical-align: top;
     border-bottom: 2px solid #dee2e6;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.compare-table th:first-child {
+    text-align: left;
+    background-color: #e9ecef;
+    font-weight: 600;
+    width: 200px;
 }
 
 .compare-table td {
     padding: 15px;
-    border-bottom: 1px solid #dee2e6;
+    border-bottom: 1px solid #f0f0f0;
     vertical-align: middle;
+    text-align: center;
 }
 
-.compare-table tr:last-child td {
-    border-bottom: none;
+.compare-table td:first-child {
+    text-align: left;
+    font-weight: 500;
+    background-color: #fafbfc;
+    color: #495057;
+}
+
+/* Картка товару в таблиці */
+.product-card-compare {
+    position: relative;
+    padding: 10px;
+}
+
+.remove-btn {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #dc3545;
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 5;
+}
+
+.remove-btn:hover {
+    background: #c82333;
+    transform: scale(1.1);
 }
 
 .product-image-compare {
     width: 150px;
     height: 150px;
-    object-fit: cover;
-    border-radius: 8px;
+    object-fit: contain;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    background: #f8f9fa;
+    padding: 10px;
 }
 
-.remove-compare {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background: rgba(255,255,255,0.9);
-    border: 1px solid #dc3545;
-    color: #dc3545;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
+.product-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+    min-height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s;
+    text-align: center;
 }
 
-.remove-compare:hover {
-    background: #dc3545;
+.product-price {
+    font-size: 1.3rem;
+    color: #28a745;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+/* Характеристики */
+.spec-row:nth-child(even) {
+    background-color: #fafbfc;
+}
+
+.spec-row:hover {
+    background-color: #f0f8ff;
+}
+
+.spec-value {
+    font-size: 0.95rem;
+    color: #495057;
+}
+
+.spec-value.highlight {
+    color: #28a745;
+    font-weight: 600;
+}
+
+/* Різниця в характеристиках */
+.different-spec {
+    background-color: #fff3cd;
+    font-weight: 600;
+}
+
+/* Кнопки дій */
+.action-buttons {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.btn-add-to-cart {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.btn-add-to-cart:hover {
+    background: #218838;
+    transform: translateY(-2px);
+}
+
+.btn-view-product {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    text-decoration: none;
+}
+
+.btn-view-product:hover {
+    background: #0056b3;
+    transform: translateY(-2px);
     color: white;
 }
 
-.spec-row:nth-child(even) {
-    background: #f8f9fa;
-}
-
+/* Порожнє порівняння */
 .empty-compare {
     text-align: center;
     padding: 80px 20px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 30px rgba(0,0,0,0.1);
 }
 
 .empty-compare i {
-    font-size: 80px;
+    font-size: 4rem;
     color: #dee2e6;
     margin-bottom: 20px;
 }
 
-.compare-actions {
-    position: sticky;
-    bottom: 0;
-    background: white;
-    padding: 20px;
-    box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
-    border-radius: 12px 12px 0 0;
-    margin-top: 20px;
+.empty-compare h3 {
+    color: #495057;
+    margin-bottom: 15px;
 }
 
-@media (max-width: 768px) {
+/* Кнопки управління */
+.compare-controls {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.btn-clear {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-clear:hover {
+    background: #c82333;
+    transform: translateY(-2px);
+}
+
+.btn-continue {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-continue:hover {
+    background: #0056b3;
+    transform: translateY(-2px);
+    color: white;
+}
+
+/* Адаптивність */
+@media (max-width: 992px) {
+    .compare-wrapper {
+        overflow-x: auto;
+    }
+    
     .compare-table {
-        font-size: 14px;
+        min-width: 800px;
+    }
+    
+    .compare-table th:first-child,
+    .compare-table td:first-child {
+        position: sticky;
+        left: 0;
+        z-index: 5;
+        background-color: #e9ecef;
+    }
+}
+
+@media (max-width: 576px) {
+    .compare-header h1 {
+        font-size: 2rem;
     }
     
     .product-image-compare {
@@ -100,10 +296,49 @@
         height: 100px;
     }
     
-    .compare-table th,
-    .compare-table td {
-        padding: 10px;
+    .compare-controls {
+        justify-content: center;
     }
+}
+
+/* Анімації */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.compare-wrapper {
+    animation: fadeIn 0.5s ease;
+}
+
+/* Рейтинг */
+.rating {
+    color: #ffc107;
+    font-size: 1.1rem;
+}
+
+.stock-status {
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.in-stock {
+    background: #d4edda;
+    color: #155724;
+}
+
+.out-of-stock {
+    background: #f8d7da;
+    color: #721c24;
 }
 </style>
 {% endblock %}
@@ -111,99 +346,204 @@
 {% block title %}{% trans "Порівняння товарів" %}{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-12">
-            <h2 class="mb-4">
-                <i class="fas fa-balance-scale"></i> {% trans "Порівняння товарів" %}
-            </h2>
-            
-            {% if products %}
-            <div class="compare-container">
-                <table class="compare-table w-100">
-                    <thead>
-                        <tr>
-                            <th style="width: 200px;">{% trans "Характеристика" %}</th>
-                            {% for product in products %}
-                            <th style="position: relative;">
-                                <div class="position-relative">
-                                    <button class="remove-compare" data-product-id="{{ product.id }}" 
-                                            title="{% trans 'Видалити з порівняння' %}">
-                                        <i class="fas fa-times"></i>
+<div class="compare-page">
+    <div class="container">
+        <div class="compare-header">
+            <h1><i class="fas fa-balance-scale"></i> {% trans "Порівняння товарів" %}</h1>
+            <p>{% trans "Порівняйте характеристики обраних товарів" %}</p>
+        </div>
+        
+        {% if products %}
+        <div class="compare-wrapper">
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th>{% trans "Товар" %}</th>
+                        {% for product in products %}
+                        <th>
+                            <div class="product-card-compare">
+                                <button class="remove-btn" data-product-id="{{ product.id }}" 
+                                        title="{% trans 'Видалити з порівняння' %}">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                                
+                                {% if product.images.all %}
+                                <img src="{{ product.images.first.image.url }}" 
+                                     class="product-image-compare" 
+                                     alt="{{ product.name }}">
+                                {% else %}
+                                <img src="{% static 'images/no-image.jpg' %}" 
+                                     class="product-image-compare" 
+                                     alt="{{ product.name }}">
+                                {% endif %}
+                                
+                                <div class="product-name">{{ product.name }}</div>
+                                <div class="product-price">{{ product.price }} ₴</div>
+                                
+                                <div class="action-buttons">
+                                    {% if product.is_in_stock %}
+                                    <button class="btn-add-to-cart add-to-cart-btn" 
+                                            data-product-id="{{ product.id }}">
+                                        <i class="fas fa-cart-plus"></i> {% trans "В кошик" %}
                                     </button>
-                                    {% if product.images.all %}
-                                    <img src="{{ product.images.first.image.url }}" 
-                                         class="product-image-compare mb-2" 
-                                         alt="{{ product.name }}">
-                                    {% else %}
-                                    <img src="{% static 'images/no-image.jpg' %}" 
-                                         class="product-image-compare mb-2" 
-                                         alt="{{ product.name }}">
                                     {% endif %}
-                                    <h6 class="mb-0">
-                                        <a href="{{ product.get_absolute_url }}" class="text-dark">
-                                            {{ product.name }}
-                                        </a>
-                                    </h6>
+                                    <a href="{{ product.get_absolute_url }}" class="btn-view-product">
+                                        <i class="fas fa-eye"></i> {% trans "Детальніше" %}
+                                    </a>
                                 </div>
-                            </th>
-                            {% endfor %}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for spec_name, spec_values in comparison_data.items %}
-                        <tr class="spec-row">
-                            <td><strong>{{ spec_name }}</strong></td>
-                            {% for product in products %}
-                            <td>
-                                {% for pid, data in comparison_data.items %}
-                                    {% if pid == product.id %}
-                                        {{ data.specs|get_item:spec_name }}
+                            </div>
+                        </th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Основні характеристики -->
+                    <tr class="spec-row">
+                        <td>{% trans "Ціна" %}</td>
+                        {% for product in products %}
+                        <td class="spec-value highlight">{{ product.price }} ₴</td>
+                        {% endfor %}
+                    </tr>
+                    
+                    <tr class="spec-row">
+                        <td>{% trans "Наявність" %}</td>
+                        {% for product in products %}
+                        <td>
+                            {% if product.is_in_stock %}
+                            <span class="stock-status in-stock">
+                                <i class="fas fa-check"></i> {% trans "В наявності" %}
+                            </span>
+                            {% else %}
+                            <span class="stock-status out-of-stock">
+                                <i class="fas fa-times"></i> {% trans "Немає" %}
+                            </span>
+                            {% endif %}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    
+                    <tr class="spec-row">
+                        <td>{% trans "Рейтинг" %}</td>
+                        {% for product in products %}
+                        <td>
+                            {% if product.rating %}
+                            <div class="rating">
+                                {% for i in "12345"|make_list %}
+                                    {% if i|add:0 <= product.rating %}
+                                        <i class="fas fa-star"></i>
+                                    {% else %}
+                                        <i class="far fa-star"></i>
                                     {% endif %}
                                 {% endfor %}
+                                <span>({{ product.rating }})</span>
+                            </div>
+                            {% else %}
+                            <span class="text-muted">{% trans "Немає оцінок" %}</span>
+                            {% endif %}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    
+                    <tr class="spec-row">
+                        <td>{% trans "Категорія" %}</td>
+                        {% for product in products %}
+                        <td class="spec-value">{{ product.category.name }}</td>
+                        {% endfor %}
+                    </tr>
+                    
+                    {% if products.0.brand or products.1.brand or products.2.brand or products.3.brand %}
+                    <tr class="spec-row">
+                        <td>{% trans "Бренд" %}</td>
+                        {% for product in products %}
+                        <td class="spec-value">{{ product.brand|default:"-" }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endif %}
+                    
+                    {% if products.0.country_origin or products.1.country_origin or products.2.country_origin or products.3.country_origin %}
+                    <tr class="spec-row">
+                        <td>{% trans "Країна походження" %}</td>
+                        {% for product in products %}
+                        <td class="spec-value">{{ product.country_origin|default:"-" }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endif %}
+                    
+                    {% if products.0.weight or products.1.weight or products.2.weight or products.3.weight %}
+                    <tr class="spec-row">
+                        <td>{% trans "Вага" %}</td>
+                        {% for product in products %}
+                        <td class="spec-value">
+                            {% if product.weight %}{{ product.weight }} кг{% else %}-{% endif %}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endif %}
+                    
+                    {% if products.0.volume or products.1.volume or products.2.volume or products.3.volume %}
+                    <tr class="spec-row">
+                        <td>{% trans "Об'єм" %}</td>
+                        {% for product in products %}
+                        <td class="spec-value">
+                            {% if product.volume %}{{ product.volume }} л{% else %}-{% endif %}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endif %}
+                    
+                    <!-- Додаткові специфікації -->
+                    {% for spec_name, spec_values in comparison_data.items %}
+                        {% if spec_name not in "Ціна,Категорія,Бренд,Країна,Вага,Об'єм,Рейтинг,В наявності" %}
+                        <tr class="spec-row">
+                            <td>{{ spec_name }}</td>
+                            {% for product in products %}
+                            <td class="spec-value">
+                                {% with product_id=product.id|stringformat:"s" %}
+                                    {% with spec_data=comparison_data|get_item:product_id %}
+                                        {% if spec_data %}
+                                            {{ spec_data.specs|get_item:spec_name|default:"-" }}
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    {% endwith %}
+                                {% endwith %}
                             </td>
                             {% endfor %}
                         </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            
-            <div class="compare-actions">
-                <div class="row">
-                    <div class="col-md-6">
-                        <button class="btn btn-outline-danger" id="clear-compare">
-                            <i class="fas fa-trash"></i> {% trans "Очистити порівняння" %}
-                        </button>
-                    </div>
-                    <div class="col-md-6 text-md-end">
-                        <a href="{% url 'shop:product_list' %}" class="btn btn-primary">
-                            <i class="fas fa-plus"></i> {% trans "Додати ще товари" %}
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            {% else %}
-            <div class="empty-compare">
-                <i class="fas fa-balance-scale"></i>
-                <h4>{% trans "Немає товарів для порівняння" %}</h4>
-                <p class="text-muted mb-4">
-                    {% trans "Додайте товари до порівняння, щоб побачити їх характеристики поруч" %}
-                </p>
-                <a href="{% url 'shop:product_list' %}" class="btn btn-primary">
-                    <i class="fas fa-shopping-bag"></i> {% trans "Перейти до каталогу" %}
-                </a>
-            </div>
-            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
+        
+        <div class="compare-controls">
+            <button class="btn-clear" id="clear-compare">
+                <i class="fas fa-trash"></i> {% trans "Очистити все" %}
+            </button>
+            <a href="{% url 'shop:product_list' %}" class="btn-continue">
+                <i class="fas fa-plus"></i> {% trans "Додати ще товари" %}
+            </a>
+        </div>
+        
+        {% else %}
+        <div class="empty-compare">
+            <i class="fas fa-balance-scale"></i>
+            <h3>{% trans "Список порівняння порожній" %}</h3>
+            <p class="text-muted mb-4">
+                {% trans "Додайте товари для порівняння їх характеристик" %}
+            </p>
+            <a href="{% url 'shop:product_list' %}" class="btn-continue">
+                <i class="fas fa-shopping-bag"></i> {% trans "Перейти до каталогу" %}
+            </a>
+        </div>
+        {% endif %}
     </div>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Видалення з порівняння
-    document.querySelectorAll('.remove-compare').forEach(button => {
+    // Видалення товару з порівняння
+    document.querySelectorAll('.remove-btn').forEach(button => {
         button.addEventListener('click', function() {
             const productId = this.dataset.productId;
             
@@ -220,15 +560,21 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    location.reload();
+                    // Анімація видалення
+                    const column = this.closest('th');
+                    column.style.transition = 'opacity 0.3s ease';
+                    column.style.opacity = '0';
+                    setTimeout(() => {
+                        location.reload();
+                    }, 300);
                 }
             });
         });
     });
     
-    // Очистити порівняння
+    // Очищення всього списку
     document.getElementById('clear-compare')?.addEventListener('click', function() {
-        if (confirm('{% trans "Ви впевнені, що хочете очистити список порівняння?" %}')) {
+        if (confirm('{% trans "Видалити всі товари з порівняння?" %}')) {
             fetch('{% url "shop:clear_compare" %}', {
                 method: 'POST',
                 headers: {
@@ -243,6 +589,63 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
+    
+    // Додавання до кошика
+    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = this.dataset.productId;
+            
+            fetch('{% url "shop:add_to_cart" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({
+                    product_id: productId,
+                    quantity: 1
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Анімація успішного додавання
+                    this.innerHTML = '<i class="fas fa-check"></i> {% trans "Додано" %}';
+                    this.style.background = '#28a745';
+                    
+                    setTimeout(() => {
+                        this.innerHTML = '<i class="fas fa-cart-plus"></i> {% trans "В кошик" %}';
+                    }, 2000);
+                    
+                    // Оновити лічильник кошика
+                    updateCartCount();
+                }
+            });
+        });
+    });
+    
+    // Підсвічування різних характеристик
+    const rows = document.querySelectorAll('.spec-row');
+    rows.forEach(row => {
+        const values = Array.from(row.querySelectorAll('td:not(:first-child)')).map(td => td.textContent.trim());
+        const uniqueValues = [...new Set(values)];
+        
+        if (uniqueValues.length > 1 && !values.includes('-')) {
+            row.classList.add('different-spec');
+        }
+    });
 });
+
+// Функція оновлення лічильника кошика
+function updateCartCount() {
+    fetch('{% url "shop:get_cart_count" %}')
+        .then(response => response.json())
+        .then(data => {
+            const cartBadge = document.querySelector('.cart-count');
+            if (cartBadge) {
+                cartBadge.textContent = data.count;
+            }
+        });
+}
 </script>
 {% endblock %}

@@ -14,7 +14,6 @@ from shop.models import Order, OrderItem, Product, Wishlist, Cart, CartItem
 from .forms import UserProfileForm, UserRegistrationForm, UserUpdateForm
 from .models import UserProfile
 
-
 @login_required
 def profile_dashboard(request):
     """Головна сторінка особистого кабінету"""
@@ -75,9 +74,26 @@ def change_password(request):
             user = form.save()
             update_session_auth_hash(request, user)
             messages.success(request, _('Ваш пароль успішно змінено!'))
+            
+            # Для AJAX запитів
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({'success': True})
+            
             return redirect('accounts:profile_dashboard')
+        else:
+            # Для AJAX запитів
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': False,
+                    'error': form.errors.as_text()
+                })
     else:
         form = PasswordChangeForm(request.user)
+    
+    # Додаємо CSS класи до полів форми
+    form.fields['old_password'].widget.attrs['class'] = 'form-control'
+    form.fields['new_password1'].widget.attrs['class'] = 'form-control'
+    form.fields['new_password2'].widget.attrs['class'] = 'form-control'
     
     return render(request, 'accounts/change_password.html', {'form': form})
 
@@ -174,25 +190,17 @@ def register(request):
             user = form.save()
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
+            
+            # Автоматичний вхід після реєстрації
             user = authenticate(username=username, password=password)
             login(request, user)
-            messages.success(request, _('Ви успішно зареєструвались!'))
             
-            # Перенесення кошика з сесії до користувача
-            if 'cart_id' in request.session:
-                try:
-                    cart = Cart.objects.get(id=request.session['cart_id'])
-                    cart.user = user
-                    cart.save()
-                except Cart.DoesNotExist:
-                    pass
-            
-            return redirect('accounts:profile_dashboard')
+            messages.success(request, _('Вітаємо! Ваш акаунт успішно створено.'))
+            return redirect('shop:product_list')
     else:
         form = UserRegistrationForm()
     
     return render(request, 'accounts/register.html', {'form': form})
-
 
 def user_login(request):
     """Вхід користувача"""
@@ -202,44 +210,32 @@ def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
+        remember_me = request.POST.get('remember_me')
+        
         user = authenticate(request, username=username, password=password)
         
         if user is not None:
             login(request, user)
+            
+            # Якщо не вибрано "Запам'ятати мене", сесія закінчиться при закритті браузера
+            if not remember_me:
+                request.session.set_expiry(0)
+            
             messages.success(request, _('Ви успішно увійшли!'))
             
-            # Перенесення кошика з сесії до користувача
-            if 'cart_id' in request.session:
-                try:
-                    session_cart = Cart.objects.get(id=request.session['cart_id'])
-                    user_cart, created = Cart.objects.get_or_create(user=user)
-                    
-                    # Об'єднання товарів з кошиків
-                    for item in session_cart.items.all():
-                        cart_item, created = CartItem.objects.get_or_create(
-                            cart=user_cart,
-                            product=item.product,
-                            defaults={'quantity': item.quantity, 'price': item.price}
-                        )
-                        if not created:
-                            cart_item.quantity += item.quantity
-                            cart_item.save()
-                    
-                    session_cart.delete()
-                    del request.session['cart_id']
-                except Cart.DoesNotExist:
-                    pass
-            
-            next_url = request.GET.get('next', 'accounts:profile_dashboard')
-            return redirect(next_url)
+            # Перенаправлення на сторінку, з якої прийшов користувач
+            next_page = request.POST.get('next', request.GET.get('next', 'shop:product_list'))
+            return redirect(next_page)
         else:
-            messages.error(request, _('Невірне ім\'я користувача або пароль'))
+            messages.error(request, _('Невірне ім\'я користувача або пароль.'))
     
     return render(request, 'accounts/login.html')
 
-
-@login_required
 def user_logout(request):
+    """Вихід користувача"""
+    logout(request)
+    messages.info(request, _('Ви вийшли з акаунту.'))
+    return redirect('shop:product_list')
     """Вихід користувача"""
     logout(request)
     messages.success(request, _('Ви успішно вийшли!'))

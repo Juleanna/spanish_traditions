@@ -2374,5 +2374,7 @@
 
 .btn:hover {
     background-color: #ddd;
+    color: white !important;
 }
+
 
