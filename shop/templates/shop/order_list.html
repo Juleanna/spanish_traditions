@@ -42,7 +42,7 @@
                         <ul class="list-unstyled">
                             {% for item in order.items.all|slice:":3" %}
                             <li class="d-flex justify-content-between">
-                                <span>{{ item.product_name }} × {{ item.quantity }}</span>
+                                <span>{{ item.product }} × {{ item.quantity }}</span>
                                 <span>{{ item.total_price }} ₴</span>
                             </li>
                             {% endfor %}
@@ -106,11 +106,53 @@
 </div>
 
 <script>
+const csrfToken = '{{ csrf_token }}';
 function cancelOrder(orderNumber) {
-    if (confirm('{% trans "Ви впевнені, що хочете скасувати це замовлення?" %}')) {
-        // Тут можна додати AJAX запит для скасування замовлення
-        alert('{% trans "Функція скасування замовлення буде додана пізніше" %}');
+    if (confirm("Ви впевнені, що хочете скасувати це замовлення?")) {
+        fetch(`/cancel_order/${orderNumber}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'),
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Помилка запиту');
+            }
+        })
+        .then(data => {
+            if (data.success) {
+                alert("Замовлення успішно скасовано");
+                location.reload(); // Перезавантажуємо сторінку для оновлення статусу
+            } else {
+                alert("Це замовлення не можна скасувати");
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Сталася помилка, спробуйте ще раз пізніше.');
+        });
     }
 }
+
+// Функція для отримання CSRF-токена
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
 </script>
 {% endblock %}

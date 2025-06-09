@@ -155,6 +155,17 @@
                         {{ form.address_line2 }}
                     </div>
                     
+                                        <div class="row">
+    <div class="col-md-6 mb-3">
+        <label for="state" class="form-label">{% trans "Область" %} <span class="text-danger">*</span></label>
+        {{ form.state }}
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="country" class="form-label">{% trans "Країна" %} <span class="text-danger">*</span></label>
+        {{ form.country }}
+    </div>
+</div>
+
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="city" class="form-label">{% trans "Місто" %} <span class="text-danger">*</span></label>
@@ -165,6 +176,8 @@
                             {{ form.postal_code }}
                         </div>
                     </div>
+
+                    
 
  <div class="section-header mt-4">
     <h4><i class="fas fa-truck"></i> {% trans "Спосіб доставки" %}</h4>
@@ -273,6 +286,12 @@
                             {% trans "Я погоджуюсь з" %} <a href="#" target="_blank">{% trans "умовами обслуговування" %}</a> <span class="text-danger">*</span>
                         </label>
                     </div>
+                    <div class="form-check mb-3">
+    <input class="form-check-input" type="checkbox" id="privacy_agreed" name="privacy_agreed" required>
+    <label class="form-check-label" for="privacy_agreed">
+        {% trans "Я погоджуюсь з" %} <a href="#" target="_blank">{% trans "політикою конфіденційності" %}</a> <span class="text-danger">*</span>
+    </label>
+</div>
 
                     <div class="form-check mb-3">
                         <input class="form-check-input" type="checkbox" id="newsletter_agreed" name="newsletter_agreed">

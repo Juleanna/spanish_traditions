@@ -36,7 +36,7 @@
             <span class="badge bg-danger float-end">{{ wishlist_count }}</span>
         {% endif %}
     </a>
-    <a href="{% url 'accounts:product_comparison' %}" class="list-group-item list-group-item-action {% if active == 'comparison' %}active{% endif %}">
+    <a href="{% url 'shop:compare_products' %}" class="list-group-item list-group-item-action {% if active == 'comparison' %}active{% endif %}">
         <i class="fas fa-balance-scale me-2"></i> {% trans "Порівняння товарів" %}
         {% if comparison_count > 0 %}
             <span class="badge bg-info float-end">{{ comparison_count }}</span>

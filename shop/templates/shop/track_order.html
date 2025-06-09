@@ -184,32 +184,38 @@
         <p>{% trans "Введіть номер замовлення та email для відстеження" %}</p>
     </div>
     
-    {% if not tracking_allowed %}
-    <!-- Форма для введення даних -->
-    <div class="tracking-form">
-        <form method="post">
-            {% csrf_token %}
-            <div class="mb-3">
-                <label for="order_number" class="form-label">
-                    <i class="fas fa-hashtag"></i> {% trans "Номер замовлення" %}
-                </label>
-                <input type="text" class="form-control" id="order_number" 
-                       name="order_number" value="{{ order_number }}" readonly>
-            </div>
-            
-            <div class="mb-3">
-                <label for="email" class="form-label">
-                    <i class="fas fa-envelope"></i> {% trans "Email" %}
-                </label>
-                <input type="email" class="form-control" id="email" name="email" 
-                       placeholder="{% trans 'Введіть email, вказаний при замовленні' %}" required>
-            </div>
-            
-            <button type="submit" class="btn btn-primary w-100">
-                <i class="fas fa-search"></i> {% trans "Відстежити замовлення" %}
-            </button>
-        </form>
-    </div>
+{% if not tracking_allowed %}
+    {% if request.user.is_authenticated %}
+        <div class="alert alert-info">
+            {% trans "Ви авторизовані, відстеження замовлення доступне без введення email." %}
+        </div>
+    {% else %}
+        <!-- Форма для введення даних -->
+        <div class="tracking-form">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="order_number" class="form-label">
+                        <i class="fas fa-hashtag"></i> {% trans "Номер замовлення" %}
+                    </label>
+                    <input type="text" class="form-control" id="order_number" 
+                           name="order_number" value="{{ order_number }}" readonly>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">
+                        <i class="fas fa-envelope"></i> {% trans "Email" %}
+                    </label>
+                    <input type="email" class="form-control" id="email" name="email" 
+                           placeholder="{% trans 'Введіть email, вказаний при замовленні' %}" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-search"></i> {% trans "Відстежити замовлення" %}
+                </button>
+            </form>
+        </div>
+    {% endif %}
     
     {% else %}
     <!-- Інформація про замовлення -->

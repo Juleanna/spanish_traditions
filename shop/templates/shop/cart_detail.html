@@ -489,7 +489,7 @@
                 
                 <div class="summary-row">
                     <span class="summary-label">{% trans "Загалом:" %}</span>
-                    <span class="summary-value summary-total" id="cart-total">{{ cart.total_price }} ₴</span>
+                    <span class="summary-value summary-total" id="cart-total-all">{{ cart.total_price }} ₴</span>
                 </div>
                 
                 <a href="{% url 'shop:checkout' %}" class="checkout-btn">
@@ -551,7 +551,7 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             // Оновлюємо підсумки в UI
             const subtotalEl = document.getElementById('cart-subtotal');
-            const totalEl = document.getElementById('cart-total');
+            const totalEl = document.getElementById('cart-total-all');
             
             if (subtotalEl && data.total_price !== undefined) {
                 subtotalEl.textContent = `${parseFloat(data.total_price).toFixed(2)} ₴`;

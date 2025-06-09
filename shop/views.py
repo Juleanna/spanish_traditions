@@ -1192,7 +1192,15 @@ def track_order(request, order_number):
     """Відстеження замовлення"""
     try:
         order = Order.objects.get(order_number=order_number)
-        
+
+        # Якщо користувач авторизований, відстеження дозволено
+        if request.user.is_authenticated:
+            context = {
+                'order': order,
+                'tracking_allowed': True
+            }
+            return render(request, 'shop/track_order.html', context)
+
         # Дозволяємо відстеження без входу, якщо є email
         if request.method == 'POST':
             email = request.POST.get('email')
@@ -1204,17 +1212,18 @@ def track_order(request, order_number):
                 return render(request, 'shop/track_order.html', context)
             else:
                 messages.error(request, _('Невірний email'))
-        
+
         context = {
             'order_number': order_number,
             'tracking_allowed': False
         }
-        
+
     except Order.DoesNotExist:
         messages.error(request, _('Замовлення не знайдено'))
         return redirect('shop:product_list')
-    
+
     return render(request, 'shop/track_order.html', context)
+
 
 
 def get_cart(request):
