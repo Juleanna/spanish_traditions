@@ -14,6 +14,8 @@ from django.db import models
 from decimal import Decimal
 import json
 from accounts.models import UserProfile
+from django.utils import timezone
+from .models import Coupon, CouponUsage  
 
 
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -354,7 +356,7 @@ def get_cart(request):
 
 
 def checkout(request):
-    """Покращене оформлення замовлення"""
+    """Покращене оформлення замовлення з підтримкою купонів"""
     cart = get_cart(request)
     cart_items = cart.items.select_related('product').all()
     
@@ -378,6 +380,24 @@ def checkout(request):
             )
         return redirect('shop:cart_detail')
     
+    # Отримуємо купон з сесії
+    coupon = get_coupon_from_session(request)
+    
+    # Розрахунок вартості
+    subtotal = cart.total_price
+    shipping_cost = Decimal('50.00')
+    free_shipping_threshold = Decimal('1000.00')
+    
+    if subtotal >= free_shipping_threshold:
+        shipping_cost = Decimal('0.00')
+    
+    # Розраховуємо знижку
+    discount_amount = Decimal('0')
+    if coupon:
+        discount_amount = coupon.calculate_discount(subtotal, shipping_cost)
+    
+    total_amount = subtotal + shipping_cost - discount_amount
+    
     if request.method == 'POST':
         form = CheckoutForm(request.POST)
         if form.is_valid():
@@ -392,11 +412,6 @@ def checkout(request):
                     )
                     return redirect('shop:cart_detail')
             
-            # Розрахунок вартості доставки (можна зробити динамічним)
-            shipping_cost = Decimal('50.00')
-            if cart.total_price >= Decimal('1000.00'):  # Безкоштовна доставка від 1000 грн
-                shipping_cost = Decimal('0.00')
-            
             # Створюємо замовлення
             order = Order.objects.create(
                 user=request.user if request.user.is_authenticated else None,
@@ -405,40 +420,69 @@ def checkout(request):
                 first_name=form.cleaned_data['first_name'],
                 last_name=form.cleaned_data['last_name'],
                 address_line1=form.cleaned_data['address_line1'],
-                address_line2=form.cleaned_data['address_line2'],
+                address_line2=form.cleaned_data.get('address_line2', ''),
                 city=form.cleaned_data['city'],
-                state=form.cleaned_data['state'],
                 postal_code=form.cleaned_data['postal_code'],
-                country=form.cleaned_data['country'],
-                subtotal=cart.total_price,
+                delivery_method=form.cleaned_data['delivery_method'],
+                payment_method=form.cleaned_data['payment_method'],
+                notes=form.cleaned_data.get('notes', ''),
+                subtotal=subtotal,
                 shipping_cost=shipping_cost,
-                total_amount=cart.total_price + shipping_cost,
-                notes=form.cleaned_data.get('notes', '')
+                discount_amount=discount_amount,
+                total_amount=total_amount,
+                status='pending'
             )
             
+            # Якщо є купон, зберігаємо інформацію про нього
+            if coupon:
+                order.coupon = coupon
+                order.coupon_code = coupon.code
+                order.save()
+            
             # Створюємо елементи замовлення
-            for cart_item in cart_items:
+            for item in cart_items:
                 OrderItem.objects.create(
                     order=order,
-                    product=cart_item.product,
-                    product_name=cart_item.product.name,
-                    quantity=cart_item.quantity,
-                    price=cart_item.price
+                    product=item.product,
+                    price=item.price,
+                    quantity=item.quantity
                 )
                 
                 # Зменшуємо кількість на складі
-                if cart_item.product.track_stock:
-                    cart_item.product.stock = F('stock') - cart_item.quantity
-                    cart_item.product.save(update_fields=['stock'])
+                if item.product.track_stock:
+                    item.product.stock -= item.quantity
+                    item.product.save()
             
-            # Очищуємо кошик
-            cart_items.delete()
+            # Якщо використано купон, записуємо це
+            if coupon:
+                CouponUsage.objects.create(
+                    coupon=coupon,
+                    user=request.user if request.user.is_authenticated else None,
+                    order=order
+                )
+                
+                # Збільшуємо лічильник використань
+                coupon.used_count += 1
+                coupon.save()
             
-            # Відправляємо email підтвердження
+            # Очищаємо кошик
+            cart.items.all().delete()
+            
+            # Очищаємо купон з сесії
+            if 'coupon_id' in request.session:
+                del request.session['coupon_id']
+                del request.session['coupon_code']
+                del request.session['coupon_discount']
+                request.session.modified = True
+            
+            # Відправка email підтвердження
             try:
                 send_mail(
-                    subject=f'Підтвердження замовлення {order.order_number}',
-                    message=f'Дякуємо за ваше замовлення!\n\nНомер замовлення: {order.order_number}\nСума: {order.total_amount} ₴\n\nМи зв\'яжемося з вами найближчим часом.',
+                    subject=_('Підтвердження замовлення #%(number)s') % {'number': order.order_number},
+                    message=_('Дякуємо за ваше замовлення! Номер вашого замовлення: %(number)s. Сума: %(amount)s грн.') % {
+                        'number': order.order_number,
+                        'amount': order.total_amount
+                    },
                     from_email=settings.DEFAULT_FROM_EMAIL,
                     recipient_list=[order.email],
                     fail_silently=True,
@@ -464,19 +508,19 @@ def checkout(request):
                 'city': profile.default_city,
                 'postal_code': profile.default_postal_code,
             }
-            form = CheckoutForm(initial=initial_data)
-    
-    # Розрахунок вартості доставки для відображення
-    shipping_cost = Decimal('50.00')
-    free_shipping_threshold = Decimal('1000.00')
+        form = CheckoutForm(initial=initial_data)
     
     context = {
         'form': form,
         'cart': cart,
         'cart_items': cart_items,
+        'subtotal': subtotal,
         'shipping_cost': shipping_cost,
+        'discount_amount': discount_amount,
+        'total_amount': total_amount,
+        'coupon': coupon,
         'free_shipping_threshold': free_shipping_threshold,
-        'amount_for_free_shipping': max(Decimal('0'), free_shipping_threshold - cart.total_price),
+        'amount_for_free_shipping': max(Decimal('0'), free_shipping_threshold - subtotal),
     }
     
     return render(request, 'shop/checkout.html', context)
@@ -1123,42 +1167,6 @@ def filter_products_ajax(request):
     })
 
 
-@require_POST
-def validate_coupon(request):
-    """Валідація промокоду"""
-    try:
-        data = json.loads(request.body)
-        coupon_code = data.get('coupon_code', '').strip()
-        
-        # Тут можна додати логіку валідації промокодів
-        # Наразі просто демонстраційний код
-        valid_coupons = {
-            'SAVE10': {'discount': 10, 'type': 'percentage'},
-            'SAVE50': {'discount': 50, 'type': 'fixed'},
-            'FREESHIP': {'discount': 0, 'type': 'free_shipping'}
-        }
-        
-        if coupon_code.upper() in valid_coupons:
-            coupon = valid_coupons[coupon_code.upper()]
-            return JsonResponse({
-                'success': True,
-                'message': _('Промокод застосовано'),
-                'discount': coupon['discount'],
-                'type': coupon['type']
-            })
-        else:
-            return JsonResponse({
-                'success': False,
-                'message': _('Недійсний промокод')
-            })
-            
-    except json.JSONDecodeError:
-        return JsonResponse({
-            'success': False,
-            'message': _('Некоректний формат даних')
-        })
-
-
 def track_order(request, order_number):
     """Відстеження замовлення"""
     try:
@@ -1442,3 +1450,139 @@ def cart_detail(request):
     }
     
     return render(request, 'shop/cart_detail.html', context)
+
+from django.utils import timezone
+from .models import Coupon, CouponUsage
+
+@require_POST
+def validate_coupon(request):
+    """Валідація промокоду"""
+    try:
+        data = json.loads(request.body)
+        coupon_code = data.get('coupon_code', '').strip().upper()
+        
+        if not coupon_code:
+            return JsonResponse({
+                'success': False,
+                'message': _('Введіть код купона')
+            })
+        
+        # Отримуємо поточний кошик використовуючи існуючу функцію get_cart
+        cart = get_cart(request)
+        if not cart or not cart.items.exists():
+            return JsonResponse({
+                'success': False,
+                'message': _('Кошик порожній')
+            })
+        
+        # Розраховуємо суму кошика використовуючи властивість моделі
+        subtotal = cart.total_price
+        
+        # Шукаємо купон
+        try:
+            coupon = Coupon.objects.get(code=coupon_code)
+        except Coupon.DoesNotExist:
+            return JsonResponse({
+                'success': False,
+                'message': _('Недійсний промокод')
+            })
+        
+        # Перевіряємо валідність купона
+        is_valid, error_message = coupon.is_valid()
+        if not is_valid:
+            return JsonResponse({
+                'success': False,
+                'message': error_message
+            })
+        
+        # Перевіряємо чи може користувач використати купон
+        if request.user.is_authenticated:
+            can_use, error_message = coupon.can_be_used_by_user(request.user)
+            if not can_use:
+                return JsonResponse({
+                    'success': False,
+                    'message': error_message
+                })
+        
+        # Перевіряємо мінімальну суму замовлення
+        if coupon.min_purchase_amount and subtotal < coupon.min_purchase_amount:
+            return JsonResponse({
+                'success': False,
+                'message': _('Мінімальна сума замовлення для цього купона: %(amount)s грн') % {
+                    'amount': coupon.min_purchase_amount
+                }
+            })
+        
+        # Розраховуємо вартість доставки
+        shipping_cost = Decimal('50.00')
+        if subtotal >= Decimal('1000.00'):
+            shipping_cost = Decimal('0.00')
+        
+        # Розраховуємо знижку
+        discount_amount = coupon.calculate_discount(subtotal, shipping_cost)
+        
+        # Зберігаємо купон в сесії
+        request.session['coupon_id'] = coupon.id
+        request.session['coupon_code'] = coupon.code
+        request.session['coupon_discount'] = float(discount_amount)
+        request.session.modified = True
+        
+        return JsonResponse({
+            'success': True,
+            'message': _('Промокод застосовано'),
+            'code': coupon.code,
+            'discount_type': coupon.discount_type,
+            'discount_value': float(coupon.discount_value),
+            'discount_amount': float(discount_amount),
+            'subtotal': float(subtotal),
+            'shipping_cost': float(shipping_cost),
+            'total': float(subtotal + shipping_cost - discount_amount)
+        })
+        
+    except json.JSONDecodeError:
+        return JsonResponse({
+            'success': False,
+            'message': _('Некоректний формат даних')
+        })
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'message': _('Помилка при обробці купона')
+        })
+
+
+@require_POST
+def remove_coupon(request):
+    """Видалення купона з сесії"""
+    if 'coupon_id' in request.session:
+        del request.session['coupon_id']
+        del request.session['coupon_code']
+        del request.session['coupon_discount']
+        request.session.modified = True
+    
+    return JsonResponse({
+        'success': True,
+        'message': _('Купон видалено')
+    })
+
+
+def get_coupon_from_session(request):
+    """Отримати купон з сесії"""
+    coupon_id = request.session.get('coupon_id')
+    if coupon_id:
+        try:
+            coupon = Coupon.objects.get(id=coupon_id)
+            is_valid, _ = coupon.is_valid()
+            if is_valid:
+                return coupon
+        except Coupon.DoesNotExist:
+            pass
+    
+    # Очищаємо недійсний купон з сесії
+    if 'coupon_id' in request.session:
+        del request.session['coupon_id']
+        del request.session['coupon_code']
+        del request.session['coupon_discount']
+        request.session.modified = True
+    
+    return None

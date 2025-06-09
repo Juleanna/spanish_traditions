@@ -70,4 +70,7 @@ urlpatterns = [
     path('track/<str:order_number>/', views.track_order, name='track_order'),
 
     path('cart/data/', views.cart_data_api, name='cart_data_api'),
+
+    path('validate-coupon/', views.validate_coupon, name='validate_coupon'),
+    path('remove-coupon/', views.remove_coupon, name='remove_coupon'),
 ]

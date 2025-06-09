@@ -234,6 +234,11 @@ class Order(models.Model):
     shipped_at = models.DateTimeField(_("Дата відправки"), null=True, blank=True)
     delivered_at = models.DateTimeField(_("Дата доставки"), null=True, blank=True)
 
+    #Купони
+    coupon = models.ForeignKey('Coupon', on_delete=models.SET_NULL, null=True, blank=True, related_name='orders', verbose_name=_("Використаний купон"))
+    coupon_code = models.CharField(_("Код купона"), max_length=50, blank=True, help_text=_("Код купона на момент замовлення"))
+    discount_amount = models.DecimalField(_("Сума знижки"), max_digits=10, decimal_places=2, default=0)
+
     class Meta:
         verbose_name = _("Замовлення")
         verbose_name_plural = _("Замовлення")
@@ -304,3 +309,104 @@ class Wishlist(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.product.name}"
+
+class Coupon(models.Model):
+    DISCOUNT_TYPE_CHOICES = [
+        ('percentage', _('Відсоток')),
+        ('fixed', _('Фіксована сума')),
+        ('free_shipping', _('Безкоштовна доставка')),
+    ]
+    
+    code = models.CharField(_("Код купона"), max_length=50, unique=True)
+    description = models.CharField(_("Опис"), max_length=255, blank=True)
+    discount_type = models.CharField(_("Тип знижки"), max_length=20, choices=DISCOUNT_TYPE_CHOICES)
+    discount_value = models.DecimalField(_("Значення знижки"), max_digits=10, decimal_places=2, default=0)
+    min_purchase_amount = models.DecimalField(
+        _("Мінімальна сума замовлення"), 
+        max_digits=10, 
+        decimal_places=2, 
+        null=True, 
+        blank=True,
+        help_text=_("Залиште порожнім, якщо немає обмежень")
+    )
+    usage_limit = models.PositiveIntegerField(
+        _("Ліміт використань"), 
+        null=True, 
+        blank=True,
+        help_text=_("Залиште порожнім для необмеженого використання")
+    )
+    used_count = models.PositiveIntegerField(_("Кількість використань"), default=0)
+    valid_from = models.DateTimeField(_("Дійсний з"))
+    valid_to = models.DateTimeField(_("Дійсний до"))
+    is_active = models.BooleanField(_("Активний"), default=True)
+    created_at = models.DateTimeField(_("Створено"), auto_now_add=True)
+    updated_at = models.DateTimeField(_("Оновлено"), auto_now=True)
+    
+    class Meta:
+        verbose_name = _("Купон")
+        verbose_name_plural = _("Купони")
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return f"{self.code} - {self.get_discount_display()}"
+    
+    def get_discount_display(self):
+        if self.discount_type == 'percentage':
+            return f"{self.discount_value}%"
+        elif self.discount_type == 'fixed':
+            return f"{self.discount_value} грн"
+        else:
+            return _("Безкоштовна доставка")
+    
+    def is_valid(self):
+        from django.utils import timezone
+        now = timezone.now()
+        
+        if not self.is_active:
+            return False, _("Купон неактивний")
+        
+        if now < self.valid_from:
+            return False, _("Купон ще не дійсний")
+        
+        if now > self.valid_to:
+            return False, _("Термін дії купона закінчився")
+        
+        if self.usage_limit and self.used_count >= self.usage_limit:
+            return False, _("Досягнуто ліміт використання купона")
+        
+        return True, None
+    
+    def can_be_used_by_user(self, user):
+        """Перевірка чи може користувач використати купон"""
+        if not user.is_authenticated:
+            return True  # Для гостей дозволяємо
+        
+        # Перевіряємо чи користувач вже використовував цей купон
+        user_usage = CouponUsage.objects.filter(coupon=self, user=user).count()
+        if user_usage > 0:
+            return False, _("Ви вже використовували цей купон")
+        
+        return True, None
+    
+    def calculate_discount(self, subtotal, shipping_cost=0):
+        """Розрахунок знижки"""
+        if self.discount_type == 'percentage':
+            return (subtotal * self.discount_value / 100).quantize(Decimal('0.01'))
+        elif self.discount_type == 'fixed':
+            return min(self.discount_value, subtotal)
+        elif self.discount_type == 'free_shipping':
+            return shipping_cost
+        return Decimal('0')
+
+
+class CouponUsage(models.Model):
+    """Модель для відстеження використання купонів"""
+    coupon = models.ForeignKey(Coupon, on_delete=models.CASCADE, related_name='usages')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    order = models.ForeignKey('Order', on_delete=models.CASCADE)
+    used_at = models.DateTimeField(_("Використано"), auto_now_add=True)
+    
+    class Meta:
+        verbose_name = _("Використання купона")
+        verbose_name_plural = _("Використання купонів")
+        unique_together = [['coupon', 'order']]

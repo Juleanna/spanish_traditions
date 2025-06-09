@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 from django.db.models import Sum, Count
 from modeltranslation.admin import TabbedTranslationAdmin
+from django.utils.translation import gettext_lazy as _
 from .models import (
     Category, Product, ProductImage, Cart, CartItem, 
     Order, OrderItem, Review, Wishlist
@@ -187,3 +188,49 @@ class ProductImageAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
         return queryset.select_related('product')
+    
+from .models import Coupon, CouponUsage
+
+@admin.register(Coupon)
+class CouponAdmin(admin.ModelAdmin):
+    list_display = ['code', 'get_discount_display', 'valid_from', 'valid_to', 'is_active', 'used_count', 'usage_limit']
+    list_filter = ['is_active', 'discount_type', 'valid_from', 'valid_to']
+    search_fields = ['code', 'description']
+    date_hierarchy = 'created_at'
+    
+    fieldsets = (
+        (_('Основна інформація'), {
+            'fields': ('code', 'description', 'is_active')
+        }),
+        (_('Налаштування знижки'), {
+            'fields': ('discount_type', 'discount_value', 'min_purchase_amount')
+        }),
+        (_('Період дії'), {
+            'fields': ('valid_from', 'valid_to')
+        }),
+        (_('Обмеження'), {
+            'fields': ('usage_limit', 'used_count')
+        }),
+    )
+    
+    readonly_fields = ['used_count']
+    
+    def get_readonly_fields(self, request, obj=None):
+        if obj:  # Редагування існуючого купона
+            return self.readonly_fields + ['code']  # Не дозволяємо змінювати код
+        return self.readonly_fields
+
+
+@admin.register(CouponUsage)
+class CouponUsageAdmin(admin.ModelAdmin):
+    list_display = ['coupon', 'user', 'order', 'used_at']
+    list_filter = ['used_at', 'coupon']
+    search_fields = ['coupon__code', 'user__email', 'order__order_number']
+    date_hierarchy = 'used_at'
+    raw_id_fields = ['user', 'order']
+    
+    def has_add_permission(self, request):
+        return False  # Не дозволяємо додавати вручну
+    
+    def has_change_permission(self, request, obj=None):
+        return False  # Не дозволяємо редагувати
