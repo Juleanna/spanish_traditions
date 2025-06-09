@@ -13,6 +13,7 @@ from django.conf import settings
 from django.db import models
 from decimal import Decimal
 import json
+from accounts.models import UserProfile
 
 
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -450,13 +451,20 @@ def checkout(request):
     else:
         # Попередньо заповнюємо форму даними користувача
         initial_data = {}
-        if request.user.is_authenticated:
+        if request.user.is_authenticated and hasattr(request.user, 'profile'):
+            # Використовуємо адресу за замовчуванням з профілю
+            profile = request.user.profile
             initial_data = {
                 'email': request.user.email,
+                'phone': profile.phone,
                 'first_name': request.user.first_name,
                 'last_name': request.user.last_name,
+                'address_line1': profile.default_address_line1,
+                'address_line2': profile.default_address_line2,
+                'city': profile.default_city,
+                'postal_code': profile.default_postal_code,
             }
-        form = CheckoutForm(initial=initial_data)
+            form = CheckoutForm(initial=initial_data)
     
     # Розрахунок вартості доставки для відображення
     shipping_cost = Decimal('50.00')

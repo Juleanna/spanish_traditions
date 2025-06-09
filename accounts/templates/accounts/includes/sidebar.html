@@ -1,0 +1,54 @@
+{% load i18n %}
+
+<div class="card mb-4">
+    <div class="card-body text-center">
+        <i class="fas fa-user-circle fa-5x text-primary mb-3"></i>
+        <h5 class="card-title">{{ user.get_full_name|default:user.username }}</h5>
+        <p class="text-muted">{{ user.email }}</p>
+        {% if user.profile.phone %}
+            <p class="text-muted small">{{ user.profile.phone }}</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="list-group">
+    <a href="{% url 'accounts:profile_dashboard' %}" class="list-group-item list-group-item-action {% if active == 'dashboard' %}active{% endif %}">
+        <i class="fas fa-tachometer-alt me-2"></i> {% trans "Огляд" %}
+    </a>
+    <a href="{% url 'accounts:profile_settings' %}" class="list-group-item list-group-item-action {% if active == 'settings' %}active{% endif %}">
+        <i class="fas fa-user-cog me-2"></i> {% trans "Налаштування профілю" %}
+    </a>
+    <a href="{% url 'shop:order_list' %}" class="list-group-item list-group-item-action {% if active == 'orders' %}active{% endif %}">
+        <i class="fas fa-shopping-bag me-2"></i> {% trans "Мої замовлення" %}
+        {% if pending_orders_count > 0 %}
+            <span class="badge bg-warning float-end">{{ pending_orders_count }}</span>
+        {% endif %}
+    </a>
+    <a href="{% url 'shop:cart_detail' %}" class="list-group-item list-group-item-action {% if active == 'cart' %}active{% endif %}">
+        <i class="fas fa-shopping-cart me-2"></i> {% trans "Кошик" %}
+        {% if cart_items_count > 0 %}
+            <span class="badge bg-primary float-end">{{ cart_items_count }}</span>
+        {% endif %}
+    </a>
+    <a href="{% url 'shop:wishlist' %}" class="list-group-item list-group-item-action {% if active == 'wishlist' %}active{% endif %}">
+        <i class="fas fa-heart me-2"></i> {% trans "Список бажань" %}
+        {% if wishlist_count > 0 %}
+            <span class="badge bg-danger float-end">{{ wishlist_count }}</span>
+        {% endif %}
+    </a>
+    <a href="{% url 'accounts:product_comparison' %}" class="list-group-item list-group-item-action {% if active == 'comparison' %}active{% endif %}">
+        <i class="fas fa-balance-scale me-2"></i> {% trans "Порівняння товарів" %}
+        {% if comparison_count > 0 %}
+            <span class="badge bg-info float-end">{{ comparison_count }}</span>
+        {% endif %}
+    </a>
+    <a href="{% url 'accounts:tracking_list' %}" class="list-group-item list-group-item-action {% if active == 'tracking' %}active{% endif %}">
+        <i class="fas fa-bell me-2"></i> {% trans "Відстеження товарів" %}
+    </a>
+    <a href="{% url 'accounts:change_password' %}" class="list-group-item list-group-item-action {% if active == 'password' %}active{% endif %}">
+        <i class="fas fa-key me-2"></i> {% trans "Змінити пароль" %}
+    </a>
+    <a href="{% url 'accounts:logout' %}" class="list-group-item list-group-item-action text-danger">
+        <i class="fas fa-sign-out-alt me-2"></i> {% trans "Вийти" %}
+    </a>
+</div>

@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <div class="u-section-row">
     <div class="u-clearfix u-sheet u-valign-middle u-sheet-2">
         <nav class="u-align-center u-dropdown-icon u-menu u-menu-dropdown u-offcanvas u-menu-1"
@@ -27,7 +28,30 @@
                         {% endif %}
                     </li>
                     {% endfor %}
-
+<!-- Додайте після кошика -->
+{% if user.is_authenticated %}
+    <li class="u-nav-item">
+        <a class="u-nav-link" href="{% url 'accounts:profile_dashboard' %}">
+            <i class="fas fa-user"></i> {% trans "Кабінет" %}
+        </a>
+    </li>
+    <li class="u-nav-item">
+        <a class="u-nav-link" href="{% url 'accounts:logout' %}">
+            <i class="fas fa-sign-out-alt"></i> {% trans "Вийти" %}
+        </a>
+    </li>
+{% else %}
+    <li class="u-nav-item">
+        <a class="u-nav-link" href="{% url 'accounts:login' %}">
+            <i class="fas fa-sign-in-alt"></i> {% trans "Увійти" %}
+        </a>
+    </li>
+    <li class="u-nav-item">
+        <a class="u-nav-link" href="{% url 'accounts:register' %}">
+            <i class="fas fa-user-plus"></i> {% trans "Реєстрація" %}
+        </a>
+    </li>
+{% endif %}
                 </ul>
             </div>
         </nav>

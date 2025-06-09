@@ -18,6 +18,7 @@ urlpatterns += i18n_patterns(
     path('gallery/', views.gallery, name='gallery'),
     path('contact/', views.contact_page_view, name='contact_form'),
     path('news/', views.news_list, name='news'),
+    path('accounts/', include('accounts.urls')),
     re_path(r'^news/(?P<slug>[\w\-]+)/$', views.news_detail, name='news_detail'),
     re_path(r'^(?P<slug>[\w\-]+)/$', views.page_detail, name='page_detail'),
     path("ckeditor/", include("ckeditor_uploader.urls")),  

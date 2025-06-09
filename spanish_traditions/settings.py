@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader', 
     'django_redis',
-    'shop', 
+    'shop',
+    'accounts', 
     
 ]
 
@@ -76,6 +77,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'core.context_processors.menu_context',
                 'shop.context_processors.shop_context',
+                'accounts.context_processors.user_stats',
             ],
         },
     },
@@ -253,3 +255,7 @@ CACHES = {
         }
     }
 }
+
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/accounts/'
+LOGOUT_REDIRECT_URL = '/'
