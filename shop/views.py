@@ -356,20 +356,19 @@ def get_cart(request):
 
 
 def checkout(request):
-    """Покращене оформлення замовлення з підтримкою купонів"""
+    """Оформлення замовлення"""
+    # Отримуємо або створюємо кошик
     cart = get_cart(request)
     cart_items = cart.items.select_related('product').all()
     
-    if not cart_items.exists():
+    if not cart_items:
         messages.warning(request, _('Ваш кошик порожній'))
-        return redirect('shop:cart_detail')
+        return redirect('shop:product_list')
     
-    # Перевіряємо наявність всіх товарів
+    # Перевірка наявності товарів
     unavailable_items = []
     for item in cart_items:
-        if not item.product.is_available or (
-            item.product.track_stock and item.product.stock < item.quantity
-        ):
+        if item.product.track_stock and item.product.stock < item.quantity:
             unavailable_items.append(item)
     
     if unavailable_items:
@@ -385,18 +384,11 @@ def checkout(request):
     
     # Розрахунок вартості
     subtotal = cart.total_price
-    shipping_cost = Decimal('50.00')
     free_shipping_threshold = Decimal('1000.00')
     
-    if subtotal >= free_shipping_threshold:
-        shipping_cost = Decimal('0.00')
-    
-    # Розраховуємо знижку
+    # Ініціалізуємо змінні для всіх випадків
+    shipping_cost = Decimal('50.00')  # Стандартна вартість доставки
     discount_amount = Decimal('0')
-    if coupon:
-        discount_amount = coupon.calculate_discount(subtotal, shipping_cost)
-    
-    total_amount = subtotal + shipping_cost - discount_amount
     
     if request.method == 'POST':
         form = CheckoutForm(request.POST)
@@ -412,6 +404,30 @@ def checkout(request):
                     )
                     return redirect('shop:cart_detail')
             
+            # Отримуємо метод доставки з форми
+            delivery_method = form.cleaned_data['delivery_method']
+            
+            # Розраховуємо вартість доставки на основі методу
+            shipping_costs = {
+                'standard': Decimal('50.00'),
+                'express': Decimal('100.00'),
+                'nova_poshta': Decimal('60.00'),
+                'pickup': Decimal('0.00')
+            }
+            
+            shipping_cost = shipping_costs.get(delivery_method, Decimal('50.00'))
+            
+            # Безкоштовна доставка від 1000 грн (крім самовивозу)
+            if subtotal >= free_shipping_threshold and delivery_method != 'pickup':
+                shipping_cost = Decimal('0.00')
+            
+            # Розраховуємо знижку
+            if coupon:
+                discount_amount = coupon.calculate_discount(subtotal, shipping_cost)
+            
+            # Фінальна сума
+            total_amount = subtotal + shipping_cost - discount_amount
+            
             # Створюємо замовлення
             order = Order.objects.create(
                 user=request.user if request.user.is_authenticated else None,
@@ -422,8 +438,10 @@ def checkout(request):
                 address_line1=form.cleaned_data['address_line1'],
                 address_line2=form.cleaned_data.get('address_line2', ''),
                 city=form.cleaned_data['city'],
+                state=form.cleaned_data['state'],
                 postal_code=form.cleaned_data['postal_code'],
-                delivery_method=form.cleaned_data['delivery_method'],
+                country=form.cleaned_data['country'],
+                delivery_method=delivery_method,
                 payment_method=form.cleaned_data['payment_method'],
                 notes=form.cleaned_data.get('notes', ''),
                 subtotal=subtotal,
@@ -493,22 +511,25 @@ def checkout(request):
             messages.success(request, _('Замовлення успішно оформлено!'))
             return redirect('shop:order_success', order_number=order.order_number)
     else:
-        # Попередньо заповнюємо форму даними користувача
+        # GET запит - показуємо форму
         initial_data = {}
-        if request.user.is_authenticated and hasattr(request.user, 'profile'):
-            # Використовуємо адресу за замовчуванням з профілю
-            profile = request.user.profile
+        if request.user.is_authenticated:
             initial_data = {
                 'email': request.user.email,
-                'phone': profile.phone,
                 'first_name': request.user.first_name,
                 'last_name': request.user.last_name,
-                'address_line1': profile.default_address_line1,
-                'address_line2': profile.default_address_line2,
-                'city': profile.default_city,
-                'postal_code': profile.default_postal_code,
             }
         form = CheckoutForm(initial=initial_data)
+        
+        # Перевіряємо чи потрібна безкоштовна доставка
+        if subtotal >= free_shipping_threshold:
+            shipping_cost = Decimal('0.00')
+    
+    # Розраховуємо знижку для відображення
+    if coupon:
+        discount_amount = coupon.calculate_discount(subtotal, shipping_cost)
+    
+    total_amount = subtotal + shipping_cost - discount_amount
     
     context = {
         'form': form,
@@ -520,7 +541,7 @@ def checkout(request):
         'total_amount': total_amount,
         'coupon': coupon,
         'free_shipping_threshold': free_shipping_threshold,
-        'amount_for_free_shipping': max(Decimal('0'), free_shipping_threshold - subtotal),
+        'amount_for_free_shipping': max(Decimal('0'), free_shipping_threshold - subtotal) if subtotal < free_shipping_threshold else Decimal('0'),
     }
     
     return render(request, 'shop/checkout.html', context)
