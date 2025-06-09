@@ -9,7 +9,8 @@
                     {% for node in menu_tree %}
                     <li role="none" class="u-nav-item"><a role="menuitem"
                             class="u-active-white u-border-2 u-border-active-white u-border-hover-white u-border-white u-button-style u-hover-white u-nav-link u-radius u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-1-base u-white"
-                            href="{{ node.item.get_url }}" style="--radius: 10px; padding: 10px 0px;">{{ node.item.title }}</a>
+                            href="{{ node.item.get_url }}" style="--radius: 10px; padding: 10px 0px;">
+                            {{ node.item.title }}</a>
                         {% if node.children %}
                         <div class="u-nav-popup">
                             <ul role="menu"
@@ -24,34 +25,36 @@
                                     {% endif %}
                                 </li>
                                 {% endfor %}
-                            </ul>                        </div>
+                            </ul>
+                        </div>
                         {% endif %}
                     </li>
                     {% endfor %}
-<!-- Додайте після кошика -->
-{% if user.is_authenticated %}
-    <li class="u-nav-item">
-        <a class="u-nav-link" href="{% url 'accounts:profile_dashboard' %}">
-            <i class="fas fa-user"></i> {% trans "Кабінет" %}
-        </a>
-    </li>
-    <li class="u-nav-item">
-        <a class="u-nav-link" href="{% url 'accounts:logout' %}">
-            <i class="fas fa-sign-out-alt"></i> {% trans "Вийти" %}
-        </a>
-    </li>
-{% else %}
-    <li class="u-nav-item">
-        <a class="u-nav-link" href="{% url 'accounts:login' %}">
-            <i class="fas fa-sign-in-alt"></i> {% trans "Увійти" %}
-        </a>
-    </li>
-    <li class="u-nav-item">
-        <a class="u-nav-link" href="{% url 'accounts:register' %}">
-            <i class="fas fa-user-plus"></i> {% trans "Реєстрація" %}
-        </a>
-    </li>
-{% endif %}
+                    
+                    {% if user.is_authenticated %}
+                    <li role="none" class="u-nav-item"><a role="menuitem"
+                            class="u-active-white u-border-2 u-border-active-white u-border-hover-white u-border-white u-button-style u-hover-white u-nav-link u-radius u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-1-base u-white"
+                            href="{% url 'accounts:profile_dashboard' %}" style="--radius: 10px; padding: 10px 0px;"> <i
+                                class="fas fa-user"></i>{% trans " Кабінет" %}</a>
+                    </li>
+                    <li role="none" class="u-nav-item"><a role="menuitem"
+                            class="u-active-white u-border-2 u-border-active-white u-border-hover-white u-border-white u-button-style u-hover-white u-nav-link u-radius u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-1-base u-white"
+                            href="{% url 'accounts:logout' %}" style="--radius: 10px; padding: 10px 0px;"><i
+                                class="fas fa-sign-out-alt"></i> {% trans " Вийти" %}</a>
+                    </li>
+                    {% else %}
+                    <li role="none" class="u-nav-item"><a role="menuitem"
+                            class="u-active-white u-border-2 u-border-active-white u-border-hover-white u-border-white u-button-style u-hover-white u-nav-link u-radius u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-1-base u-white"
+                            href="{% url 'accounts:login' %}" style="--radius: 10px; padding: 10px 0px;"><i
+                                class="fas fa-sign-in-alt"></i> {% trans " Увійти" %}</a>
+                    </li>
+                    <li role="none" class="u-nav-item"><a role="menuitem"
+                            class="u-active-white u-border-2 u-border-active-white u-border-hover-white u-border-white u-button-style u-hover-white u-nav-link u-radius u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-1-base u-white"
+                            href="{% url 'accounts:register' %}" style="--radius: 10px; padding: 10px 0px;"><i
+                                class="fas fa-user-plus"></i> {% trans " Реєстрація" %}</a>
+
+                    </li>
+                    {% endif %}
                 </ul>
             </div>
         </nav>

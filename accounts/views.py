@@ -243,4 +243,4 @@ def user_logout(request):
     """Вихід користувача"""
     logout(request)
     messages.success(request, _('Ви успішно вийшли!'))
-    return redirect('core:home')
+    return redirect('home')

@@ -601,32 +601,3 @@
         color: white;
     }
 
-.wishlist-btn {
-    background: transparent;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 8px 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    color: #666;
-}
-
-.wishlist-btn:hover {
-    border-color: #e74c3c;
-    color: #e74c3c;
-}
-
-.wishlist-btn.active {
-    background: #e74c3c;
-    border-color: #e74c3c;
-    color: #fff;
-}
-
-.wishlist-btn.active i {
-    color: #fff;
-}
-
-.wishlist-btn i {
-    font-size: 1.2rem;
-    transition: color 0.3s ease;
-}
