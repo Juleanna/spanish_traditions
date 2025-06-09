@@ -81,12 +81,11 @@
 .cart-item-info h5 {
     font-size: 1.2rem;
     font-weight: 600;
-    color: #2c3e50;
     margin-bottom: 0.5rem;
 }
 
 .cart-item-info h5 a {
-    color: inherit;
+    color: #2c3e50;
     text-decoration: none;
     transition: color 0.3s ease;
 }
@@ -97,29 +96,68 @@
 
 .cart-item-meta {
     display: flex;
-    gap: 1rem;
-    margin-top: 0.5rem;
+    gap: 0.75rem;
     flex-wrap: wrap;
 }
 
 .meta-tag {
-    background: #f8f9fa;
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    color: #6c757d;
     display: inline-flex;
     align-items: center;
     gap: 0.3rem;
+    padding: 0.25rem 0.75rem;
+    background: #f8f9fa;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: #6c757d;
 }
 
 .meta-tag i {
     font-size: 0.75rem;
 }
 
-/* Ціна товару */
-.cart-item-price {
+/* Контроли кількості */
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 0.25rem;
+}
+
+.quantity-btn {
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.quantity-btn:hover {
+    background: #478ac9;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.quantity-input {
+    width: 60px;
     text-align: center;
+    border: none;
+    background: white;
+    padding: 0.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+/* Ціни */
+.cart-item-price {
+    text-align: right;
 }
 
 .price-label {
@@ -129,55 +167,8 @@
 }
 
 .price-value {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 700;
-    color: #478ac9;
-}
-
-/* Кількість товару */
-.quantity-controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    background: #f8f9fa;
-    border-radius: 30px;
-    padding: 0.25rem;
-}
-
-.quantity-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: none;
-    background: white;
-    color: #478ac9;
-    font-size: 1.2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.quantity-btn:hover {
-    background: #478ac9;
-    color: white;
-    transform: scale(1.1);
-}
-
-.quantity-btn:active {
-    transform: scale(0.95);
-}
-
-.quantity-input {
-    width: 60px;
-    text-align: center;
-    border: none;
-    background: transparent;
-    font-size: 1.1rem;
-    font-weight: 600;
     color: #2c3e50;
 }
 
@@ -256,49 +247,6 @@
     font-size: 1.5rem;
     font-weight: 700;
     color: #478ac9;
-}
-
-/* Промокод */
-.promo-section {
-    margin: 1.5rem 0;
-    padding: 1rem;
-    background: #f8f9fa;
-    border-radius: 12px;
-}
-
-.promo-input-group {
-    display: flex;
-    gap: 0.5rem;
-}
-
-.promo-input {
-    flex: 1;
-    padding: 0.75rem 1rem;
-    border: 2px solid #e9ecef;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    transition: border-color 0.3s ease;
-}
-
-.promo-input:focus {
-    outline: none;
-    border-color: #478ac9;
-}
-
-.promo-btn {
-    padding: 0.75rem 1.5rem;
-    background: #478ac9;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.promo-btn:hover {
-    background: #3d7ab8;
-    transform: translateY(-2px);
 }
 
 /* Кнопки дій */
@@ -387,29 +335,6 @@
     color: #6c757d;
     font-size: 1.1rem;
     margin-bottom: 2rem;
-}
-
-/* Додаткові функції */
-.shipping-info {
-    background: #f0f8ff;
-    border: 1px solid #b0d4f1;
-    border-radius: 12px;
-    padding: 1rem;
-    margin-top: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-}
-
-.shipping-info i {
-    color: #4a90e2;
-    font-size: 1.5rem;
-}
-
-.shipping-info p {
-    margin: 0;
-    color: #2c5282;
-    font-size: 0.9rem;
 }
 
 /* Адаптивність */
@@ -534,10 +459,8 @@
                     
                     <!-- Видалити -->
                     <div class="col-auto">
-                        <button class="remove-item" 
-                                data-item-id="{{ item.id }}"
-                                title="{% trans 'Видалити товар' %}">
-                            <i class="fas fa-trash"></i>
+                        <button class="remove-item" data-item-id="{{ item.id }}" title="{% trans 'Видалити' %}">
+                            <i class="fas fa-times"></i>
                         </button>
                     </div>
                 </div>
@@ -545,7 +468,7 @@
             {% endfor %}
         </div>
         
-        <!-- Підсумок кошика -->
+        <!-- Підсумок замовлення -->
         <div class="col-lg-4">
             <div class="cart-summary">
                 <h3 class="summary-header">
@@ -554,45 +477,22 @@
                 </h3>
                 
                 <div class="summary-row">
-                    <span class="summary-label">
-                        {% trans "Товари" %} ({{ cart.total_items }} {% trans "шт." %}):
-                    </span>
-                    <span class="summary-value" id="cart-subtotal">
-                        {{ cart.total_price }} ₴
-                    </span>
+                    <span class="summary-label">{% trans "Товари" %} ({{ cart.total_items }} {% trans "шт." %}):</span>
+                    <span class="summary-value" id="cart-subtotal">{{ cart.total_price }} ₴</span>
                 </div>
                 
                 <div class="summary-row">
-                    <span class="summary-label">{% trans "Знижка" %}:</span>
-                    <span class="summary-value text-success">-0 ₴</span>
+                    <span class="summary-label">{% trans "Доставка:" %}</span>
+                    <span class="summary-value">{% trans "За тарифами перевізника" %}</span>
                 </div>
                 
                 <div class="summary-row">
-                    <span class="summary-label"><strong>{% trans "Сума" %}:</strong></span>
-                    <span class="summary-total" id="cart-total">
-                        {{ cart.total_price }} ₴
-                    </span>
+                    <span class="summary-label">{% trans "Загалом:" %}</span>
+                    <span class="summary-value summary-total" id="cart-total">{{ cart.total_price }} ₴</span>
                 </div>
                 
-                <!-- Промокод -->
-                <div class="promo-section">
-                    <label class="form-label small text-muted mb-2">
-                        <i class="fas fa-ticket-alt me-1"></i>
-                        {% trans "Є промокод?" %}
-                    </label>
-                    <div class="promo-input-group">
-                        <input type="text" 
-                               class="promo-input" 
-                               placeholder="{% trans 'Введіть промокод' %}">
-                        <button class="promo-btn">
-                            {% trans "Застосувати" %}
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Кнопки дій -->
                 <a href="{% url 'shop:checkout' %}" class="checkout-btn">
-                    <i class="fas fa-lock"></i>
+                    <i class="fas fa-credit-card"></i>
                     {% trans "Оформити замовлення" %}
                 </a>
                 
@@ -600,15 +500,6 @@
                     <i class="fas fa-arrow-left"></i>
                     {% trans "Продовжити покупки" %}
                 </a>
-                
-                <!-- Інформація про доставку -->
-                <div class="shipping-info">
-                    <i class="fas fa-truck"></i>
-                    <div>
-                        <p><strong>{% trans "Доставка" %}</strong></p>
-                        <p>{% trans "Вартість розраховується при оформленні" %}</p>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -620,27 +511,24 @@
             <i class="fas fa-shopping-cart"></i>
         </div>
         <h3>{% trans "Ваш кошик порожній" %}</h3>
-        <p>{% trans "Схоже, ви ще не додали жодного товару до кошика" %}</p>
+        <p>{% trans "Додайте товари до кошика, щоб продовжити покупки" %}</p>
         <a href="{% url 'shop:product_list' %}" class="btn btn-primary btn-lg">
             <i class="fas fa-shopping-bag me-2"></i>
-            {% trans "Почати покупки" %}
+            {% trans "Перейти до каталогу" %}
         </a>
     </div>
     {% endif %}
 </div>
 
-<!-- JavaScript для кошика -->
 <script>
-// JavaScript для кошика
 document.addEventListener('DOMContentLoaded', function() {
-    // CSRF токен
-    const csrfToken = '{{ csrf_token }}';
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
     
     // Функція для показу повідомлень
-    function showAlert(message, type = 'info') {
+    function showAlert(message, type = 'success') {
         const alertDiv = document.createElement('div');
-        alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
-        alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+        alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3`;
+        alertDiv.style.zIndex = '9999';
         alertDiv.innerHTML = `
             <div class="d-flex align-items-center">
                 <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'danger' ? 'exclamation-circle' : 'info-circle'} me-2"></i>
@@ -682,9 +570,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             // Оновлюємо загальну суму в шапці (якщо є)
-            const cartTotalHeader = document.getElementById('cart-total');
-            if (cartTotalHeader && cartTotalHeader !== totalEl && data.total_price !== undefined) {
+            const cartTotalHeader = document.getElementById('cart-total-header');
+            if (cartTotalHeader && data.total_price !== undefined) {
                 cartTotalHeader.textContent = `${parseFloat(data.total_price).toFixed(2)} ₴`;
+            }
+            
+            // Оновлюємо віджет кошика
+            if (window.cartWidget) {
+                window.cartWidget.loadCartData();
             }
         } catch (error) {
             console.error('Помилка при оновленні підсумків:', error);
@@ -805,15 +698,12 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.remove-item').forEach(button => {
         button.addEventListener('click', function() {
             const itemId = this.dataset.itemId;
-            const itemName = this.closest('.cart-item').querySelector('h5 a')?.textContent || 'товар';
             
-            if (confirm(`Видалити "${itemName}" з кошика?`)) {
-                const cartItem = this.closest('.cart-item');
-                
-                // Анімація видалення
-                cartItem.style.transition = 'all 0.3s ease';
-                cartItem.style.opacity = '0';
-                cartItem.style.transform = 'translateX(100%)';
+            if (confirm('Ви впевнені, що хочете видалити цей товар?')) {
+                const itemEl = document.querySelector(`.cart-item[data-item-id="${itemId}"]`);
+                if (itemEl) {
+                    itemEl.style.opacity = '0.6';
+                }
                 
                 fetch('{% url "shop:remove_from_cart" %}', {
                     method: 'POST',
@@ -825,87 +715,48 @@ document.addEventListener('DOMContentLoaded', function() {
                         item_id: itemId
                     })
                 })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
+                .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        setTimeout(() => {
-                            cartItem.remove();
-                            
-                            // Перевіряємо, чи залишились товари
-                            if (document.querySelectorAll('.cart-item').length === 0) {
-                                location.reload();
-                            } else {
-                                // Оновлюємо підсумки
-                                updateCartTotals({
-                                    total_price: data.cart_total_price,
-                                    total_items: data.cart_total_items
-                                });
-                                showAlert('Товар видалено з кошика', 'success');
-                            }
-                        }, 300);
+                        // Анімація видалення
+                        if (itemEl) {
+                            itemEl.style.transform = 'translateX(100%)';
+                            itemEl.style.opacity = '0';
+                            setTimeout(() => {
+                                itemEl.remove();
+                                
+                                // Перевіряємо, чи залишились товари
+                                const remainingItems = document.querySelectorAll('.cart-item').length;
+                                if (remainingItems === 0) {
+                                    location.reload();
+                                }
+                            }, 300);
+                        }
+                        
+                        // Оновлюємо підсумки
+                        updateCartTotals({
+                            total_price: data.cart_total_price,
+                            total_items: data.cart_total_items
+                        });
+                        
+                        showAlert('Товар видалено з кошика', 'success');
                     } else {
-                        // Повертаємо елемент назад
-                        cartItem.style.opacity = '1';
-                        cartItem.style.transform = 'translateX(0)';
-                        showAlert(data.message || 'Помилка при видаленні', 'danger');
+                        if (itemEl) {
+                            itemEl.style.opacity = '1';
+                        }
+                        showAlert(data.message || 'Помилка при видаленні товару', 'danger');
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    cartItem.style.opacity = '1';
-                    cartItem.style.transform = 'translateX(0)';
-                    showAlert('Виникла помилка', 'danger');
+                    if (itemEl) {
+                        itemEl.style.opacity = '1';
+                    }
+                    showAlert('Виникла помилка. Спробуйте ще раз.', 'danger');
                 });
             }
         });
     });
-    
-    // Анімація при завантаженні сторінки
-    const cartItems = document.querySelectorAll('.cart-item');
-    cartItems.forEach((item, index) => {
-        item.style.opacity = '0';
-        item.style.transform = 'translateY(20px)';
-        
-        setTimeout(() => {
-            item.style.transition = 'all 0.5s ease';
-            item.style.opacity = '1';
-            item.style.transform = 'translateY(0)';
-        }, index * 100);
-    });
-    
-    // Промокод функціональність
-    const promoBtn = document.querySelector('.promo-btn');
-    if (promoBtn) {
-        promoBtn.addEventListener('click', function() {
-            const promoInput = document.querySelector('.promo-input');
-            const promoCode = promoInput.value.trim();
-            
-            if (!promoCode) {
-                showAlert('Введіть промокод', 'warning');
-                return;
-            }
-            
-            // Показуємо завантаження
-            const originalText = this.textContent;
-            this.disabled = true;
-            this.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Перевірка...';
-            
-            // Симуляція перевірки (замінити на реальний API виклик)
-            setTimeout(() => {
-                this.disabled = false;
-                this.textContent = originalText;
-                showAlert('Промокод буде доданий у майбутньому оновленні', 'info');
-            }, 1500);
-        });
-    }
-    
-    console.log('Cart system initialized successfully');
 });
-  
 </script>
 {% endblock %}
