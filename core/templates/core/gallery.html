@@ -5,30 +5,28 @@
 <link rel="stylesheet" href="{% static 'css/gallery.css' %}" media="screen">
 {% endblock %}
 
-{% block title %}Галерея{% endblock %}
+{% block title %}{% trans "Галерея" %}{% endblock %}
 
 {% block content %}
-<section class="u-clearfix u-container-align-center u-section-1" id="sec-8222">
-    <div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-md u-valign-middle-sm u-valign-middle-xs u-sheet-1">
-        <h2 class="u-align-center u-text u-text-default u-text-1">Галерея</h2>
-        <div class="u-expanded-width u-list u-list-1">
-            <div class="u-repeater u-repeater-1">
-                {% for image in images %}
-                <div class="u-container-style u-image u-list-item u-repeater-item u-shading" 
-                     style="background-image: url({{ image.image.url }}); background-size:cover" 
-                     data-image-width="740" data-image-height="925">
-                    <div class="u-container-layout u-similar-container u-valign-bottom u-container-layout-1">
-                        <div class="u-border-3 u-border-white u-line u-line-horizontal u-opacity u-opacity-45 u-line-1"></div>
-                        <h3 class="u-text u-text-default u-text-2">{{ image.title }}</h3>
-                        <p class="u-text u-text-default u-text-3">{{ image.description }}</p>
-                    </div>
-                </div>
-                {% endfor %}
+ <section class="u-align-center u-clearfix u-section-1" id="sec-0b3f">
+      <div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-md u-valign-middle-sm u-valign-middle-xs u-sheet-1">
+        <h2 class="u-align-center u-text u-text-default u-text-1">{% trans "Галерея" %}</h2>
+        <div class="u-expanded-width u-gallery u-layout-grid u-lightbox u-show-text-always u-gallery-1">
+          <div class="u-gallery-controls"></div>
+          <div class="u-gallery-inner u-gallery-inner-1">
+             {% for image in images %}
+            <div class="u-effect-hover-zoom u-gallery-item">
+              <div class="u-back-slide" data-image-width="1380" data-image-height="920">
+                <img class="u-back-image u-expanded" src="{{ image.image.url }}" alt="{{ image.title }}">
+              </div>
+              <div class="u-container-align-center u-over-slide u-shading u-valign-bottom u-over-slide-1">
+                <h3 class="u-align-center u-gallery-heading" style="margin-right: 0px; margin-left: 0px; text-decoration: underline !important;">{{ image.title }}</h3>
+                <p class="u-align-center u-gallery-text" style="margin-top: 0px; margin-right: 0px; margin-left: 0px;">{{ image.description }}</p>
+              </div>
             </div>
+            {% endfor %}
+          </div>
         </div>
-    </div>
-</section>
-
-<!-- Підключаємо скрипт галереї -->
-<script src="{% static 'js/gallery-modal.js' %}"></script>
+      </div>
+    </section>
 {% endblock %}

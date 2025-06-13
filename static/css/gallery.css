@@ -1,222 +1,138 @@
-/* Модальне вікно для галереї */
-.gallery-modal {
-    display: none;
-    position: fixed;
-    z-index: 9999;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.95);
-    overflow: hidden;
-    animation: fadeIn 0.3s ease;
+.u-section-1 .u-sheet-1 {
+  min-height: 884px;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+.u-section-1 .u-text-1 {
+  margin: 30px auto 0;
 }
 
-.gallery-modal.active {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.u-section-1 .u-text-2 {
+  width: 746px;
+  margin: 20px auto 0;
 }
 
-/* Контейнер зображення */
-.modal-content {
-    position: relative;
-    max-width: 90%;
-    max-height: 90vh;
-    margin: auto;
-    animation: zoomIn 0.3s ease;
+.u-section-1 .u-gallery-1 {
+  height: 709px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  grid-gap: 17px;
 }
 
-@keyframes zoomIn {
-    from {
-        transform: scale(0.8);
-        opacity: 0;
-    }
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
+.u-section-1 .u-gallery-inner-1 {
+  grid-template-columns: repeat(3, auto);
+  --gap: 17px;
 }
 
-.modal-content img {
-    width: 100%;
-    height: auto;
-    max-height: 85vh;
-    object-fit: contain;
-    border-radius: 8px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+.u-section-1 .u-over-slide-1 {
+  background-image: linear-gradient(0deg, rgba(0,0,0,0.2), rgba(0,0,0,0.2));
+  padding: 20px;
 }
 
-/* Кнопка закриття */
-.modal-close {
-    position: absolute;
-    top: 20px;
-    right: 35px;
-    color: #fff;
-    font-size: 40px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    z-index: 10000;
-    background: rgba(0, 0, 0, 0.5);
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
+.u-section-1 .u-over-slide-2 {
+  background-image: linear-gradient(0deg, rgba(0,0,0,0.2), rgba(0,0,0,0.2));
+  padding: 20px;
 }
 
-.modal-close:hover,
-.modal-close:focus {
-    color: #f44336;
-    transform: rotate(90deg);
+.u-section-1 .u-over-slide-3 {
+  background-image: linear-gradient(0deg, rgba(0,0,0,0.2), rgba(0,0,0,0.2));
+  padding: 20px;
 }
 
-/* Навігаційні кнопки */
-.modal-prev,
-.modal-next {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #fff;
-    font-size: 30px;
-    cursor: pointer;
-    background: rgba(0, 0, 0, 0.7);
-    padding: 10px 15px;
-    border-radius: 5px;
-    transition: all 0.3s ease;
-    z-index: 10000;
-    user-select: none;
+.u-section-1 .u-over-slide-4 {
+  background-image: linear-gradient(0deg, rgba(0,0,0,0.2), rgba(0,0,0,0.2));
+  padding: 20px;
 }
 
-.modal-prev {
-    left: 20px;
+.u-section-1 .u-over-slide-5 {
+  background-image: linear-gradient(0deg, rgba(0,0,0,0.2), rgba(0,0,0,0.2));
+  padding: 20px;
 }
 
-.modal-next {
-    right: 20px;
+.u-section-1 .u-over-slide-6 {
+  background-image: linear-gradient(0deg, rgba(0,0,0,0.2), rgba(0,0,0,0.2));
+  padding: 20px;
 }
 
-.modal-prev:hover,
-.modal-next:hover {
-    background: rgba(0, 0, 0, 0.9);
-    transform: translateY(-50%) scale(1.1);
+@media (max-width: 1199px) {
+  .u-section-1 .u-sheet-1 {
+    min-height: 839px;
+  }
+
+  .u-section-1 .u-text-1 {
+    margin-top: 241px;
+  }
+
+  .u-section-1 .u-gallery-1 {
+    height: 621px;
+    margin-bottom: -214px;
+  }
+
+  .u-section-1 .u-gallery-inner-1 {
+    grid-gap: 17px;
+  }
 }
 
-/* Інформація про зображення */
-.modal-caption {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #fff;
-    text-align: center;
-    padding: 10px 20px;
-    background: rgba(0, 0, 0, 0.8);
-    border-radius: 8px;
-    max-width: 80%;
+@media (max-width: 991px) {
+  .u-section-1 .u-sheet-1 {
+    min-height: 1426px;
+  }
+
+  .u-section-1 .u-text-1 {
+    margin-top: 587px;
+  }
+
+  .u-section-1 .u-text-2 {
+    width: 720px;
+  }
+
+  .u-section-1 .u-gallery-1 {
+    height: 1088px;
+    margin-bottom: -621px;
+  }
+
+  .u-section-1 .u-gallery-inner-1 {
+    grid-template-columns: repeat(2, auto);
+  }
 }
 
-.modal-caption h3 {
-    margin: 0 0 10px 0;
-    font-size: 24px;
-    color: #fff;
+@media (max-width: 767px) {
+  .u-section-1 .u-sheet-1 {
+    min-height: 2959px;
+  }
+
+  .u-section-1 .u-text-1 {
+    margin-top: 968px;
+  }
+
+  .u-section-1 .u-text-2 {
+    width: 540px;
+  }
+
+  .u-section-1 .u-gallery-1 {
+    height: 3323px;
+    margin-bottom: -1942px;
+  }
+
+  .u-section-1 .u-gallery-inner-1 {
+    grid-template-columns: repeat(1, auto);
+  }
 }
 
-.modal-caption p {
-    margin: 0;
-    font-size: 16px;
-    color: rgba(255, 255, 255, 0.9);
-}
+@media (max-width: 575px) {
+  .u-section-1 .u-sheet-1 {
+    min-height: 1959px;
+  }
 
-/* Індикатор позиції */
-.modal-indicator {
-    position: absolute;
-    bottom: 80px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 8px;
-    z-index: 10000;
-}
+  .u-section-1 .u-text-1 {
+    margin-top: 574px;
+  }
 
-.indicator-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.5);
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
+  .u-section-1 .u-text-2 {
+    width: 340px;
+  }
 
-.indicator-dot.active {
-    background: #fff;
-    transform: scale(1.3);
-}
-
-/* Стилі для елементів галереї */
-.u-gallery-item {
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.u-gallery-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
-
-/* Адаптивність */
-@media (max-width: 768px) {
-    .modal-content {
-        max-width: 95%;
-    }
-    
-    .modal-prev,
-    .modal-next {
-        font-size: 20px;
-        padding: 8px 12px;
-    }
-    
-    .modal-caption h3 {
-        font-size: 18px;
-    }
-    
-    .modal-caption p {
-        font-size: 14px;
-    }
-    
-    .modal-close {
-        top: 10px;
-        right: 10px;
-        font-size: 30px;
-        width: 40px;
-        height: 40px;
-    }
-}
-
-/* Підтримка сенсорних жестів */
-.gallery-modal {
-    touch-action: none;
-}
-
-/* Анімація завантаження */
-.modal-loading {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #fff;
-    font-size: 20px;
-    display: none;
-}
-
-.modal-loading.active {
-    display: block;
+  .u-section-1 .u-gallery-1 {
+    height: 2124px;
+    margin-bottom: -1139px;
+  }
 }
