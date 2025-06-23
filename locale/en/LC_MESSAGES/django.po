@@ -12,7 +12,7 @@ msgstr ""
 "PO-Revision-Date: 2025-05-26 10:54+0000\n"
 "Last-Translator:   <jueannadafna@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -101,7 +101,7 @@ msgstr "Display order"
 
 #: .\core\models.py:52
 msgid "Елемент галереї"
-msgstr "Gallery element"
+msgstr "Gallery item"
 
 #: .\core\models.py:53
 msgid "Елементи галереї"
@@ -139,7 +139,7 @@ msgstr "Untitled section"
 
 #: .\core\models.py:103
 msgid "Значок"
-msgstr "Badge"
+msgstr "Icon"
 
 #: .\core\models.py:105 .\core\models.py:171
 msgid "Посилання"
@@ -167,7 +167,7 @@ msgstr "Partner website"
 
 #: .\core\models.py:132
 msgid "Логотип"
-msgstr "Logotype"
+msgstr "Logo"
 
 #: .\core\models.py:134 .\shop\models.py:66
 msgid "Активний"
@@ -197,7 +197,7 @@ msgstr "Phone"
 #: .\core\models.py:152 .\core\templates\core\contact_page.html:46
 #: .\core\templates\core\home\contact_small.html:103
 msgid "Електронна пошта"
-msgstr "E-mail"
+msgstr "Email"
 
 #: .\core\models.py:153
 msgid "Робочий годинник"
@@ -226,7 +226,7 @@ msgstr "If specified, this link will be used instead of the page"
 
 #: .\core\models.py:172
 msgid "Батько"
-msgstr "Father"
+msgstr "Parent"
 
 #: .\core\models.py:173
 msgid "Порядок"
@@ -267,7 +267,7 @@ msgstr "Kyiv"
 
 #: .\core\templates\core\contact_page.html:29
 msgid "вул. Іспанська, 12, 01001"
-msgstr "12, Ispanska St., 01001"
+msgstr "12 Ispanska St., 01001"
 
 #: .\core\templates\core\contact_page.html:36
 msgid "Номер телефона"
@@ -280,11 +280,11 @@ msgstr "(free)"
 #: .\core\templates\core\header\social_links.html:48
 #: .\core\templates\core\header\social_links.html:65
 msgid " Українська"
-msgstr "Ukrainian"
+msgstr " Ukrainian"
 
 #: .\core\templates\core\header\social_links.html:84
 msgid " Англійська"
-msgstr "English"
+msgstr " English"
 
 #: .\core\templates\core\home.html:13
 msgid "«Іс​панські традиції»"
@@ -323,460 +323,401 @@ msgid "Дізнатись більше"
 msgstr "Learn more"
 
 #: .\core\templates\core\home\partners_small.html:5
-#, fuzzy
-#| msgid "Партнер"
 msgid "Партнери"
-msgstr "Partner"
+msgstr "Partners"
 
 #: .\core\templates\core\news\news.html:39
 msgid "читати далі"
 msgstr "read more"
 
 #: .\shop\forms.py:19 .\shop\models.py:278
-#, fuzzy
-#| msgid "Заголовок"
 msgid "Заголовок відгуку"
-msgstr "Title"
+msgstr "Review title"
 
 #: .\shop\forms.py:24
 msgid "Ваш відгук про товар"
-msgstr ""
+msgstr "Your product review"
 
 #: .\shop\forms.py:28 .\shop\models.py:277
-#, fuzzy
-#| msgid "Сторінка"
 msgid "Оцінка"
-msgstr "Page"
+msgstr "Rating"
 
 #: .\shop\forms.py:30 .\shop\forms.py:328 .\shop\models.py:279
-#, fuzzy
-#| msgid "Елемент галереї"
 msgid "Коментар"
-msgstr "Gallery element"
+msgstr "Comment"
 
 #: .\shop\forms.py:39 .\shop\forms.py:271 .\shop\forms.py:310
 #: .\shop\models.py:207 .\shop\templates\shop\checkout.html:88
 msgid "Ім'я"
-msgstr ""
+msgstr "First name"
 
 #: .\shop\forms.py:43
 msgid "Введіть ваше ім'я"
-msgstr ""
+msgstr "Enter your first name"
 
 #: .\shop\forms.py:48 .\shop\models.py:208
 #: .\shop\templates\shop\checkout.html:97
 msgid "Прізвище"
-msgstr ""
+msgstr "Last name"
 
 #: .\shop\forms.py:52 .\shop\templates\shop\checkout.html:102
 msgid "Введіть ваше прізвище"
-msgstr ""
+msgstr "Enter your last name"
 
 #: .\shop\forms.py:57 .\shop\forms.py:280 .\shop\models.py:205
 #: .\shop\templates\shop\checkout.html:109
 #: .\shop\templates\shop\track_order.html:203
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: .\shop\forms.py:60 .\shop\forms.py:283
 msgid "email@example.com"
-msgstr ""
+msgstr "email@example.com"
 
 #: .\shop\forms.py:66
 msgid ""
 "Номер телефону повинен бути у форматі: \"+999999999\". До 15 цифр дозволено."
 msgstr ""
+"Phone number must be in the format: \"+999999999\". Up to 15 digits allowed."
 
 #: .\shop\forms.py:81 .\shop\models.py:211
-#, fuzzy
-#| msgid "Адреса"
 msgid "Адреса (рядок 1)"
-msgstr "Address"
+msgstr "Address (line 1)"
 
 #: .\shop\forms.py:85 .\shop\templates\shop\checkout.html:139
 msgid "Вулиця, номер будинку, квартира"
-msgstr ""
+msgstr "Street, house number, apartment"
 
 #: .\shop\forms.py:90 .\shop\models.py:212
-#, fuzzy
-#| msgid "Адреса"
 msgid "Адреса (рядок 2)"
-msgstr "Address"
+msgstr "Address (line 2)"
 
 #: .\shop\forms.py:95
 msgid "Додаткова адресна інформація (необов'язково)"
-msgstr ""
+msgstr "Additional address information (optional)"
 
 #: .\shop\forms.py:100 .\shop\models.py:213
 #: .\shop\templates\shop\checkout.html:155
 msgid "Місто"
-msgstr ""
+msgstr "City"
 
 #: .\shop\forms.py:104 .\shop\templates\shop\checkout.html:160
-#, fuzzy
-#| msgid "Назва партнера"
 msgid "Назва міста"
-msgstr "Partner name"
+msgstr "City name"
 
 #: .\shop\forms.py:109 .\shop\models.py:214
 #: .\shop\templates\shop\checkout.html:164
 msgid "Область"
-msgstr ""
+msgstr "State/Province"
 
 #: .\shop\forms.py:113 .\shop\templates\shop\checkout.html:169
-#, fuzzy
-#| msgid "Назва партнера"
 msgid "Назва області"
-msgstr "Partner name"
+msgstr "State/Province name"
 
 #: .\shop\forms.py:118 .\shop\models.py:215
 #: .\shop\templates\shop\checkout.html:173
-#, fuzzy
-#| msgid "(безкоштовний)"
 msgid "Поштовий код"
-msgstr "(free)"
+msgstr "Postal code"
 
 #: .\shop\forms.py:122
 msgid "12345"
-msgstr ""
+msgstr "12345"
 
 #: .\shop\forms.py:127 .\shop\models.py:216
 #: .\shop\templates\shop\checkout.html:184
-#, fuzzy
-#| msgid " Українська"
 msgid "Країна"
-msgstr "Ukrainian"
+msgstr "Country"
 
 #: .\shop\forms.py:137 .\shop\templates\shop\checkout.html:235
-#, fuzzy
-#| msgid "Порядок відображення"
 msgid "Примітки до замовлення"
-msgstr "Display order"
+msgstr "Order notes"
 
 #: .\shop\forms.py:142 .\shop\templates\shop\checkout.html:240
 msgid "Додаткові побажання або інструкції для доставки"
-msgstr ""
+msgstr "Additional wishes or delivery instructions"
 
 #: .\shop\forms.py:148
 msgid "Я погоджуюся з умовами обслуговування"
-msgstr ""
+msgstr "I agree to the terms of service"
 
 #: .\shop\forms.py:156
 msgid "Я погоджуюся з політикою конфіденційності"
-msgstr ""
+msgstr "I agree to the privacy policy"
 
 #: .\shop\forms.py:178 .\shop\templates\shop\category_detail.html:62
 #: .\shop\templates\shop\product_list.html:329
 msgid "За новизною"
-msgstr ""
+msgstr "By newest"
 
 #: .\shop\forms.py:179
 msgid "За назвою (А-Я)"
-msgstr ""
+msgstr "By name (A-Z)"
 
 #: .\shop\forms.py:180 .\shop\templates\shop\category_detail.html:64
 #: .\shop\templates\shop\product_list.html:335
 #: .\shop\templates\shop\search_results.html:49
 msgid "За ціною (зростання)"
-msgstr ""
+msgstr "By price (ascending)"
 
 #: .\shop\forms.py:181 .\shop\templates\shop\category_detail.html:65
 #: .\shop\templates\shop\product_list.html:338
 #: .\shop\templates\shop\search_results.html:50
-#, fuzzy
-#| msgid "Текст посилання"
 msgid "За ціною (спадання)"
-msgstr "Link text"
+msgstr "By price (descending)"
 
 #: .\shop\forms.py:182 .\shop\templates\shop\category_detail.html:66
 #: .\shop\templates\shop\product_list.html:341
 #: .\shop\templates\shop\search_results.html:51
 msgid "За рейтингом"
-msgstr ""
+msgstr "By rating"
 
 #: .\shop\forms.py:186 .\shop\templates\shop\product_list.html:192
 msgid "Пошук"
-msgstr ""
+msgstr "Search"
 
 #: .\shop\forms.py:190 .\shop\templates\shop\product_list.html:196
 msgid "Пошук товарів..."
-msgstr ""
+msgstr "Search products..."
 
 #: .\shop\forms.py:203
 msgid "Мінімальна ціна"
-msgstr ""
+msgstr "Minimum price"
 
 #: .\shop\forms.py:208
 msgid "0"
-msgstr ""
+msgstr "0"
 
 #: .\shop\forms.py:213
 msgid "Максимальна ціна"
-msgstr ""
+msgstr "Maximum price"
 
 #: .\shop\forms.py:218
 msgid "10000"
-msgstr ""
+msgstr "10000"
 
 #: .\shop\forms.py:223
-#, fuzzy
-#| msgid "Посилання"
 msgid "Сортування"
-msgstr "Link"
+msgstr "Sorting"
 
 #: .\shop\forms.py:233 .\shop\templates\shop\product_list.html:279
 msgid "Тільки в наявності"
-msgstr ""
+msgstr "In stock only"
 
 #: .\shop\forms.py:242 .\shop\templates\shop\product_list.html:287
 msgid "Тільки рекомендовані"
-msgstr ""
+msgstr "Featured only"
 
 #: .\shop\forms.py:254
-#, fuzzy
-#| msgid "Адреса"
 msgid "Email адреса"
-msgstr "Address"
+msgstr "Email address"
 
 #: .\shop\forms.py:257
 msgid "Введіть ваш email"
-msgstr ""
+msgstr "Enter your email"
 
 #: .\shop\forms.py:275 .\shop\forms.py:314
 msgid "Ваше ім'я"
-msgstr ""
+msgstr "Your name"
 
 #: .\shop\forms.py:288
 msgid "Тема"
-msgstr ""
+msgstr "Subject"
 
 #: .\shop\forms.py:292
-#, fuzzy
-#| msgid "Порядок відображення"
 msgid "Тема повідомлення"
-msgstr "Display order"
+msgstr "Message subject"
 
 #: .\shop\forms.py:297
-#, fuzzy
-#| msgid "Порядок відображення"
 msgid "Повідомлення"
-msgstr "Display order"
+msgstr "Message"
 
 #: .\shop\forms.py:301
-#, fuzzy
-#| msgid "Порядок відображення"
 msgid "Ваше повідомлення..."
-msgstr "Display order"
+msgstr "Your message..."
 
 #: .\shop\forms.py:333
 msgid "Додаткові побажання (необов'язково)"
-msgstr ""
+msgstr "Additional wishes (optional)"
 
 #: .\shop\models.py:15
-#, fuzzy
-#| msgid "Назва партнера"
 msgid "Назва категорії"
-msgstr "Partner name"
+msgstr "Category name"
 
 #: .\shop\models.py:21
-#, fuzzy
-#| msgid "Батьківська сторінка"
 msgid "Батьківська категорія"
-msgstr "Parent page"
+msgstr "Parent category"
 
 #: .\shop\models.py:30 .\shop\templates\shop\product_list.html:212
-#, fuzzy
-#| msgid "Категорія"
 msgid "Категорії"
-msgstr "Category"
+msgstr "Categories"
 
 #: .\shop\models.py:41 .\shop\models.py:256
-#, fuzzy
-#| msgid "Назва партнера"
 msgid "Назва товару"
-msgstr "Partner name"
+msgstr "Product name"
 
 #: .\shop\models.py:44
-#, fuzzy
-#| msgid "Метаопис"
 msgid "Короткий опис"
-msgstr "Meta description"
+msgstr "Short description"
 
 #: .\shop\models.py:46 .\shop\templates\shop\product_list.html:242
 msgid "Ціна"
-msgstr ""
+msgstr "Price"
 
 #: .\shop\models.py:47
 msgid "Знижкова ціна"
-msgstr ""
+msgstr "Sale price"
 
 #: .\shop\models.py:50
 msgid "Кількість на складі"
-msgstr ""
+msgstr "Stock quantity"
 
 #: .\shop\models.py:51
 msgid "Доступний"
-msgstr ""
+msgstr "Available"
 
 #: .\shop\models.py:52
 msgid "Відстежувати запаси"
-msgstr ""
+msgstr "Track inventory"
 
 #: .\shop\models.py:55
-#, fuzzy
-#| msgid "Заголовок"
 msgid "SEO заголовок"
-msgstr "Title"
+msgstr "SEO title"
 
 #: .\shop\models.py:56
 msgid "SEO опис"
-msgstr ""
+msgstr "SEO description"
 
 #: .\shop\models.py:59
 msgid "Вага (кг)"
-msgstr ""
+msgstr "Weight (kg)"
 
 #: .\shop\models.py:60
 msgid "Об'єм (л)"
-msgstr ""
+msgstr "Volume (l)"
 
 #: .\shop\models.py:61
-#, fuzzy
-#| msgid "Порядок відображення"
 msgid "Країна походження"
-msgstr "Display order"
+msgstr "Country of origin"
 
 #: .\shop\models.py:62
 msgid "Бренд"
-msgstr ""
+msgstr "Brand"
 
 #: .\shop\models.py:65
 msgid "Рекомендований"
-msgstr ""
+msgstr "Featured"
 
 #: .\shop\models.py:71
 msgid "Рейтинг"
-msgstr ""
+msgstr "Rating"
 
 #: .\shop\models.py:73
 msgid "Кількість відгуків"
-msgstr ""
+msgstr "Number of reviews"
 
 #: .\shop\models.py:76 .\shop\models.py:115 .\shop\models.py:156
 #: .\shop\models.py:255 .\shop\models.py:275 .\shop\models.py:297
 msgid "Товар"
-msgstr ""
+msgstr "Product"
 
 #: .\shop\models.py:77 .\shop\templates\shop\cart_detail.html:69
 #: .\shop\templates\shop\category_detail.html:57
 #: .\shop\templates\shop\order_detail.html:72
 msgid "Товари"
-msgstr ""
+msgstr "Products"
 
 #: .\shop\models.py:117
 msgid "Альтернативний текст"
-msgstr ""
+msgstr "Alternative text"
 
 #: .\shop\models.py:118
-#, fuzzy
-#| msgid "Порядок відображення"
 msgid "Основне зображення"
-msgstr "Display order"
+msgstr "Main image"
 
 #: .\shop\models.py:122
-#, fuzzy
-#| msgid "Зображення"
 msgid "Зображення товару"
-msgstr "Image"
+msgstr "Product image"
 
 #: .\shop\models.py:123
-#, fuzzy
-#| msgid "Зображення"
 msgid "Зображення товарів"
-msgstr "Image"
+msgstr "Product images"
 
 #: .\shop\models.py:131 .\shop\models.py:202 .\shop\models.py:276
 #: .\shop\models.py:296
 msgid "Користувач"
-msgstr ""
+msgstr "User"
 
 #: .\shop\models.py:132
 msgid "Ключ сесії"
-msgstr ""
+msgstr "Session key"
 
 #: .\shop\models.py:137 .\shop\models.py:155
 #: .\shop\templates\shop\cart_detail.html:9
 #: .\shop\templates\shop\checkout.html:67
 msgid "Кошик"
-msgstr ""
+msgstr "Cart"
 
 #: .\shop\models.py:138
 msgid "Кошики"
-msgstr ""
+msgstr "Carts"
 
 #: .\shop\models.py:157 .\shop\models.py:257
 msgid "Кількість"
-msgstr ""
+msgstr "Quantity"
 
 #: .\shop\models.py:158 .\shop\models.py:258
 msgid "Ціна за одиницю"
-msgstr ""
+msgstr "Unit price"
 
 #: .\shop\models.py:163
 msgid "Товар у кошику"
-msgstr ""
+msgstr "Cart item"
 
 #: .\shop\models.py:164
 msgid "Товари у кошику"
-msgstr ""
+msgstr "Cart items"
 
 #: .\shop\models.py:184 .\shop\templates\shop\order_detail.html:29
 #: .\shop\templates\shop\order_list.html:22
 #: .\shop\templates\shop\order_success.html:22
 #: .\shop\templates\shop\track_order.html:247
 #: .\shop\templates\shop\track_order.html:308
-#, fuzzy
-#| msgid "Порядок відображення"
 msgid "Очікує підтвердження"
-msgstr "Display order"
+msgstr "Pending confirmation"
 
 #: .\shop\models.py:185 .\shop\templates\shop\order_detail.html:31
 #: .\shop\templates\shop\order_list.html:24
 #: .\shop\templates\shop\track_order.html:243
 #: .\shop\templates\shop\track_order.html:310
 msgid "Підтверджено"
-msgstr ""
+msgstr "Confirmed"
 
 #: .\shop\models.py:186 .\shop\templates\shop\order_detail.html:33
 #: .\shop\templates\shop\order_list.html:26
 #: .\shop\templates\shop\track_order.html:259
 #: .\shop\templates\shop\track_order.html:312
 msgid "Обробляється"
-msgstr ""
+msgstr "Processing"
 
 #: .\shop\models.py:187 .\shop\templates\shop\order_detail.html:35
 #: .\shop\templates\shop\order_list.html:28
 #: .\shop\templates\shop\track_order.html:275
 #: .\shop\templates\shop\track_order.html:314
-#, fuzzy
-#| msgid "Оновлено"
 msgid "Відправлено"
-msgstr "Updated"
+msgstr "Shipped"
 
 #: .\shop\models.py:188 .\shop\templates\shop\order_detail.html:37
 #: .\shop\templates\shop\order_list.html:30
 #: .\shop\templates\shop\track_order.html:290
 #: .\shop\templates\shop\track_order.html:316
-#, fuzzy
-#| msgid "Оновлено"
 msgid "Доставлено"
-msgstr "Updated"
+msgstr "Delivered"
 
 #: .\shop\models.py:189 .\shop\templates\shop\order_detail.html:39
 #: .\shop\templates\shop\order_list.html:32
 #: .\shop\templates\shop\track_order.html:318
 msgid "Скасовано"
-msgstr ""
+msgstr "Cancelled"
 
 #: .\shop\models.py:190 .\shop\models.py:197
 #: .\shop\templates\shop\order_detail.html:41
@@ -784,215 +725,199 @@ msgstr ""
 #: .\shop\templates\shop\order_list.html:34
 #: .\shop\templates\shop\order_list.html:71
 msgid "Повернуто"
-msgstr ""
+msgstr "Returned"
 
 #: .\shop\models.py:194 .\shop\templates\shop\order_detail.html:55
 #: .\shop\templates\shop\order_list.html:65
 msgid "Очікує оплати"
-msgstr ""
+msgstr "Pending payment"
 
 #: .\shop\models.py:195 .\shop\templates\shop\order_detail.html:57
 #: .\shop\templates\shop\order_list.html:67
 msgid "Оплачено"
-msgstr ""
+msgstr "Paid"
 
 #: .\shop\models.py:196 .\shop\templates\shop\order_detail.html:59
 #: .\shop\templates\shop\order_list.html:69
 msgid "Помилка оплати"
-msgstr ""
+msgstr "Payment error"
 
 #: .\shop\models.py:201 .\shop\templates\shop\track_order.html:195
-#, fuzzy
-#| msgid "Зображення"
 msgid "Номер замовлення"
-msgstr "Image"
+msgstr "Order number"
 
 #: .\shop\models.py:219
-#, fuzzy
-#| msgid "Секція без назви"
 msgid "Сума без доставки"
-msgstr "Untitled section"
+msgstr "Subtotal"
 
 #: .\shop\models.py:220
 msgid "Вартість доставки"
-msgstr ""
+msgstr "Shipping cost"
 
 #: .\shop\models.py:221
 msgid "Сума податку"
-msgstr ""
+msgstr "Tax amount"
 
 #: .\shop\models.py:222
 msgid "Загальна сума"
-msgstr ""
+msgstr "Total amount"
 
 #: .\shop\models.py:225
 msgid "Статус"
-msgstr ""
+msgstr "Status"
 
 #: .\shop\models.py:226
 msgid "Статус оплати"
-msgstr ""
+msgstr "Payment status"
 
 #: .\shop\models.py:229 .\shop\templates\shop\order_detail.html:134
 msgid "Примітки"
-msgstr ""
+msgstr "Notes"
 
 #: .\shop\models.py:234
-#, fuzzy
-#| msgid "Дата публікації"
 msgid "Дата відправки"
-msgstr "Publication date"
+msgstr "Shipping date"
 
 #: .\shop\models.py:235
 msgid "Дата доставки"
-msgstr ""
+msgstr "Delivery date"
 
 #: .\shop\models.py:238 .\shop\models.py:239 .\shop\models.py:254
 #: .\shop\templates\shop\order_detail.html:5
 #: .\shop\templates\shop\order_detail.html:10
 #: .\shop\templates\shop\order_list.html:17
 #: .\shop\templates\shop\track_order.html:219
-#, fuzzy
-#| msgid "Оновлено"
 msgid "Замовлення"
-msgstr "Updated"
+msgstr "Order"
 
 #: .\shop\models.py:259
 msgid "Загальна вартість"
-msgstr ""
+msgstr "Total cost"
 
 #: .\shop\models.py:262
 msgid "Товар у замовленні"
-msgstr ""
+msgstr "Order item"
 
 #: .\shop\models.py:263
 msgid "Товари у замовленні"
-msgstr ""
+msgstr "Order items"
 
 #: .\shop\models.py:280 .\shop\templates\shop\product_detail.html:183
 msgid "Підтверджена покупка"
-msgstr ""
+msgstr "Verified purchase"
 
 #: .\shop\models.py:281
-#, fuzzy
-#| msgid "Оновлено"
 msgid "Схвалено"
-msgstr "Updated"
+msgstr "Approved"
 
 #: .\shop\models.py:286
 msgid "Відгук"
-msgstr ""
+msgstr "Review"
 
 #: .\shop\models.py:287 .\shop\templates\shop\product_detail.html:146
 msgid "Відгуки"
-msgstr ""
+msgstr "Reviews"
 
 #: .\shop\models.py:301 .\shop\templates\shop\wishlist.html:9
 #: .\shop\templates\shop\wishlist.html:13
 msgid "Список бажань"
-msgstr ""
+msgstr "Wishlist"
 
 #: .\shop\models.py:302
 msgid "Списки бажань"
-msgstr ""
+msgstr "Wishlists"
 
 #: .\shop\templates\shop\cart_detail.html:13
 msgid "Ваш кошик"
-msgstr ""
+msgstr "Your cart"
 
 #: .\shop\templates\shop\cart_detail.html:66
 #: .\shop\templates\shop\order_detail.html:147
-#, fuzzy
-#| msgid "Порядок відображення"
 msgid "Підсумок замовлення"
-msgstr "Display order"
+msgstr "Order summary"
 
 #: .\shop\templates\shop\cart_detail.html:69
 #: .\shop\templates\shop\order_detail.html:101
 #: .\shop\templates\shop\product_detail.html:106
 msgid "шт."
-msgstr ""
+msgstr "pcs."
 
 #: .\shop\templates\shop\cart_detail.html:73
 #: .\shop\templates\shop\checkout.html:334
 #: .\shop\templates\shop\order_detail.html:155
 msgid "Доставка:"
-msgstr ""
+msgstr "Shipping:"
 
 #: .\shop\templates\shop\cart_detail.html:78
 #: .\shop\templates\shop\order_detail.html:166
 msgid "Загалом:"
-msgstr ""
+msgstr "Total:"
 
 #: .\shop\templates\shop\cart_detail.html:83
-#, fuzzy
-#| msgid "Порядок відображення"
 msgid "Оформити замовлення"
-msgstr "Display order"
+msgstr "Checkout"
 
 #: .\shop\templates\shop\cart_detail.html:86
 #: .\shop\templates\shop\order_success.html:37
 #: .\shop\templates\shop\track_order.html:346
 msgid "Продовжити покупки"
-msgstr ""
+msgstr "Continue shopping"
 
 #: .\shop\templates\shop\cart_detail.html:96 .\shop\views.py:561
 msgid "Ваш кошик порожній"
-msgstr ""
+msgstr "Your cart is empty"
 
 #: .\shop\templates\shop\cart_detail.html:97
 msgid "Додайте товари до кошика, щоб продовжити покупки"
-msgstr ""
+msgstr "Add products to cart to continue shopping"
 
 #: .\shop\templates\shop\cart_detail.html:99
 #: .\shop\templates\shop\compare.html:195
 #: .\shop\templates\shop\order_list.html:101
 #: .\shop\templates\shop\wishlist.html:73
 msgid "Перейти до каталогу"
-msgstr ""
+msgstr "Go to catalog"
 
 #: .\shop\templates\shop\cart_detail.html:184 .\shop\views.py:520
 msgid "Помилка при оновленні кошика"
-msgstr ""
+msgstr "Error updating cart"
 
 #: .\shop\templates\shop\cart_detail.html:189
 msgid "Ви впевнені, що хочете видалити цей товар?"
-msgstr ""
+msgstr "Are you sure you want to remove this product?"
 
 #: .\shop\templates\shop\category_detail.html:16
 #: .\shop\templates\shop\product_detail.html:18
 msgid "Каталог"
-msgstr ""
+msgstr "Catalog"
 
 #: .\shop\templates\shop\category_detail.html:31
-#, fuzzy
-#| msgid "Категорія"
 msgid "Підкатегорії"
-msgstr "Category"
+msgstr "Subcategories"
 
 #: .\shop\templates\shop\category_detail.html:60
 #: .\shop\templates\shop\product_list.html:324
 #: .\shop\templates\shop\search_results.html:45
 msgid "Сортувати:"
-msgstr ""
+msgstr "Sort by:"
 
 #: .\shop\templates\shop\category_detail.html:63
 #: .\shop\templates\shop\product_list.html:332
 #: .\shop\templates\shop\search_results.html:48
 msgid "За назвою"
-msgstr ""
+msgstr "By name"
 
 #: .\shop\templates\shop\category_detail.html:88
 #: .\shop\templates\shop\search_results.html:74
 msgid "Рекомендовано"
-msgstr ""
+msgstr "Featured"
 
 #: .\shop\templates\shop\category_detail.html:126
 #: .\shop\templates\shop\product_list.html:444
 #: .\shop\templates\shop\search_results.html:118
 #: .\shop\templates\shop\wishlist.html:49
 msgid "До кошика"
-msgstr ""
+msgstr "Add to cart"
 
 #: .\shop\templates\shop\category_detail.html:130
 #: .\shop\templates\shop\product_detail.html:108
@@ -1001,497 +926,470 @@ msgstr ""
 #: .\shop\templates\shop\search_results.html:122
 #: .\shop\templates\shop\wishlist.html:53
 msgid "Немає в наявності"
-msgstr ""
+msgstr "Out of stock"
 
 #: .\shop\templates\shop\category_detail.html:146
 msgid "У цій категорії поки що немає товарів"
-msgstr ""
+msgstr "No products in this category yet"
 
 #: .\shop\templates\shop\category_detail.html:148
 #: .\shop\templates\shop\search_results.html:188
 msgid "Переглянути всі товари"
-msgstr ""
+msgstr "View all products"
 
 #: .\shop\templates\shop\category_detail.html:157
 #: .\shop\templates\shop\product_list.html:477
 #: .\shop\templates\shop\search_results.html:140
-#, fuzzy
-#| msgid "Батьківська сторінка"
 msgid "Навігація по сторінках"
-msgstr "Parent page"
+msgstr "Page navigation"
 
 #: .\shop\templates\shop\category_detail.html:161
 #: .\shop\templates\shop\search_results.html:144
 msgid "Перша"
-msgstr ""
+msgstr "First"
 
 #: .\shop\templates\shop\category_detail.html:164
 #: .\shop\templates\shop\product_list.html:487
 #: .\shop\templates\shop\search_results.html:147
 msgid "Попередня"
-msgstr ""
+msgstr "Previous"
 
 #: .\shop\templates\shop\category_detail.html:169
 #: .\shop\templates\shop\product_list.html:521
 #: .\shop\templates\shop\search_results.html:152
 msgid "з"
-msgstr ""
+msgstr "of"
 
 #: .\shop\templates\shop\category_detail.html:174
 #: .\shop\templates\shop\product_list.html:508
 #: .\shop\templates\shop\search_results.html:157
 msgid "Наступна"
-msgstr ""
+msgstr "Next"
 
 #: .\shop\templates\shop\category_detail.html:177
 #: .\shop\templates\shop\search_results.html:160
-#, fuzzy
-#| msgid "Посилання"
 msgid "Остання"
-msgstr "Link"
+msgstr "Last"
 
 #: .\shop\templates\shop\checkout.html:60
 #: .\shop\templates\shop\checkout.html:68
 #: .\shop\templates\shop\checkout.html:72
 msgid "Оформлення замовлення"
-msgstr ""
+msgstr "Checkout"
 
 #: .\shop\templates\shop\checkout.html:93
 msgid "Введіть ваше ім\\"
-msgstr ""
+msgstr "Enter your first name"
 
 #: .\shop\templates\shop\checkout.html:130
 #: .\shop\templates\shop\order_detail.html:115
 msgid "Адреса доставки"
-msgstr ""
+msgstr "Shipping address"
 
 #: .\shop\templates\shop\checkout.html:144
 msgid "Додаткова адреса"
-msgstr ""
+msgstr "Additional address"
 
 #: .\shop\templates\shop\checkout.html:149
 msgid "Корпус, під\\"
-msgstr ""
+msgstr "Building, entrance"
 
 #: .\shop\templates\shop\checkout.html:194
 msgid "Спосіб доставки"
-msgstr ""
+msgstr "Delivery method"
 
 #: .\shop\templates\shop\checkout.html:203
 msgid "Стандартна доставка"
-msgstr ""
+msgstr "Standard delivery"
 
 #: .\shop\templates\shop\checkout.html:204
 msgid "2-3 робочі дні"
-msgstr ""
+msgstr "2-3 business days"
 
 #: .\shop\templates\shop\checkout.html:218
 msgid "Експрес доставка"
-msgstr ""
+msgstr "Express delivery"
 
 #: .\shop\templates\shop\checkout.html:219
 msgid "Наступний день"
-msgstr ""
+msgstr "Next day"
 
 #: .\shop\templates\shop\checkout.html:231
-#, fuzzy
-#| msgid "Контактна інформація"
 msgid "Додаткова інформація"
-msgstr "Contact information"
+msgstr "Additional information"
 
 #: .\shop\templates\shop\checkout.html:246
-#, fuzzy
-#| msgid "Зображення"
 msgid "Підтвердження"
-msgstr "Image"
+msgstr "Confirmation"
 
 #: .\shop\templates\shop\checkout.html:254
 #: .\shop\templates\shop\checkout.html:259
 #: .\shop\templates\shop\checkout.html:267
 #: .\shop\templates\shop\checkout.html:272
 msgid "Я погоджуюся з"
-msgstr ""
+msgstr "I agree to"
 
 #: .\shop\templates\shop\checkout.html:254
 #: .\shop\templates\shop\checkout.html:259
 msgid "умовами обслуговування"
-msgstr ""
+msgstr "terms of service"
 
 #: .\shop\templates\shop\checkout.html:267
 #: .\shop\templates\shop\checkout.html:272
 msgid "політикою конфіденційності"
-msgstr ""
+msgstr "privacy policy"
 
 #: .\shop\templates\shop\checkout.html:279
 msgid "Хочу отримувати новини та спеціальні пропозиції на email"
-msgstr ""
+msgstr "I want to receive news and special offers by email"
 
 #: .\shop\templates\shop\checkout.html:287
 msgid "Виправте наступні помилки:"
-msgstr ""
+msgstr "Please correct the following errors:"
 
 #: .\shop\templates\shop\checkout.html:294
 msgid "Назад до кошика"
-msgstr ""
+msgstr "Back to cart"
 
 #: .\shop\templates\shop\checkout.html:297
 msgid "Підтвердити замовлення"
-msgstr ""
+msgstr "Confirm order"
 
 #: .\shop\templates\shop\checkout.html:307
 msgid "Ваше замовлення"
-msgstr ""
+msgstr "Your order"
 
 #: .\shop\templates\shop\checkout.html:317
 #: .\shop\templates\shop\product_detail.html:116
 msgid "Кількість:"
-msgstr ""
+msgstr "Quantity:"
 
 #: .\shop\templates\shop\checkout.html:330
 msgid "Підсумок товарів:"
-msgstr ""
+msgstr "Subtotal:"
 
 #: .\shop\templates\shop\checkout.html:339
 #: .\shop\templates\shop\order_list.html:59
 #: .\shop\templates\shop\order_success.html:20
 msgid "Загальна сума:"
-msgstr ""
+msgstr "Total amount:"
 
 #: .\shop\templates\shop\checkout.html:347
 msgid "Спосіб оплати"
-msgstr ""
+msgstr "Payment method"
 
 #: .\shop\templates\shop\checkout.html:349
 msgid "Оплата при отриманні готівкою або карткою"
-msgstr ""
+msgstr "Cash on delivery or card payment"
 
 #: .\shop\templates\shop\checkout.html:354
 msgid "Доставка"
-msgstr ""
+msgstr "Delivery"
 
 #: .\shop\templates\shop\checkout.html:356
 msgid "Стандартна доставка по Україні (2-3 дні)"
-msgstr ""
+msgstr "Standard delivery in Ukraine (2-3 days)"
 
 #: .\shop\templates\shop\checkout.html:361
 msgid "Безпека"
-msgstr ""
+msgstr "Security"
 
 #: .\shop\templates\shop\checkout.html:363
 msgid "Захищене з'єднання SSL. Ваші дані в безпеці"
-msgstr ""
+msgstr "Secure SSL connection. Your data is safe"
 
 #: .\shop\templates\shop\checkout.html:373
 msgid "Потрібна допомога?"
-msgstr ""
+msgstr "Need help?"
 
 #: .\shop\templates\shop\checkout.html:376
 msgid "Зв'яжіться з нами, якщо у вас є питання"
-msgstr ""
+msgstr "Contact us if you have any questions"
 
 #: .\shop\templates\shop\checkout.html:386
 msgid "Пн-Пт: 9:00-18:00"
-msgstr ""
+msgstr "Mon-Fri: 9:00-18:00"
 
 #: .\shop\templates\shop\checkout.html:433
 msgid ""
 "Будь ласка, погодьтеся з умовами обслуговування та політикою конфіденційності"
 msgstr ""
+"Please agree to the terms of service and privacy policy"
 
 #: .\shop\templates\shop\checkout.html:483
 msgid "Будь ласка, заповніть всі обов\\'язкові поля правильно"
-msgstr ""
+msgstr "Please fill in all required fields correctly"
 
 #: .\shop\templates\shop\checkout.html:492
 msgid "Обробка замовлення..."
-msgstr ""
+msgstr "Processing order..."
 
 #: .\shop\templates\shop\compare.html:111
 #: .\shop\templates\shop\compare.html:118
-#, fuzzy
-#| msgid "Зображення"
 msgid "Порівняння товарів"
-msgstr "Image"
+msgstr "Product comparison"
 
 #: .\shop\templates\shop\compare.html:126
 msgid "Характеристика"
-msgstr ""
+msgstr "Characteristic"
 
 #: .\shop\templates\shop\compare.html:131
-#, fuzzy
-#| msgid "Порядок відображення"
 msgid "Видалити з порівняння"
-msgstr "Display order"
+msgstr "Remove from comparison"
 
 #: .\shop\templates\shop\compare.html:176
-#, fuzzy
-#| msgid "Порядок відображення"
 msgid "Очистити порівняння"
-msgstr "Display order"
+msgstr "Clear comparison"
 
 #: .\shop\templates\shop\compare.html:181
-#, fuzzy
-#| msgid "Зображення"
 msgid "Додати ще товари"
-msgstr "Image"
+msgstr "Add more products"
 
 #: .\shop\templates\shop\compare.html:190
 msgid "Немає товарів для порівняння"
-msgstr ""
+msgstr "No products to compare"
 
 #: .\shop\templates\shop\compare.html:192
 msgid "Додайте товари до порівняння, щоб побачити їх характеристики поруч"
-msgstr ""
+msgstr "Add products to comparison to see their characteristics side by side"
 
 #: .\shop\templates\shop\compare.html:231
 msgid "Ви впевнені, що хочете очистити список порівняння?"
-msgstr ""
+msgstr "Are you sure you want to clear the comparison list?"
 
 #: .\shop\templates\shop\order_detail.html:12
 msgid "Назад до списку"
-msgstr ""
+msgstr "Back to list"
 
 #: .\shop\templates\shop\order_detail.html:22
 msgid "Статус замовлення"
-msgstr ""
+msgstr "Order status"
 
 #: .\shop\templates\shop\order_detail.html:27
 #: .\shop\templates\shop\order_success.html:21
 #: .\shop\templates\shop\track_order.html:305
 msgid "Статус:"
-msgstr ""
+msgstr "Status:"
 
 #: .\shop\templates\shop\order_detail.html:44
 #: .\shop\templates\shop\track_order.html:324
 msgid "Дата замовлення:"
-msgstr ""
+msgstr "Order date:"
 
 #: .\shop\templates\shop\order_detail.html:46
 msgid "Дата відправки:"
-msgstr ""
+msgstr "Shipping date:"
 
 #: .\shop\templates\shop\order_detail.html:49
 msgid "Дата доставки:"
-msgstr ""
+msgstr "Delivery date:"
 
 #: .\shop\templates\shop\order_detail.html:53
 #: .\shop\templates\shop\order_list.html:63
 msgid "Статус оплати:"
-msgstr ""
+msgstr "Payment status:"
 
 #: .\shop\templates\shop\order_detail.html:91
 msgid "Переглянути товар"
-msgstr ""
+msgstr "View product"
 
 #: .\shop\templates\shop\order_detail.html:97
 msgid "за одиницю"
-msgstr ""
+msgstr "per unit"
 
 #: .\shop\templates\shop\order_detail.html:125
-#, fuzzy
-#| msgid "Телефон"
 msgid "Телефон:"
-msgstr "Phone"
+msgstr "Phone:"
 
 #: .\shop\templates\shop\order_detail.html:126
 #: .\shop\templates\shop\order_success.html:19
 msgid "Email:"
-msgstr ""
+msgstr "Email:"
 
 #: .\shop\templates\shop\order_detail.html:151
 #: .\shop\templates\shop\order_list.html:41
 msgid "Товари:"
-msgstr ""
+msgstr "Products:"
 
 #: .\shop\templates\shop\order_detail.html:160
 msgid "Податок:"
-msgstr ""
+msgstr "Tax:"
 
 #: .\shop\templates\shop\order_detail.html:176
 msgid "Скасувати замовлення"
-msgstr ""
+msgstr "Cancel order"
 
 #: .\shop\templates\shop\order_detail.html:181
 msgid "Роздрукувати"
-msgstr ""
+msgstr "Print"
 
 #: .\shop\templates\shop\order_detail.html:190
 #: .\shop\templates\shop\order_list.html:110
 msgid "Ви впевнені, що хочете скасувати це замовлення?"
-msgstr ""
+msgstr "Are you sure you want to cancel this order?"
 
 #: .\shop\templates\shop\order_detail.html:192
 #: .\shop\templates\shop\order_list.html:112
 msgid "Функція скасування замовлення буде додана пізніше"
-msgstr ""
+msgstr "Order cancellation feature will be added later"
 
 #: .\shop\templates\shop\order_list.html:5
 #: .\shop\templates\shop\order_list.html:9
 #: .\shop\templates\shop\order_success.html:41
-#, fuzzy
-#| msgid "Зображення"
 msgid "Мої замовлення"
-msgstr "Image"
+msgstr "My orders"
 
 #: .\shop\templates\shop\order_list.html:51
 msgid "та ще"
-msgstr ""
+msgstr "and"
 
 #: .\shop\templates\shop\order_list.html:51
 msgid "товар(ів)"
-msgstr ""
+msgstr "more item(s)"
 
 #: .\shop\templates\shop\order_list.html:81
 msgid "Детальніше"
-msgstr ""
+msgstr "Details"
 
 #: .\shop\templates\shop\order_list.html:85
 msgid "Скасувати"
-msgstr ""
+msgstr "Cancel"
 
 #: .\shop\templates\shop\order_list.html:98
 msgid "У вас поки що немає замовлень"
-msgstr ""
+msgstr "You don't have any orders yet"
 
 #: .\shop\templates\shop\order_list.html:99
 msgid "Оформіть ваше перше замовлення у нашому каталозі"
-msgstr ""
+msgstr "Place your first order in our catalog"
 
 #: .\shop\templates\shop\order_success.html:5
 msgid "Замовлення успішно оформлено"
-msgstr ""
+msgstr "Order successfully placed"
 
 #: .\shop\templates\shop\order_success.html:13
 msgid "Дякуємо за ваше замовлення!"
-msgstr ""
+msgstr "Thank you for your order!"
 
 #: .\shop\templates\shop\order_success.html:14
 msgid "Ваше замовлення успішно оформлено"
-msgstr ""
+msgstr "Your order has been successfully placed"
 
 #: .\shop\templates\shop\order_success.html:17
 #: .\shop\templates\shop\track_order.html:302
 msgid "Деталі замовлення"
-msgstr ""
+msgstr "Order details"
 
 #: .\shop\templates\shop\order_success.html:18
-#, fuzzy
-#| msgid "Зображення"
 msgid "Номер замовлення:"
-msgstr "Image"
+msgstr "Order number:"
 
 #: .\shop\templates\shop\order_success.html:27
-#, fuzzy
-#| msgid "читати далі"
 msgid "Що далі?"
-msgstr "read more"
+msgstr "What's next?"
 
 #: .\shop\templates\shop\order_success.html:29
 msgid "Ми надішлемо підтвердження на ваш email"
-msgstr ""
+msgstr "We will send confirmation to your email"
 
 #: .\shop\templates\shop\order_success.html:30
 msgid "Наш менеджер зв'яжеться з вами для підтвердження"
-msgstr ""
+msgstr "Our manager will contact you for confirmation"
 
 #: .\shop\templates\shop\order_success.html:31
 msgid "Підготуємо та відправимо ваше замовлення"
-msgstr ""
+msgstr "We will prepare and ship your order"
 
 #: .\shop\templates\shop\product_detail.html:50
 msgid "Бренд:"
-msgstr ""
+msgstr "Brand:"
 
 #: .\shop\templates\shop\product_detail.html:64
 msgid "відгуків"
-msgstr ""
+msgstr "reviews"
 
 #: .\shop\templates\shop\product_detail.html:88
 msgid "Характеристики:"
-msgstr ""
+msgstr "Specifications:"
 
 #: .\shop\templates\shop\product_detail.html:91
 msgid "Вага:"
-msgstr ""
+msgstr "Weight:"
 
 #: .\shop\templates\shop\product_detail.html:91
 msgid "кг"
-msgstr ""
+msgstr "kg"
 
 #: .\shop\templates\shop\product_detail.html:94
 msgid "Об'єм:"
-msgstr ""
+msgstr "Volume:"
 
 #: .\shop\templates\shop\product_detail.html:94
 msgid "л"
-msgstr ""
+msgstr "l"
 
 #: .\shop\templates\shop\product_detail.html:97
-#, fuzzy
-#| msgid "Порядок відображення"
 msgid "Країна походження:"
-msgstr "Display order"
+msgstr "Country of origin:"
 
 #: .\shop\templates\shop\product_detail.html:105
 msgid "В наявності"
-msgstr ""
+msgstr "In stock"
 
 #: .\shop\templates\shop\product_detail.html:120
 msgid "Додати до кошика"
-msgstr ""
+msgstr "Add to cart"
 
 #: .\shop\templates\shop\product_detail.html:128
 msgid "Видалити з бажань"
-msgstr ""
+msgstr "Remove from wishlist"
 
 #: .\shop\templates\shop\product_detail.html:128
 #: .\shop\templates\shop\product_list.html:454
 msgid "Додати до бажань"
-msgstr ""
+msgstr "Add to wishlist"
 
 #: .\shop\templates\shop\product_detail.html:165
 msgid "Залишити відгук"
-msgstr ""
+msgstr "Leave a review"
 
 #: .\shop\templates\shop\product_detail.html:171
 msgid "Додати відгук"
-msgstr ""
+msgstr "Add review"
 
 #: .\shop\templates\shop\product_detail.html:201
 msgid "Поки що немає відгуків для цього товару."
-msgstr ""
+msgstr "No reviews for this product yet."
 
 #: .\shop\templates\shop\product_detail.html:213
 msgid "Схожі товари"
-msgstr ""
+msgstr "Similar products"
 
 #: .\shop\templates\shop\product_list.html:149
 #: .\shop\templates\shop\product_list.html:159
 msgid "Каталог товарів"
-msgstr ""
+msgstr "Product catalog"
 
 #: .\shop\templates\shop\product_list.html:163
 msgid "Результати пошуку для:"
-msgstr ""
+msgstr "Search results for:"
 
 #: .\shop\templates\shop\product_list.html:179
 #: .\shop\templates\shop\product_list.html:187
 msgid "Фільтри"
-msgstr ""
+msgstr "Filters"
 
 #: .\shop\templates\shop\product_list.html:219
 msgid "Всі товари"
-msgstr ""
+msgstr "All products"
 
 #: .\shop\templates\shop\product_list.html:265
 msgid "Застосувати"
-msgstr ""
+msgstr "Apply"
 
 #: .\shop\templates\shop\product_list.html:273
-#, fuzzy
-#| msgid "Контактна інформація"
 msgid "Додатково"
-msgstr "Contact information"
+msgstr "Additional"
 
 #: .\shop\templates\shop\product_list.html:313
 #, python-format
@@ -1504,344 +1402,318 @@ msgid_plural ""
 "                                    Знайдено %(counter)s товарів\n"
 "                                "
 msgstr[0] ""
+"\n"
+"                                    Found %(counter)s product\n"
+"                                "
 msgstr[1] ""
+"\n"
+"                                    Found %(counter)s products\n"
+"                                "
 
 #: .\shop\templates\shop\product_list.html:465
 msgid "Товари не знайдені"
-msgstr ""
+msgstr "No products found"
 
 #: .\shop\templates\shop\product_list.html:466
 msgid "Спробуйте змінити параметри пошуку або фільтрації."
-msgstr ""
+msgstr "Try changing your search or filter parameters."
 
 #: .\shop\templates\shop\product_list.html:468
 msgid "Очистити фільтри"
-msgstr ""
+msgstr "Clear filters"
 
 #: .\shop\templates\shop\product_list.html:522
 msgid "Загалом"
-msgstr ""
+msgstr "Total"
 
 #: .\shop\templates\shop\product_list.html:522
 msgid "товарів"
-msgstr ""
+msgstr "products"
 
 #: .\shop\templates\shop\search_results.html:9
 #: .\shop\templates\shop\search_results.html:14
 msgid "Результати пошуку"
-msgstr ""
+msgstr "Search results"
 
 #: .\shop\templates\shop\search_results.html:16
 msgid "Ви шукали:"
-msgstr ""
+msgstr "You searched for:"
 
 #: .\shop\templates\shop\search_results.html:17
 msgid "Знайдено результатів:"
-msgstr ""
+msgstr "Results found:"
 
 #: .\shop\templates\shop\search_results.html:26
 msgid "Введіть назву товару, бренд або категорію..."
-msgstr ""
+msgstr "Enter product name, brand or category..."
 
 #: .\shop\templates\shop\search_results.html:30
 msgid "Шукати"
-msgstr ""
+msgstr "Search"
 
 #: .\shop\templates\shop\search_results.html:40
 msgid "товарів знайдено"
-msgstr ""
+msgstr "products found"
 
 #: .\shop\templates\shop\search_results.html:47
 msgid "За релевантністю"
-msgstr ""
+msgstr "By relevance"
 
 #: .\shop\templates\shop\search_results.html:171
 msgid "Нічого не знайдено"
-msgstr ""
+msgstr "Nothing found"
 
 #: .\shop\templates\shop\search_results.html:173
 msgid "На жаль, по запиту"
-msgstr ""
+msgstr "Unfortunately, for the query"
 
 #: .\shop\templates\shop\search_results.html:173
 msgid "нічого не знайдено"
-msgstr ""
+msgstr "nothing was found"
 
 #: .\shop\templates\shop\search_results.html:175
 msgid "Введіть пошуковий запит"
-msgstr ""
+msgstr "Enter search query"
 
 #: .\shop\templates\shop\search_results.html:179
 msgid "Спробуйте:"
-msgstr ""
+msgstr "Try:"
 
 #: .\shop\templates\shop\search_results.html:181
 msgid "Перевірити правильність написання"
-msgstr ""
+msgstr "Check spelling"
 
 #: .\shop\templates\shop\search_results.html:182
 msgid "Використати менше слів"
-msgstr ""
+msgstr "Use fewer words"
 
 #: .\shop\templates\shop\search_results.html:183
 msgid "Використати більш загальні терміни"
-msgstr ""
+msgstr "Use more general terms"
 
 #: .\shop\templates\shop\track_order.html:179
 #: .\shop\templates\shop\track_order.html:184
-#, fuzzy
-#| msgid "Порядок відображення"
 msgid "Відстеження замовлення"
-msgstr "Display order"
+msgstr "Order tracking"
 
 #: .\shop\templates\shop\track_order.html:185
 msgid "Введіть номер замовлення та email для відстеження"
-msgstr ""
+msgstr "Enter order number and email for tracking"
 
 #: .\shop\templates\shop\track_order.html:206
-#, fuzzy
-#| msgid "Порядок відображення"
 msgid "Введіть email, вказаний при замовленні"
-msgstr "Display order"
+msgstr "Enter the email specified when ordering"
 
 #: .\shop\templates\shop\track_order.html:210
-#, fuzzy
-#| msgid "Порядок відображення"
 msgid "Відстежити замовлення"
-msgstr "Display order"
+msgstr "Track order"
 
 #: .\shop\templates\shop\track_order.html:231
-#, fuzzy
-#| msgid "Оновлено"
 msgid "Замовлення створено"
-msgstr "Updated"
+msgstr "Order created"
 
 #: .\shop\templates\shop\track_order.html:245
 msgid "Замовлення підтверджено менеджером"
-msgstr ""
+msgstr "Order confirmed by manager"
 
 #: .\shop\templates\shop\track_order.html:261
 msgid "Замовлення зібрано та підготовлено"
-msgstr ""
+msgstr "Order assembled and prepared"
 
 #: .\shop\templates\shop\track_order.html:263
-#, fuzzy
-#| msgid "Дата публікації"
 msgid "Готується до відправки"
-msgstr "Publication date"
+msgstr "Being prepared for shipping"
 
 #: .\shop\templates\shop\track_order.html:279
-#, fuzzy
-#| msgid "Дата публікації"
 msgid "Очікує відправки"
-msgstr "Publication date"
+msgstr "Awaiting shipment"
 
 #: .\shop\templates\shop\track_order.html:294
 msgid "Очікується доставка"
-msgstr ""
+msgstr "Delivery expected"
 
 #: .\shop\templates\shop\track_order.html:329
-#, fuzzy
-#| msgid "Зображення"
 msgid "Сума замовлення:"
-msgstr "Image"
+msgstr "Order amount:"
 
 #: .\shop\templates\shop\track_order.html:334
-#, fuzzy
-#| msgid "Секція без назви"
 msgid "Адреса доставки:"
-msgstr "Untitled section"
+msgstr "Delivery address:"
 
 #: .\shop\templates\shop\track_order.html:339
 msgid "Одержувач:"
-msgstr ""
+msgstr "Recipient:"
 
 #: .\shop\templates\shop\wishlist.html:70
 msgid "Ваш список бажань порожній"
-msgstr ""
+msgstr "Your wishlist is empty"
 
 #: .\shop\templates\shop\wishlist.html:71
 msgid "Додайте товари, які вам сподобались, до списку бажань"
-msgstr ""
+msgstr "Add products you like to your wishlist"
 
 #: .\shop\templates\shop\wishlist.html:112
 msgid "Видалити товар зі списку бажань?"
-msgstr ""
+msgstr "Remove product from wishlist?"
 
 #: .\shop\views.py:358
 msgid "Некоректна кількість товару"
-msgstr ""
+msgstr "Invalid product quantity"
 
 #: .\shop\views.py:367
-#, fuzzy
-#| msgid "Порядок відображення"
 msgid "Товар недоступний для замовлення"
-msgstr "Display order"
+msgstr "Product unavailable for order"
 
 #: .\shop\views.py:373 .\shop\views.py:494
 msgid "Недостатньо товару на складі. Доступно: {} шт."
-msgstr ""
+msgstr "Insufficient stock. Available: {} pcs."
 
 #: .\shop\views.py:391
 msgid "Недостатньо товару на складі. У кошику: {} шт., доступно: {} шт."
-msgstr ""
+msgstr "Insufficient stock. In cart: {} pcs., available: {} pcs."
 
 #: .\shop\views.py:401
 msgid "Товар додано до кошика"
-msgstr ""
+msgstr "Product added to cart"
 
 #: .\shop\views.py:410 .\shop\views.py:515 .\shop\views.py:546
 #: .\shop\views.py:876 .\shop\views.py:909 .\shop\views.py:1114
 #: .\shop\views.py:1141 .\shop\views.py:1350
 msgid "Некоректний формат даних"
-msgstr ""
+msgstr "Invalid data format"
 
 #: .\shop\views.py:415
 msgid "Помилка при додаванні товару"
-msgstr ""
+msgstr "Error adding product"
 
 #: .\shop\views.py:478
 msgid "Товар видалено з кошика"
-msgstr ""
+msgstr "Product removed from cart"
 
 #: .\shop\views.py:488
 msgid "Товар більше недоступний"
-msgstr ""
+msgstr "Product no longer available"
 
 #: .\shop\views.py:505
-#, fuzzy
-#| msgid "Оновлено"
 msgid "Кошик оновлено"
-msgstr "Updated"
+msgstr "Cart updated"
 
 #: .\shop\views.py:538
 msgid "\"{}\" видалено з кошика"
-msgstr ""
+msgstr "\"{}\" removed from cart"
 
 #: .\shop\views.py:551
 msgid "Помилка при видаленні товару"
-msgstr ""
+msgstr "Error removing product"
 
 #: .\shop\views.py:576
 msgid "Товар \"{}\" недоступний у потрібній кількості"
-msgstr ""
+msgstr "Product \"{}\" unavailable in required quantity"
 
 #: .\shop\views.py:588
 msgid "Товар \"{}\" більше недоступний у потрібній кількості"
-msgstr ""
+msgstr "Product \"{}\" no longer available in required quantity"
 
 #: .\shop\views.py:648
 msgid "Замовлення успішно оформлено!"
-msgstr ""
+msgstr "Order successfully placed!"
 
 #: .\shop\views.py:759 .\shop\views.py:796
-#, fuzzy
-#| msgid "Порядок відображення"
 msgid "Ви не маєте доступу до цього замовлення"
-msgstr "Display order"
+msgstr "You don't have access to this order"
 
 #: .\shop\views.py:813
 msgid "Це замовлення не можна скасувати"
-msgstr ""
+msgstr "This order cannot be cancelled"
 
 #: .\shop\views.py:826
 msgid "Замовлення успішно скасовано"
-msgstr ""
+msgstr "Order successfully cancelled"
 
 #: .\shop\views.py:863 .\shop\views.py:903
 msgid "Товар видалено зі списку бажань"
-msgstr ""
+msgstr "Product removed from wishlist"
 
 #: .\shop\views.py:869
 msgid "Товар додано до списку бажань"
-msgstr ""
+msgstr "Product added to wishlist"
 
 #: .\shop\views.py:881
 msgid "Помилка при роботі зі списком бажань"
-msgstr ""
+msgstr "Error working with wishlist"
 
 #: .\shop\views.py:921
 msgid "Список бажань очищено"
-msgstr ""
+msgstr "Wishlist cleared"
 
 #: .\shop\views.py:938
 msgid "Ви вже залишили відгук для цього товару"
-msgstr ""
+msgstr "You have already left a review for this product"
 
 #: .\shop\views.py:958
 msgid "Відгук додано. Після модерації він з'явиться на сайті."
-msgstr ""
+msgstr "Review added. After moderation it will appear on the site."
 
 #: .\shop\views.py:960
 msgid "Помилка при додаванні відгуку"
-msgstr ""
+msgstr "Error adding review"
 
 #: .\shop\views.py:978
 msgid "Відгук оновлено. Після модерації він з'явиться на сайті."
-msgstr ""
+msgstr "Review updated. After moderation it will appear on the site."
 
 #: .\shop\views.py:980
-#, fuzzy
-#| msgid "Заголовок"
 msgid "Помилка при оновленні відгуку"
-msgstr "Title"
+msgstr "Error updating review"
 
 #: .\shop\views.py:993
-#, fuzzy
-#| msgid "Оновлено"
 msgid "Відгук видалено"
-msgstr "Updated"
+msgstr "Review deleted"
 
 #: .\shop\views.py:1005
-#, fuzzy
-#| msgid "Оновлено"
 msgid "Кошик очищено"
-msgstr "Updated"
+msgstr "Cart cleared"
 
 #: .\shop\views.py:1092
 msgid "Товар вже додано до порівняння"
-msgstr ""
+msgstr "Product already added to comparison"
 
 #: .\shop\views.py:1098
 msgid "Максимум 4 товари для порівняння"
-msgstr ""
+msgstr "Maximum 4 products for comparison"
 
 #: .\shop\views.py:1107
 msgid "Товар додано до порівняння"
-msgstr ""
+msgstr "Product added to comparison"
 
 #: .\shop\views.py:1134
 msgid "Товар видалено з порівняння"
-msgstr ""
+msgstr "Product removed from comparison"
 
 #: .\shop\views.py:1153
 msgid "Список порівняння очищено"
-msgstr ""
+msgstr "Comparison list cleared"
 
 #: .\shop\views.py:1171
-#, fuzzy
-#| msgid "Порядок відображення"
 msgid "Товар не знайдено"
-msgstr "Display order"
+msgstr "Product not found"
 
 #: .\shop\views.py:1211
 msgid "Некоректні дані"
-msgstr ""
+msgstr "Invalid data"
 
 #: .\shop\views.py:1337
 msgid "Промокод застосовано"
-msgstr ""
+msgstr "Promo code applied"
 
 #: .\shop\views.py:1344
 msgid "Недійсний промокод"
-msgstr ""
+msgstr "Invalid promo code"
 
 #: .\shop\views.py:1369
 msgid "Невірний email"
-msgstr ""
+msgstr "Invalid email"
 
 #: .\shop\views.py:1377
-#, fuzzy
-#| msgid "Оновлено"
 msgid "Замовлення не знайдено"
-msgstr "Updated"
+msgstr "Order not found"
